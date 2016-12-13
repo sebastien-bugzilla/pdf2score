@@ -17,10 +17,20 @@ class Portee:
         self.deviation_centre = 0
         self.Mesures = []
         self.Notes = []
+    
+    def setDeviationGauche(self, dev_gauche):
+        self.deviation_gauche = dev_gauche
+    
+    def setDeviationDroite(self, dev_droite):
+        self.deviation_droite = dev_droite
+    
+    def setDeviationCentre(self, dev_centre):
+        self.deviation_centre = dev_centre
+
+class Systeme:
 
 
 # portees
-
 nom_image='mendelssohn'
 img = cv2.imread(nom_image + ".jpg")
 height, width = img.shape[:2]
@@ -30,7 +40,8 @@ minLineLength = 120   #100
 maxLineGap = 16        #10
 lines = cv2.HoughLinesP(edges,1,np.pi/180,200,minLineLength,maxLineGap)
 porteesDetectees = pdf2score_portees(lines, height, width)
-
+nbre_portees = len(porteesDetectees)
+for portees in range(len(porteesDetectees[1]))
 
 # mesures
 #img_rgb = cv2.imread('saintsaens.jpg')

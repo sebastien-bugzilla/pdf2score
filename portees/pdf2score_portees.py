@@ -198,10 +198,6 @@ def pdf2score_portees(lines, height, width):
     print("déviation à gauche :  " + str(deviation[0]))
     print("déviation au centre : " + str(deviation[1]))
     print("déviation à droite :  " + str(deviation[2]))
-#    for i_portee in range(resultats[res_best].nbre_portee):
-#        resultats[res_best].portees[i_portee].setDevGauche(deviation[0][i_portee])
-#        resultats[res_best].portees[i_portee].setDevDroite(deviation[2][i_portee])
-#        resultats[res_best].portees[i_portee].setDevCentre(deviation[1][i_portee])
     return ecart, resultats[res_best], deviation
 
 if __name__ == "__main__":
