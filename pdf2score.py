@@ -28,7 +28,14 @@ class Portee:
         self.deviation_centre = dev_centre
 
 class Systeme:
-
+    
+    def __init__(self, portee, nbre_portee):
+        self.nbre_portee = nbre_portee
+        self.tabPortees = portee
+    
+    def ajoutePortee(self, portee):
+        self.tabPortees.append(portee)
+        self.nbre_portee = self.nbre_portee + 1
 
 # portees
 nom_image='mendelssohn'
@@ -40,8 +47,21 @@ minLineLength = 120   #100
 maxLineGap = 16        #10
 lines = cv2.HoughLinesP(edges,1,np.pi/180,200,minLineLength,maxLineGap)
 porteesDetectees = pdf2score_portees(lines, height, width)
-nbre_portees = len(porteesDetectees)
-for portees in range(len(porteesDetectees[1]))
+
+nbre_portee = len(porteesDetectees[1].nbre_portee)
+ecart = porteesDetectees[0]
+tab_portees = []
+for portees in range(nbre_portee):
+    position = porteesDetectees[1].position[portees]
+    dev_gauche = porteesDetectees[2][0][portees]
+    dev_centre = porteesDetectees[2][1][portees]
+    dev_droite = porteesDetectees[2][2][portees]
+    portee = Portee(position, ecart)
+    portee.setDeviationGauche(dev_gauche)
+    portee.setDeviationCentre(dev_centre)
+    portee.setDeviationDroite(dev_droite)
+    tab_portees.append(portee)
+
 
 # mesures
 #img_rgb = cv2.imread('saintsaens.jpg')
