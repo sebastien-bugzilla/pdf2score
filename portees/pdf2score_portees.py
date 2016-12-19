@@ -24,7 +24,7 @@ from operator import itemgetter, attrgetter, methodcaller
 #    def setDevCentre(self, valeur):
 #        self.deviation_centre = valeur
 
-class SetPortees:
+class Portees_OCV:
     
     def __init__(self, position, valeur, score):
         self.positions = position
@@ -32,18 +32,29 @@ class SetPortees:
         self.score = score
         self.score_moy = 0
         self.nbre_portee = 0
+        self.ecart = []
     
-    def ajoutPortee(self, maxPosition, maxValeur):
+    def ajoutPortee(self, maxPosition, maxValeur, ecart):
         self.positions.append(maxPosition)
         self.valeurs.append(maxValeur)
         self.score = self.score + maxValeur
         self.nbre_portee = self.nbre_portee + 1
+        self.ecart.append(ecart)
     
     def calculScore(self):
         if self.nbre_portee == 0:
             self.score_moy = 0
         else:
             self.score_moy = self.score / self.nbre_portee
+    
+    def setDeviationGauche(self, dev_gauche):
+        self.deviation_gauche = dev_gauche
+    
+    def setDeviationDroite(self, dev_droite):
+        self.deviation_droite = dev_droite
+    
+    def setDeviationCentre(self, dev_centre):
+        self.deviation_centre = dev_centre
 
 
 def lectureTableauLigne(lines, nbColonne, height, width):
@@ -145,7 +156,7 @@ def pdf2score_portees(lines, height, width):
     #critereDetection = []
     resultats = []
     for i_test in range(12):
-        resultats.append(SetPortees([],[],0))
+        resultats.append(Portees_OCV([],[],0))
         ecart = i_test + 4
         prodConv = produitConvolution(tableauLigne, ecart,1, height)
         maxProdConv = calculMaxLocaux(prodConv,ecart,1, height)
@@ -156,7 +167,7 @@ def pdf2score_portees(lines, height, width):
         tableauPortees=[]
         for i_max in range(len(maxPosition)):
             #portee=Portee(ecart, maxPosition[i_max], maxValeur[i_max], maxLargeur[i_max])
-            resultats[i_test].ajoutPortee(maxPosition[i_max],maxValeur[i_max])
+            resultats[i_test].ajoutPortee(maxPosition[i_max],maxValeur[i_max],ecart)
         print("Résultat avec un écart de : " + str(ecart) + " pixels")
         print(maxPosition, maxValeur, maxLargeur)
         resultats[i_test].calculScore()
@@ -195,10 +206,13 @@ def pdf2score_portees(lines, height, width):
                 deviation[i_col][i_lig1] = 0
             else:
                 deviation[i_col][i_lig1] = dev_mini_algebrique
+    resultats[res_best].setDeviationGauche(deviation[0])
+    resultats[res_best].setDeviationCentre(deviation[1])
+    resultats[res_best].setDeviationDroite(deviation[2])
     print("déviation à gauche :  " + str(deviation[0]))
     print("déviation au centre : " + str(deviation[1]))
     print("déviation à droite :  " + str(deviation[2]))
-    return ecart, resultats[res_best], deviation
+    return resultats[res_best]
 
 if __name__ == "__main__":
     nom_image='mendelssohn'
@@ -210,13 +224,13 @@ if __name__ == "__main__":
     maxLineGap = 16        #10
     lines = cv2.HoughLinesP(edges,1,np.pi/180,200,minLineLength,maxLineGap)
     porteesDetectees = pdf2score_portees(lines, height, width)
-    ecart = porteesDetectees[0]
-    for i_portee in range(porteesDetectees[1].nbre_portee):
+    ecart = porteesDetectees.ecart[0]
+    for i_portee in range(porteesDetectees.nbre_portee):
         #ecart = porteesDetectees.portees[i_portee].ecart
         position = porteesDetectees[1].positions[i_portee]
-        dev_gche = porteesDetectees[2][0][i_portee]
-        dev_drte = porteesDetectees[2][2][i_portee]
-        dev_ctre = porteesDetectees[2][1][i_portee]
+        dev_gche = porteesDetectees.deviation_gauche[i_portee]
+        dev_drte = porteesDetectees.deviation_droite[i_portee]
+        dev_ctre = porteesDetectees.deviation_centre[i_portee]
         for i_ligne in range(5):
             y_deb = position - ecart*(i_ligne-2) + dev_gche
             y_mil = position - ecart*(i_ligne-2) + dev_drte

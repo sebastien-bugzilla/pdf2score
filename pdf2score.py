@@ -46,16 +46,16 @@ edges = cv2.Canny(gray,50,150,apertureSize = 3)
 minLineLength = 120   #100
 maxLineGap = 16        #10
 lines = cv2.HoughLinesP(edges,1,np.pi/180,200,minLineLength,maxLineGap)
-porteesDetectees = pdf2score_portees(lines, height, width)
+resPortees = pdf2score_portees(lines, height, width)
 
-nbre_portee = len(porteesDetectees[1].nbre_portee)
-ecart = porteesDetectees[0]
+nbre_portee = len(resPortees[1].nbre_portee)
+ecart = resPortees[0]
 tab_portees = []
 for portees in range(nbre_portee):
-    position = porteesDetectees[1].position[portees]
-    dev_gauche = porteesDetectees[2][0][portees]
-    dev_centre = porteesDetectees[2][1][portees]
-    dev_droite = porteesDetectees[2][2][portees]
+    position = resPortees[1].position[portees]
+    dev_gauche = resPortees[2][0][portees]
+    dev_centre = resPortees[2][1][portees]
+    dev_droite = resPortees[2][2][portees]
     portee = Portee(position, ecart)
     portee.setDeviationGauche(dev_gauche)
     portee.setDeviationCentre(dev_centre)
@@ -75,8 +75,10 @@ for i_temp in range(8):
     tabRes.append(loc)
 width_template, height_template = template.shape[::-1]
 width_partition, height_partition = gray.shape[::-1]
-pdf2score_mesures(tabRes, width_partition, width_template, height_template)
+resMesures = pdf2score_mesures(tabRes, width_partition, width_template, height_template)
 
+for i_sys in range(resMesures[0]):
+    
 
 
 #for i_portee in range(porteesDetectees.nbre_portee):

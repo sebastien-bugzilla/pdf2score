@@ -4,7 +4,7 @@ import cv2
 import numpy as np
 from operator import itemgetter, attrgetter, methodcaller
 
-class barreMesure:
+class Mesure_OCV:
     def __init__(self, x_barre, y_min, nbrePoints, height):
         self.x_barre = x_barre
         self.nbrePoints = nbrePoints
@@ -29,8 +29,8 @@ class barreMesure:
     def centreBarre(self):
         self.y_centre = round(float((self.y_min + self.y_max) / 2),2)
     
-    def ecartCentre(self, y_systeme):
-        self.ecart_centre = round(float(abs(y_systeme - self.y_centre)),2)
+    def ecartCentre(self, y_group):
+        self.ecart_centre = round(float(abs(y_group - self.y_centre)),2)
     
     def pourcentDetection(self, nbreDetection):
         self.pourcent_detection = round(float(self.nbrePoints) / nbreDetection * 100,2)
@@ -62,7 +62,7 @@ class barreMesure:
             print(formatLog(enTete, 15, "|"))
         print(formatLog(temp, 15, "|"))
 
-class Systeme:
+class Systeme_OCV:
     def __init__(self):
         self.y_min = 5000
         self.y_max = 0
@@ -87,7 +87,7 @@ class Systeme:
             if self.y_max < y + h:
                 self.y_max = y + h
         else:
-            nouvelleMesure = barreMesure(x, y, 1, h)
+            nouvelleMesure = Mesure_OCV(x, y, 1, h)
             self.ajoutBarre(nouvelleMesure)
     
     def ordonneBarre(self):
@@ -120,7 +120,7 @@ class Systeme:
     
     def affiche(self):
         print("---------------------------------------------------------------")
-        print("  Systeme compris entre " + str(self.y_min) + " et " + str(self.y_max))
+        print("  Systeme_OCV compris entre " + str(self.y_min) + " et " + str(self.y_max))
         print("  Nbre de mesures détectées : " + str(self.nbreMesure))
         print("---------------------------------------------------------------")
         for i in range(self.nbreMesure):
@@ -151,37 +151,38 @@ def pdf2score_mesures(tabRes, width, width_template, height_template):
                 tabResConcat.append(unPoint)
     tabResOrdre = sorted(tabResConcat, key=itemgetter(1))
     nb_pt = 0
-    nb_systemes = 0
-    tab_systemes = []
+    nb_syst = 0
+    tab_systeme = []
     ecart_y = 0
     y_old = 0
     for i_pt in range(len(tabResOrdre)):
         y_new = tabResOrdre[i_pt][1]
         if nb_pt == 0:
-            monSysteme = Systeme()
-            maBarre = barreMesure(tabResOrdre[i_pt][0], tabResOrdre[i_pt][1], 1, height_template)
-            monSysteme.ajoutBarre(maBarre)
-            tab_systemes.append(monSysteme)
-            nb_systemes = nb_systemes + 1
+            monSysteme_OCV = Systeme_OCV()
+            maMesure = Mesure_OCV(tabResOrdre[i_pt][0], tabResOrdre[i_pt][1], 1, height_template)
+            monSysteme_OCV.ajoutBarre(maMesure)
+            tab_systeme.append(monSysteme_OCV)
+            nb_syst = nb_syst + 1
         else:
             ecart_y = y_new - y_old
             if ecart_y > 10:
-                monSysteme = Systeme()
-                maBarre = barreMesure(tabResOrdre[i_pt][0], tabResOrdre[i_pt][1], 1, height_template)
-                monSysteme.ajoutBarre(maBarre)
-                tab_systemes.append(monSysteme)
-                nb_systemes = nb_systemes + 1
+                monSysteme_OCV = Systeme_OCV()
+                maMesure = Mesure_OCV(tabResOrdre[i_pt][0], tabResOrdre[i_pt][1], 1, height_template)
+                monSysteme_OCV.ajoutBarre(maMesure)
+                tab_systeme.append(monSysteme_OCV)
+                nb_syst = nb_syst + 1
             else:
-                tab_systemes[nb_systemes-1].statusPoint(tabResOrdre[i_pt][0], tabResOrdre[i_pt][1], height_template)
+                tab_systeme[nb_syst-1].statusPoint(tabResOrdre[i_pt][0], tabResOrdre[i_pt][1], height_template)
         nb_pt = nb_pt + 1
         y_old = y_new
     print("*****************************************")
     print("Resultats pour i_barre concaténés")
     print("*****************************************")
-    for i_systeme in range(nb_systemes):
-        tab_systemes[i_systeme].ordonneBarre()
-        tab_systemes[i_systeme].triResultats()
-        tab_systemes[i_systeme].affiche()
+    for i_syst in range(nb_syst):
+        tab_systeme[i_syst].ordonneBarre()
+        tab_systeme[i_syst].triResultats()
+        tab_systeme[i_syst].affiche()
+    return tab_systeme
 
 if __name__ == "__main__":
     img_rgb = cv2.imread('saintsaens.jpg')
