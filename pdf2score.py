@@ -15,8 +15,8 @@ class Portee:
         self.deviation_gauche = 0
         self.deviation_droite = 0
         self.deviation_centre = 0
-        self.Mesures = []
-        self.Notes = []
+        self.mesures = []
+        self.notes = []
     
     def setDeviationGauche(self, dev_gauche):
         self.deviation_gauche = dev_gauche
@@ -26,6 +26,9 @@ class Portee:
     
     def setDeviationCentre(self, dev_centre):
         self.deviation_centre = dev_centre
+    
+    def addMesure(self, mesure):
+        self.mesures.append(mesure)
 
 class Systeme:
     
@@ -48,14 +51,14 @@ maxLineGap = 16        #10
 lines = cv2.HoughLinesP(edges,1,np.pi/180,200,minLineLength,maxLineGap)
 resPortees = pdf2score_portees(lines, height, width)
 
-nbre_portee = len(resPortees[1].nbre_portee)
-ecart = resPortees[0]
+nbre_portee = resPortees.nbre_portee
 tab_portees = []
 for portees in range(nbre_portee):
-    position = resPortees[1].position[portees]
-    dev_gauche = resPortees[2][0][portees]
-    dev_centre = resPortees[2][1][portees]
-    dev_droite = resPortees[2][2][portees]
+    ecart = resPortees.ecart[portees]
+    position = resPortees.positions[portees]
+    dev_gauche = resPortees.deviation_gauche[portees]
+    dev_centre = resPortees.deviation_centre[portees]
+    dev_droite = resPortees.deviation_droite[portees]
     portee = Portee(position, ecart)
     portee.setDeviationGauche(dev_gauche)
     portee.setDeviationCentre(dev_centre)
@@ -77,8 +80,17 @@ width_template, height_template = template.shape[::-1]
 width_partition, height_partition = gray.shape[::-1]
 resMesures = pdf2score_mesures(tabRes, width_partition, width_template, height_template)
 
-for i_sys in range(resMesures[0]):
-    
+tab_systeme = []
+for i_sys in range(len(resMesures)):
+    systeme_courant = Systeme([], 0)
+    y_min_sys = resMesures[i_sys].y_min
+    y_max_sys = resMesures[i_sys].y_max
+    for i in range(nbre_portee):
+        y_portee = tab_portees[i].position
+        if (y_min_sys < y_portee and y_portee < y_max_sys):
+            systeme_courant.ajoutePortee(tab_portees[i])
+    tab_systeme.append(systeme_courant)
+
 
 
 #for i_portee in range(porteesDetectees.nbre_portee):
