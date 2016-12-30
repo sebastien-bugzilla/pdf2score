@@ -4,26 +4,6 @@ import cv2
 import numpy as np
 from operator import itemgetter, attrgetter, methodcaller
 
-#class Portee:
-#    
-#    def __init__(self, ecart, position, valeur, largeur):
-#        self.ecart = ecart
-#        self.position = position
-#        self.valeur = valeur
-#        self.largeur = largeur
-#        self.deviation_gauche = 0
-#        self.deviation_droite = 0
-#        self.deviation_centre = 0
-#    
-#    def setDevGauche(self, valeur):
-#        self.deviation_gauche = valeur
-#    
-#    def setDevDroite(self, valeur):
-#        self.deviation_droite = valeur
-#    
-#    def setDevCentre(self, valeur):
-#        self.deviation_centre = valeur
-
 class Portees_OCV:
     
     def __init__(self, position, valeur, score):
@@ -55,6 +35,15 @@ class Portees_OCV:
     
     def setDeviationCentre(self, dev_centre):
         self.deviation_centre = dev_centre
+    
+    def imprime(self, nom_fichier):
+        fichier_log = open(nom_fichier, "w")
+        fichier_log.write("position , ecart, deviation gauche, deviation centre, deviation droite" + "\n")
+        for i in range(self.nbre_portee):
+            res = str(self.positions[i]) + ", " + str(self.ecart[i]) + ", " \
+                + str(self.deviation_gauche[i]) + ", " + str(self.deviation_centre[i]) + ", " \
+                + str(self.deviation_droite[i]) + "\n"
+            fichier_log.write(res)
 
 
 def lectureTableauLigne(lines, nbColonne, height, width):
@@ -151,7 +140,7 @@ def attributMaxLocaux(V1, ecartLigne, nbColonne):
                     valeurPrecedente = V1[i_lig][i_dim]
     return maxPosition, maxValeur, maxLargeur
 
-def pdf2score_portees(lines, height, width):
+def pdf2score_portees(nom_image, lines, height, width):
     tableauLigne = lectureTableauLigne(lines, 1, height, width)
     #critereDetection = []
     resultats = []
@@ -212,6 +201,7 @@ def pdf2score_portees(lines, height, width):
     print("déviation à gauche :  " + str(deviation[0]))
     print("déviation au centre : " + str(deviation[1]))
     print("déviation à droite :  " + str(deviation[2]))
+    resultats[res_best].imprime(nom_image + "_portees.log")
     return resultats[res_best]
 
 if __name__ == "__main__":
@@ -223,11 +213,11 @@ if __name__ == "__main__":
     minLineLength = 120   #100
     maxLineGap = 16        #10
     lines = cv2.HoughLinesP(edges,1,np.pi/180,200,minLineLength,maxLineGap)
-    porteesDetectees = pdf2score_portees(lines, height, width)
+    porteesDetectees = pdf2score_portees(nom_image, lines, height, width)
     ecart = porteesDetectees.ecart[0]
     for i_portee in range(porteesDetectees.nbre_portee):
         #ecart = porteesDetectees.portees[i_portee].ecart
-        position = porteesDetectees[1].positions[i_portee]
+        position = porteesDetectees.positions[i_portee]
         dev_gche = porteesDetectees.deviation_gauche[i_portee]
         dev_drte = porteesDetectees.deviation_droite[i_portee]
         dev_ctre = porteesDetectees.deviation_centre[i_portee]

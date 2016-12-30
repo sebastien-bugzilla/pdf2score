@@ -61,6 +61,7 @@ class Mesure_OCV:
         if rang == 0:
             print(formatLog(enTete, 15, "|"))
         print(formatLog(temp, 15, "|"))
+        return data
 
 class Systeme_OCV:
     def __init__(self):
@@ -125,6 +126,21 @@ class Systeme_OCV:
         print("---------------------------------------------------------------")
         for i in range(self.nbreMesure):
             self.mesures[i].affiche(i)
+    
+    def imprime(self, rang, nom_fichier, mode_ouverture):
+        fichier_log = open(nom_fichier, mode_ouverture)
+        fichier_log.write("Systeme, y_min, y_max, nombre mesure" + "\n")
+        info_systeme = str(rang) + ", " + str(self.y_min) + ", " + str(self.y_max) + ", " + str(self.nbreMesure) + "\n"
+        fichier_log.write(info_systeme)
+        fichier_log.write("Pos. X, nbrePoint, y_centre, ecart centre, pourcent, status" + "\n")
+        for i in range(self.nbreMesure):
+            temp = str(self.mesures[i].affiche(i))
+            temp2 = temp.replace('[', '')
+            temp3 = temp2.replace(']', '')
+            fichier_log.write(temp3 + "\n")
+
+
+
 
 def formatLog(donnees, nbCarLim, separateur):
     """Cette fonction permet de générer une chaine de caractère formaté et 
@@ -141,7 +157,7 @@ def formatLog(donnees, nbCarLim, separateur):
     return result
 
 
-def pdf2score_mesures(tabRes, width, width_template, height_template):
+def pdf2score_mesures(nom_fichier, tabRes, width, width_template, height_template):
     # etude en concaténant tous les résultats
     tabResConcat = []
     for i_barre in range(8):
@@ -182,10 +198,15 @@ def pdf2score_mesures(tabRes, width, width_template, height_template):
         tab_systeme[i_syst].ordonneBarre()
         tab_systeme[i_syst].triResultats()
         tab_systeme[i_syst].affiche()
+        if i_syst == 0:
+            tab_systeme[i_syst].imprime(i_syst, nom_fichier + "_mesures.log", "w")
+        else:
+            tab_systeme[i_syst].imprime(i_syst, nom_fichier + "_mesures.log", "a")
     return tab_systeme
 
 if __name__ == "__main__":
-    img_rgb = cv2.imread('saintsaens.jpg')
+    nom_image = 'saintsaens'
+    img_rgb = cv2.imread(nom_image + '.jpg')
     img_gray = cv2.cvtColor(img_rgb, cv2.COLOR_BGR2GRAY)
     threshold = 0.60
     tabRes = []
@@ -196,5 +217,5 @@ if __name__ == "__main__":
         tabRes.append(loc)
     width_template, height_template = template.shape[::-1]
     width_partition, height_partition = img_gray.shape[::-1]
-    pdf2score_mesures(tabRes, width_partition, width_template, height_template)
+    pdf2score_mesures(nom_image, tabRes, width_partition, width_template, height_template)
 

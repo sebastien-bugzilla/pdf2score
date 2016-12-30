@@ -81,7 +81,8 @@ width_partition, height_partition = gray.shape[::-1]
 resMesures = pdf2score_mesures(tabRes, width_partition, width_template, height_template)
 
 tab_systeme = []
-for i_sys in range(len(resMesures)):
+nombre_systeme = len(resMesures)
+for i_sys in range(nombre_systeme):
     systeme_courant = Systeme([], 0)
     y_min_sys = resMesures[i_sys].y_min
     y_max_sys = resMesures[i_sys].y_max
@@ -89,6 +90,8 @@ for i_sys in range(len(resMesures)):
         y_portee = tab_portees[i].position
         if (y_min_sys < y_portee and y_portee < y_max_sys):
             systeme_courant.ajoutePortee(tab_portees[i])
+            for j in range(resMesures[i_sys].nbreMesure):
+                tab_portees[i].addMesure(resMesures[i_sys].mesures[j])
     tab_systeme.append(systeme_courant)
 
 
