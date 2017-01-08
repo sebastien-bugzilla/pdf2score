@@ -4,7 +4,8 @@ import cv2
 import numpy as np
 from operator import itemgetter, attrgetter, methodcaller
 from xml.etree.ElementTree import Element, SubElement, Comment
-from ElementTree_pretty import prettify
+from xml.dom import minidom
+from xml.etree import ElementTree
 
 class Mesure_OCV:
     def __init__(self, x_barre, y_min, nbrePoints, height):
@@ -121,43 +122,45 @@ class Systeme_OCV:
             for i_barre in range(self.nbreMesure):
                 self.mesures[i_barre].classement("pourcent", self.nbreMesure)
     
-    def affiche(self):
-        print("---------------------------------------------------------------")
-        print("  Systeme_OCV compris entre " + str(self.y_min) + " et " + str(self.y_max))
-        print("  Nbre de mesures détectées : " + str(self.nbreMesure))
-        print("---------------------------------------------------------------")
-        for i in range(self.nbreMesure):
-            self.mesures[i].affiche(i)
-    
-    def imprime(self, rang, nom_fichier, mode_ouverture):
-        fichier_log = open(nom_fichier, mode_ouverture)
-        fichier_log.write("Systeme, y_min, y_max, nombre mesure" + "\n")
-        info_systeme = str(rang) + ", " + str(self.y_min) + ", " + str(self.y_max) + ", " + str(self.nbreMesure) + "\n"
-        fichier_log.write(info_systeme)
-        fichier_log.write("Pos. X, nbrePoint, y_centre, ecart centre, pourcent, status" + "\n")
-        for i in range(self.nbreMesure):
-            if self.mesures[i].status != "NOK":
-                temp = str(self.mesures[i].affiche(i))
-                temp2 = temp.replace('[', '')
-                temp3 = temp2.replace(']', '')
-                fichier_log.write(temp3 + "\n")
+    def imprimeXml(self, rank):
+        # creation d'une structure xml
+        system_xml = Element('system')
+        system_rank = SubElement(system_xml, 'rank')
+        system_rank.text = str(rank + 1)
+        y_min = SubElement(system_xml, 'y_min')
+        y_min.text = str(self.y_min)
+        y_max = SubElement(system_xml, 'y_max')
+        y_max.text = str(self.y_max)
+        bar_number_ok = 0
+        for bar in range(self.nbreMesure):
+            if self.mesures[bar].status != "NOK":
+                bar_number_ok = bar_number_ok + 1
+        bar_number = SubElement(system_xml, 'bar_number')
+        bar_number.text = str(bar_number_ok)
+        bar_number_ok = 0
+        for bar in range(self.nbreMesure):
+            if self.mesures[bar].status != "NOK":
+                bar_number_ok = bar_number_ok + 1
+                bar_xml = SubElement(system_xml, 'bar')
+                bar_rank = SubElement(bar_xml, 'rank')
+                bar_rank.text = str(bar_number_ok)
+                bar_ymin = SubElement(bar_xml, 'y_min')
+                bar_ymin.text = str(self.mesures[bar].y_min)
+                bar_ymax = SubElement(bar_xml, 'y_max')
+                bar_ymax.text = str(self.mesures[bar].y_max)
+                bar_xmoy = SubElement(bar_xml, 'x_moy')
+                bar_xmoy.text = str(self.mesures[bar].x_moy)
+                bar_status = SubElement(bar_xml, 'status')
+                bar_status.text = str(self.mesures[bar].status)
+        self.xml = system_xml
 
 
-
-
-def formatLog(donnees, nbCarLim, separateur):
-    """Cette fonction permet de générer une chaine de caractère formaté et 
-    de longueur constante à partir du tableau passé en paramètre"""
-    result = ""
-    nbData = len(donnees)
-    for i_data in range(nbData):
-        donnees[i_data] = " " + donnees[i_data]
-        nbCar = len(donnees[i_data])
-        while nbCar < nbCarLim:
-            donnees[i_data] = donnees[i_data] + " "
-            nbCar = len(donnees[i_data])
-        result = result + separateur + donnees[i_data]
-    return result
+def prettify(elem):
+    """Return a pretty-printed XML string for the Element.
+    """
+    rough_string = ElementTree.tostring(elem, 'utf-8')
+    reparsed = minidom.parseString(rough_string)
+    return reparsed.toprettyxml(indent="  ")
 
 
 def pdf2score_mesures(nom_fichier, tabRes, width, width_template, height_template):
@@ -194,17 +197,15 @@ def pdf2score_mesures(nom_fichier, tabRes, width, width_template, height_templat
                 tab_systeme[nb_syst-1].statusPoint(tabResOrdre[i_pt][0], tabResOrdre[i_pt][1], height_template)
         nb_pt = nb_pt + 1
         y_old = y_new
-    print("*****************************************")
-    print("Resultats pour i_barre concaténés")
-    print("*****************************************")
+    all_system = Element('all_system')
     for i_syst in range(nb_syst):
+        system = SubElement(all_system, 'system')
         tab_systeme[i_syst].ordonneBarre()
         tab_systeme[i_syst].triResultats()
-        tab_systeme[i_syst].affiche()
-        if i_syst == 0:
-            tab_systeme[i_syst].imprime(i_syst, nom_fichier + "_mesures.log", "w")
-        else:
-            tab_systeme[i_syst].imprime(i_syst, nom_fichier + "_mesures.log", "a")
+        tab_systeme[i_syst].imprimeXml(i_syst)
+        system.extend(tab_systeme[i_syst].xml)
+    fichier_xml = open(nom_fichier + "_mesures.xml", "w")
+    fichier_xml.write(prettify(all_system))
     return tab_systeme
 
 if __name__ == "__main__":
