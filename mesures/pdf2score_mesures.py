@@ -3,6 +3,8 @@
 import cv2
 import numpy as np
 from operator import itemgetter, attrgetter, methodcaller
+from xml.etree.ElementTree import Element, SubElement, Comment
+from ElementTree_pretty import prettify
 
 class Mesure_OCV:
     def __init__(self, x_barre, y_min, nbrePoints, height):
@@ -134,10 +136,11 @@ class Systeme_OCV:
         fichier_log.write(info_systeme)
         fichier_log.write("Pos. X, nbrePoint, y_centre, ecart centre, pourcent, status" + "\n")
         for i in range(self.nbreMesure):
-            temp = str(self.mesures[i].affiche(i))
-            temp2 = temp.replace('[', '')
-            temp3 = temp2.replace(']', '')
-            fichier_log.write(temp3 + "\n")
+            if self.mesures[i].status != "NOK":
+                temp = str(self.mesures[i].affiche(i))
+                temp2 = temp.replace('[', '')
+                temp3 = temp2.replace(']', '')
+                fichier_log.write(temp3 + "\n")
 
 
 

@@ -3,6 +3,9 @@
 import cv2
 import numpy as np
 from operator import itemgetter, attrgetter, methodcaller
+from xml.etree.ElementTree import Element, SubElement, Comment
+from xml.dom import minidom
+from xml.etree import ElementTree
 
 class Portees_OCV:
     
@@ -36,15 +39,35 @@ class Portees_OCV:
     def setDeviationCentre(self, dev_centre):
         self.deviation_centre = dev_centre
     
-    def imprime(self, nom_fichier):
-        fichier_log = open(nom_fichier, "w")
-        fichier_log.write("position , ecart, deviation gauche, deviation centre, deviation droite" + "\n")
-        for i in range(self.nbre_portee):
-            res = str(self.positions[i]) + ", " + str(self.ecart[i]) + ", " \
-                + str(self.deviation_gauche[i]) + ", " + str(self.deviation_centre[i]) + ", " \
-                + str(self.deviation_droite[i]) + "\n"
-            fichier_log.write(res)
+    def imprimeXml(self):
+        # creation d'une structure xml
+        all_staves = Element('all_staves')
+        nombre_portees = SubElement(all_staves, 'nombre_portees')
+        nombre_portees.text = str(self.nbre_portee)
+        for staves in range(self.nbre_portee):
+            staff = SubElement(all_staves, 'staff')
+            rank = SubElement(staff, 'rank')
+            rank.text = str(staves + 1)
+            key = SubElement(staff, 'key')
+            key.text = ' '
+            position = SubElement(staff, 'position')
+            position.text = str(self.positions[staves])
+            gap = SubElement(staff, 'gap')
+            gap.text = str(self.ecart[staves])
+            left_deviation = SubElement(staff, 'left_deviation')
+            left_deviation.text = str(self.deviation_gauche[staves])
+            right_deviation = SubElement(staff, 'right_deviation')
+            right_deviation.text = str(self.deviation_droite[staves])
+            centre_deviation = SubElement(staff, 'centre_deviation')
+            centre_deviation.text = str(self.deviation_centre[staves])
+        self.xml = all_staves
 
+def prettify(elem):
+    """Return a pretty-printed XML string for the Element.
+    """
+    rough_string = ElementTree.tostring(elem, 'utf-8')
+    reparsed = minidom.parseString(rough_string)
+    return reparsed.toprettyxml(indent="  ")
 
 def lectureTableauLigne(lines, nbColonne, height, width):
     ligneH=[[0] * nbColonne for _ in range(height)]
@@ -201,7 +224,10 @@ def pdf2score_portees(nom_image, lines, height, width):
     print("déviation à gauche :  " + str(deviation[0]))
     print("déviation au centre : " + str(deviation[1]))
     print("déviation à droite :  " + str(deviation[2]))
-    resultats[res_best].imprime(nom_image + "_portees.log")
+    
+    resultats[res_best].imprimeXml()
+    fichier_xml = open(nom_image + "_portees.xml", "w")
+    fichier_xml.write(prettify(resultats[res_best].xml))
     return resultats[res_best]
 
 if __name__ == "__main__":

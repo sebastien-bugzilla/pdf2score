@@ -49,7 +49,8 @@ edges = cv2.Canny(gray,50,150,apertureSize = 3)
 minLineLength = 120   #100
 maxLineGap = 16        #10
 lines = cv2.HoughLinesP(edges,1,np.pi/180,200,minLineLength,maxLineGap)
-resPortees = pdf2score_portees(lines, height, width)
+pdf2score_portees(nom_image, lines, height, width)
+
 
 nbre_portee = resPortees.nbre_portee
 tab_portees = []
