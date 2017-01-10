@@ -50,6 +50,8 @@ class Portees_OCV:
             rank.text = str(staves + 1)
             key = SubElement(staff, 'key')
             key.text = ' '
+            voice = SubElement(staff, 'voice')
+            voice.text = ' '
             position = SubElement(staff, 'position')
             position.text = str(self.positions[staves])
             gap = SubElement(staff, 'gap')
