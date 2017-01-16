@@ -4,14 +4,19 @@
 import cv2
 import numpy as np
 from operator import itemgetter, attrgetter, methodcaller
+import xml.etree.ElementTree as ElementTree
+from xml.dom import minidom
+from xml.etree import ElementTree
+
 from portees.pdf2score_portees import *
 from mesures.pdf2score_mesures import *
 
 class Portee:
     
-    def __init__(self, position, interligne):
+    def __init__(self, rank, position, gap):
+        self.rank = rank
         self.position = position
-        self.interligne = interligne
+        self.gap = gap
         self.deviation_gauche = 0
         self.deviation_droite = 0
         self.deviation_centre = 0
@@ -29,6 +34,9 @@ class Portee:
     
     def addMesure(self, mesure):
         self.mesures.append(mesure)
+    
+    def defMesure(self, mesure):
+        self.mesures = mesure
 
 class Systeme:
     
@@ -40,7 +48,9 @@ class Systeme:
         self.tabPortees.append(portee)
         self.nbre_portee = self.nbre_portee + 1
 
-# portees
+#-------------------------------------------------
+#----------------- portees -----------------------
+#-------------------------------------------------
 nom_image='mendelssohn'
 img = cv2.imread(nom_image + ".jpg")
 height, width = img.shape[:2]
@@ -51,62 +61,59 @@ maxLineGap = 16        #10
 lines = cv2.HoughLinesP(edges,1,np.pi/180,200,minLineLength,maxLineGap)
 pdf2score_portees(nom_image, lines, height, width)
 
+xml_portee = ElementTree.parse(nom_image + "_portees.xml")
+root_portee = xml_portee.getroot()
+tab_portee = []
+for staff in root_portee.iter('staff'):
+    rank = int(staff.find('rank').text)
+    gap = int(staff.find('gap').text)
+    position = int(staff.find('position').text)
+    left_dev = int(staff.find('left_deviation').text)
+    right_dev = int(staff.find('right_deviation').text)
+    central_dev = int(staff.find('centre_deviation').text)
+    myStaff = Portee(rank, position, gap)
+    myStaff.setDeviationGauche(left_dev)
+    myStaff.setDeviationDroite(right_dev)
+    myStaff.setDeviationCentre(central_dev)
+    tab_portee.append(myStaff)
 
-nbre_portee = resPortees.nbre_portee
-tab_portees = []
-for portees in range(nbre_portee):
-    ecart = resPortees.ecart[portees]
-    position = resPortees.positions[portees]
-    dev_gauche = resPortees.deviation_gauche[portees]
-    dev_centre = resPortees.deviation_centre[portees]
-    dev_droite = resPortees.deviation_droite[portees]
-    portee = Portee(position, ecart)
-    portee.setDeviationGauche(dev_gauche)
-    portee.setDeviationCentre(dev_centre)
-    portee.setDeviationDroite(dev_droite)
-    tab_portees.append(portee)
 
+#-------------------------------------------------
+#----------------- mesures -----------------------
+#-------------------------------------------------
 
-# mesures
 #img_rgb = cv2.imread('saintsaens.jpg')
 #img_gray = cv2.cvtColor(img_rgb, cv2.COLOR_BGR2GRAY)
 threshold = 0.60
-tabRes = []
+input_array = []
 for i_temp in range(8):
     template = cv2.imread('./motifs/0_barre' + str(i_temp + 1) + '.png',0)
     res = cv2.matchTemplate(gray, template, cv2.TM_CCOEFF_NORMED)
     loc = np.where(res > threshold)
-    tabRes.append(loc)
+    input_array.append(loc)
 width_template, height_template = template.shape[::-1]
 width_partition, height_partition = gray.shape[::-1]
-resMesures = pdf2score_mesures(tabRes, width_partition, width_template, height_template)
+resMesures = pdf2score_mesures(nom_image, input_array, width_partition, width_template, height_template)
 
-tab_systeme = []
-nombre_systeme = len(resMesures)
-for i_sys in range(nombre_systeme):
-    systeme_courant = Systeme([], 0)
-    y_min_sys = resMesures[i_sys].y_min
-    y_max_sys = resMesures[i_sys].y_max
-    for i in range(nbre_portee):
-        y_portee = tab_portees[i].position
-        if (y_min_sys < y_portee and y_portee < y_max_sys):
-            systeme_courant.ajoutePortee(tab_portees[i])
-            for j in range(resMesures[i_sys].nbreMesure):
-                tab_portees[i].addMesure(resMesures[i_sys].mesures[j])
-    tab_systeme.append(systeme_courant)
+xml_mesure = ElementTree.parse(nom_image + "_mesures.xml")
+root_mesure = xml_mesure.getroot()
+tab_system = []
+for system in root_mesure.iter('system'):
+    y_min = int(system.find('y_min').text)
+    y_max = int(system.find('y_max').text)
+    tab_mesure = []
+    for bar in system.iter('bar'):
+        tab_mesure.append(int(bar.find('x_moy').text))
+    mySystem = Systeme([], 0)
+    for i_staff in range(len(tab_portee)):
+        if (tab_portee[i_staff].position >= y_min and
+            tab_portee[i_staff].position <= y_max):
+            mySystem.ajoutePortee(tab_portee[i_staff])
+    if mySystem.nbre_portee > 0:
+        for i in range(mySystem.nbre_portee):
+            mySystem.tabPortees[i].defMesure(tab_mesure)
+        tab_system.append(mySystem)
 
-
-
-#for i_portee in range(porteesDetectees.nbre_portee):
-#    ecart = porteesDetectees.portees[i_portee].ecart
-#    position = porteesDetectees.portees[i_portee].position
-#    dev_gche = porteesDetectees.portees[i_portee].deviation_gauche
-#    dev_drte = porteesDetectees.portees[i_portee].deviation_droite
-#    dev_ctre = porteesDetectees.portees[i_portee].deviation_centre
-#    for i_ligne in range(5):
-#        y_deb = position - ecart*(i_ligne-2) + dev_gche
-#        y_mil = position - ecart*(i_ligne-2) + dev_drte
-#        y_fin = position - ecart*(i_ligne-2) + dev_ctre
-#        cv2.line(img,(1,y_deb),(int(width/2),y_mil),(255,0,0),1)
-#        cv2.line(img,(int(width/2),y_mil),(width,y_fin),(255,0,0),1)
-#cv2.imwrite(nom_image + "_lignev5.jpg",img)
+for i in range(len(tab_system)):
+    for j in range(tab_system[i].nbre_portee):
+        print tab_system[i].tabPortees[j].mesures

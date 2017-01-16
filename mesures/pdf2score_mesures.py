@@ -213,13 +213,13 @@ if __name__ == "__main__":
     img_rgb = cv2.imread(nom_image + '.jpg')
     img_gray = cv2.cvtColor(img_rgb, cv2.COLOR_BGR2GRAY)
     threshold = 0.60
-    tabRes = []
+    input_array = []
     for i_temp in range(8):
         template = cv2.imread('0_barre' + str(i_temp + 1) + '.png',0)
         res = cv2.matchTemplate(img_gray, template, cv2.TM_CCOEFF_NORMED)
         loc = np.where(res > threshold)
-        tabRes.append(loc)
+        input_array.append(loc)
     width_template, height_template = template.shape[::-1]
     width_partition, height_partition = img_gray.shape[::-1]
-    pdf2score_mesures(nom_image, tabRes, width_partition, width_template, height_template)
+    pdf2score_mesures(nom_image, input_array, width_partition, width_template, height_template)
 
