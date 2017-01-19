@@ -103,6 +103,7 @@ def prettify(elem):
 
 
 def pdf2score_notes(nom_fichier, loc1, loc2, size_template):
+    tabRes = []
     for i_pt in range(len(loc1[0])):
         detection=[loc1[1][i_pt] + size_template[1]/2, loc1[0][i_pt] + size_template[0]/2-2]
         tabRes.append(detection)

@@ -10,6 +10,7 @@ from xml.etree import ElementTree
 
 from portees.pdf2score_portees import *
 from mesures.pdf2score_mesures import *
+from notes.pdf2score_notes import *
 
 class Portee:
     
@@ -22,6 +23,7 @@ class Portee:
         self.deviation_centre = 0
         self.mesures = []
         self.notes = []
+        self.nb_notes = 0
     
     def setDeviationGauche(self, dev_gauche):
         self.deviation_gauche = dev_gauche
@@ -37,6 +39,16 @@ class Portee:
     
     def defMesure(self, mesure):
         self.mesures = mesure
+    
+    def defNotes(self, note):
+        self.notes = note
+    
+    def addNotes(self, note):
+        self.notes.append(note)
+        self.nb_notes = self.nb_notes + 1
+    
+    def distance(self, y):
+        return abs(self.position - y)
 
 class Systeme:
     
@@ -48,6 +60,24 @@ class Systeme:
         self.tabPortees.append(portee)
         self.nbre_portee = self.nbre_portee + 1
 
+class Note:
+    
+    def __init__(self, x_min, x_max, y_min, y_max, nbre_detection):
+        self.x_min = x_min
+        self.x_max = x_max
+        self.y_min = y_min
+        self.y_max = y_max
+        self.x = (x_min + x_max) / 2
+        self.y = (y_min + y_max) / 2
+        self.nbre_detection = nbre_detection
+    
+    def findName(self, y_staff, gap):
+        dictionnaire = ['si', 'do', 'ré', 'mi', 'fa', 'sol', 'la']
+        offset = (self.x - y_staff)/(gap / 2)
+        if abs(offset) > 7:
+            self.name = 'unknown'
+        else:
+            self.name = dictionnaire[offset]
 #-------------------------------------------------
 #----------------- portees -----------------------
 #-------------------------------------------------
@@ -117,3 +147,52 @@ for system in root_mesure.iter('system'):
 for i in range(len(tab_system)):
     for j in range(tab_system[i].nbre_portee):
         print tab_system[i].tabPortees[j].mesures
+
+#-------------------------------------------------
+#------------------ notes ------------------------
+#-------------------------------------------------
+
+threshold = 0.60
+tabRes = []
+template1 = cv2.imread('./motifs/elm_lily_note23_1.png',0)
+res1 = cv2.matchTemplate(gray, template1, cv2.TM_CCOEFF_NORMED)
+loc1 = np.where(res1 > threshold)
+
+template2 = cv2.imread('./motifs/elm_lily_note23_2.png',0)
+res2 = cv2.matchTemplate(gray, template2, cv2.TM_CCOEFF_NORMED)
+loc2 = np.where(res2 > threshold)
+
+width_template1, height_template1 = template1.shape[::-1]
+width_template2, height_template2 = template2.shape[::-1]
+size_template= []
+size_template.append(width_template1)
+size_template.append(height_template1)
+size_template.append(width_template2)
+size_template.append(height_template2)
+result = pdf2score_notes(nom_image, loc1, loc2, size_template)
+
+xml_note = ElementTree.parse(nom_image + "_notes.xml")
+root_note = xml_note.getroot()
+for note in root_note.iter('point'):
+    x_min = int(note.find('x_min').text)
+    x_max = int(note.find('x_max').text)
+    y_min = int(note.find('y_min').text)
+    y_max = int(note.find('y_max').text)
+    nb_det = int(note.find('nb_detection').text)
+    y_mean = (y_min + y_max) / 2
+    #each note is attributed to the nearest staff
+    distance = 1000
+    for i in range(len(tab_portee)):
+        temp = tab_portee[i].distance(y_mean)
+        if temp < distance:
+            distance = temp
+            nearest_staff = i
+    tab_portee[nearest_staff].addNotes(Note(x_min, x_max, y_min, y_max, nb_det))
+
+print("-------------------------")
+for i in range(len(tab_portee)):
+    y_portee = tab_portee[i].position
+    gap = tab_portee[i].gap
+    for j in range(tab_portee[i].nb_notes):
+        tab_portee[i].notes[j].findName(y_portee, gap)
+        print tab_portee[i].notes[j].x, tab_portee[i].notes[j].y, tab_portee[i].notes[j].name
