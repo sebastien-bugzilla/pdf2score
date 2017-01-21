@@ -49,6 +49,25 @@ class Portee:
     
     def distance(self, y):
         return abs(self.position - y)
+    
+    def findNoteName(self):
+        dictionnaire = ['si', 'do', 'ré', 'mi', 'fa', 'sol', 'la']
+        y_staff = self.position
+        gap = self.gap
+        for i in range(self.nb_notes):
+            y_note = self.notes[i].y
+            offset = int(round((y_staff - y_note)/(gap / 2.)))
+            octave = 0
+            if offset > 0:
+                correction = -7
+            else:
+                correction = 7
+            while abs(offset)>6:
+                offset = offset + correction
+                octave = octave + 1
+            self.notes[i].setName(dictionnaire[offset])
+            self.notes[i].setOctave(octave)
+    
 
 class Systeme:
     
@@ -59,25 +78,20 @@ class Systeme:
     def ajoutePortee(self, portee):
         self.tabPortees.append(portee)
         self.nbre_portee = self.nbre_portee + 1
+    
 
 class Note:
     
-    def __init__(self, x_min, x_max, y_min, y_max, nbre_detection):
-        self.x_min = x_min
-        self.x_max = x_max
-        self.y_min = y_min
-        self.y_max = y_max
-        self.x = (x_min + x_max) / 2
-        self.y = (y_min + y_max) / 2
+    def __init__(self, x, y, nbre_detection):
+        self.x = x_min
+        self.y = y_min
         self.nbre_detection = nbre_detection
     
-    def findName(self, y_staff, gap):
-        dictionnaire = ['si', 'do', 'ré', 'mi', 'fa', 'sol', 'la']
-        offset = (self.x - y_staff)/(gap / 2)
-        if abs(offset) > 7:
-            self.name = 'unknown'
-        else:
-            self.name = dictionnaire[offset]
+    def setName(self, name):
+        self.name = name
+    
+    def setOctave(self, octave):
+        self.octave = octave
 #-------------------------------------------------
 #----------------- portees -----------------------
 #-------------------------------------------------
@@ -174,12 +188,9 @@ result = pdf2score_notes(nom_image, loc1, loc2, size_template)
 xml_note = ElementTree.parse(nom_image + "_notes.xml")
 root_note = xml_note.getroot()
 for note in root_note.iter('point'):
-    x_min = int(note.find('x_min').text)
-    x_max = int(note.find('x_max').text)
-    y_min = int(note.find('y_min').text)
-    y_max = int(note.find('y_max').text)
+    x = int(note.find('x').text)
+    y = int(note.find('y').text)
     nb_det = int(note.find('nb_detection').text)
-    y_mean = (y_min + y_max) / 2
     #each note is attributed to the nearest staff
     distance = 1000
     for i in range(len(tab_portee)):
@@ -187,12 +198,15 @@ for note in root_note.iter('point'):
         if temp < distance:
             distance = temp
             nearest_staff = i
-    tab_portee[nearest_staff].addNotes(Note(x_min, x_max, y_min, y_max, nb_det))
+    tab_portee[nearest_staff].addNotes(Note(x, y, nb_det))
 
 print("-------------------------")
 for i in range(len(tab_portee)):
-    y_portee = tab_portee[i].position
-    gap = tab_portee[i].gap
+    tab_portee[i].findNoteName()
+
+for i in range(len(tab_portee)):
+    y_portee=tab_portee[i].position
     for j in range(tab_portee[i].nb_notes):
-        tab_portee[i].notes[j].findName(y_portee, gap)
         print tab_portee[i].notes[j].x, tab_portee[i].notes[j].y, tab_portee[i].notes[j].name
+        print("    y_portee= " + str(y_portee) + "- y=" +str(tab_portee[i].notes[j].y))
+

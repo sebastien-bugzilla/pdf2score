@@ -16,6 +16,8 @@ class Point:
         self.y_min = y
         self.y_max = y
         self.nb_detection = nb_detection
+        self.sum_x = x
+        self.sum_y = y
     
     def testPoint(self, x_new, y_new):
         if (self.x_min-2<=x_new and x_new <= self.x_max + 2):
@@ -30,6 +32,10 @@ class Point:
     
     def ajoutPoint(self, x_new, y_new):
         self.nb_detection = self.nb_detection + 1
+        self.sum_x = self.sum_x + x_new
+        self.sum_y = self.sum_y + y_new
+        self.x = self.sum_x / self.nb_detection
+        self.y = self.sum_y / self.nb_detection
         self.x_min = min(self.x_min, x_new)
         self.x_max = max(self.x_max, x_new)
         self.y_min = min(self.y_min, y_new)
@@ -87,6 +93,10 @@ class Cloud:
                 y_min.text = str(self.point_array[i_pt].y_min)
                 y_max = SubElement(point, 'y_max')
                 y_max.text = str(self.point_array[i_pt].y_max)
+                x = SubElement(point, 'x')
+                x.text = str(self.point_array[i_pt].x)
+                y = SubElement(point, 'y')
+                y.text = str(self.point_array[i_pt].y)
                 status = SubElement(point, 'status')
                 status.text = str(self.point_array[i_pt].status)
                 nb_detection = SubElement(point, 'nb_detection')
