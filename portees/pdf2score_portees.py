@@ -9,13 +9,15 @@ from xml.etree import ElementTree
 
 class Portees_OCV:
     
-    def __init__(self, position, valeur, score):
+    def __init__(self, position, valeur, score, x_beg, x_end):
         self.positions = position
         self.valeurs = valeur
         self.score = score
         self.score_moy = 0
         self.nbre_portee = 0
         self.ecart = []
+        self.x_beg = x_beg
+        self.x_end = x_end
     
     def ajoutPortee(self, maxPosition, maxValeur, ecart):
         self.positions.append(maxPosition)
@@ -44,6 +46,10 @@ class Portees_OCV:
         all_staves = Element('all_staves')
         nombre_portees = SubElement(all_staves, 'nombre_portees')
         nombre_portees.text = str(self.nbre_portee)
+        x_beg = SubElement(all_staves, 'x_beg')
+        x_beg.text = str(self.x_beg)
+        x_end = SubElement(all_staves, 'x_end')
+        x_end.text = str(self.x_end)
         for staves in range(self.nbre_portee):
             staff = SubElement(all_staves, 'staff')
             rank = SubElement(staff, 'rank')
@@ -73,12 +79,18 @@ def prettify(elem):
 
 def lectureTableauLigne(lines, nbColonne, height, width):
     ligneH=[[0] * nbColonne for _ in range(height)]
+    x_beg = 3000
+    x_end = 0
     for x1, y1, x2, y2 in lines[0]:
         if abs(y1-y2)<=1: #la ligne est horizontale
+            if x1 < x_beg:
+                x_beg = x1
+            if x2 > x_end:
+                x_end = x2
             position = int(((x1+x2)/2.)/float(width) * nbColonne)
             longueur = abs(x1-x2)
             ligneH[y1-1][position] = ligneH[y1-1][position] + longueur
-    return ligneH
+    return ligneH, x_beg, x_end
 
 def vecteurRateau(ecart):
     Vecteur=[]
@@ -168,11 +180,13 @@ def attributMaxLocaux(V1, ecartLigne, nbColonne):
 def pdf2score_portees(nom_image, lines, height, width):
     tableauLigne = lectureTableauLigne(lines, 1, height, width)
     #critereDetection = []
+    x_beg = tableauLigne[1]
+    x_end = tableauLigne[2]
     resultats = []
     for i_test in range(12):
-        resultats.append(Portees_OCV([],[],0))
+        resultats.append(Portees_OCV([],[],0, x_beg, x_end))
         ecart = i_test + 4
-        prodConv = produitConvolution(tableauLigne, ecart,1, height)
+        prodConv = produitConvolution(tableauLigne[0], ecart,1, height)
         maxProdConv = calculMaxLocaux(prodConv,ecart,1, height)
         rechercheMax = attributMaxLocaux(maxProdConv,ecart,1)
         maxPosition = rechercheMax[0]
@@ -180,10 +194,7 @@ def pdf2score_portees(nom_image, lines, height, width):
         maxLargeur = rechercheMax[2]
         tableauPortees=[]
         for i_max in range(len(maxPosition)):
-            #portee=Portee(ecart, maxPosition[i_max], maxValeur[i_max], maxLargeur[i_max])
             resultats[i_test].ajoutPortee(maxPosition[i_max],maxValeur[i_max],ecart)
-        print("Résultat avec un écart de : " + str(ecart) + " pixels")
-        print(maxPosition, maxValeur, maxLargeur)
         resultats[i_test].calculScore()
     # détermination du meilleur résultat (celui dont le score est le plus élevé)
     res_max = 0
@@ -192,15 +203,10 @@ def pdf2score_portees(nom_image, lines, height, width):
         if res_max < resultats[i_res].score_moy:
             res_max = resultats[i_res].score_moy
             res_best = i_res
-    print("---------------------------")
-    print("Meilleur écart identifiée : " + str(res_best + 4) + " pixels")
-    print("Nombre de ligne détectées : " + str(resultats[res_best].nbre_portee))
-    print("---------------------------")
-    print("recherche d'éventuelle déviation des portées")
     
     ecart = 4 + res_best
     tableauLigne2 = lectureTableauLigne(lines, 3, height, width)
-    prodConv2 = produitConvolution(tableauLigne2, ecart,3, height)
+    prodConv2 = produitConvolution(tableauLigne2[0], ecart,3, height)
     maxProdConv2 = calculMaxLocaux(prodConv2,ecart,3, height)
     rechercheMax2 = attributMaxLocaux(maxProdConv2,ecart,3)
     maxPosition2 = rechercheMax2[0]
@@ -223,9 +229,6 @@ def pdf2score_portees(nom_image, lines, height, width):
     resultats[res_best].setDeviationGauche(deviation[0])
     resultats[res_best].setDeviationCentre(deviation[1])
     resultats[res_best].setDeviationDroite(deviation[2])
-    print("déviation à gauche :  " + str(deviation[0]))
-    print("déviation au centre : " + str(deviation[1]))
-    print("déviation à droite :  " + str(deviation[2]))
     
     resultats[res_best].imprimeXml()
     fichier_xml = open(nom_image + "_portees.xml", "w")

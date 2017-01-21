@@ -34,6 +34,12 @@ class Portee:
     def setDeviationCentre(self, dev_centre):
         self.deviation_centre = dev_centre
     
+    def setXbeg(self, x_beg):
+        self.x_beg = x_beg
+    
+    def setXend(self, x_end):
+        self.x_end = x_end
+    
     def addMesure(self, mesure):
         self.mesures.append(mesure)
     
@@ -68,7 +74,15 @@ class Portee:
             self.notes[i].setName(dictionnaire[offset])
             self.notes[i].setOctave(octave)
     
-
+    def ordonneNotes(self):
+        note_array = []
+        for i in range(self.nb_notes):
+            note_array.append([self.notes[i].x, self.notes[i]])
+        note_array_sorted = sorted(note_array, key=itemgetter(0))
+        self.notes = []
+        for i in range(len(note_array_sorted)):
+            self.notes.append(note_array_sorted[i][1])
+    
 class Systeme:
     
     def __init__(self, portee, nbre_portee):
@@ -83,8 +97,8 @@ class Systeme:
 class Note:
     
     def __init__(self, x, y, nbre_detection):
-        self.x = x_min
-        self.y = y_min
+        self.x = x
+        self.y = y
         self.nbre_detection = nbre_detection
     
     def setName(self, name):
@@ -96,18 +110,13 @@ class Note:
 #----------------- portees -----------------------
 #-------------------------------------------------
 nom_image='mendelssohn'
-img = cv2.imread(nom_image + ".jpg")
-height, width = img.shape[:2]
-gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
-edges = cv2.Canny(gray,50,150,apertureSize = 3)
-minLineLength = 120   #100
-maxLineGap = 16        #10
-lines = cv2.HoughLinesP(edges,1,np.pi/180,200,minLineLength,maxLineGap)
-pdf2score_portees(nom_image, lines, height, width)
 
 xml_portee = ElementTree.parse(nom_image + "_portees.xml")
 root_portee = xml_portee.getroot()
+
 tab_portee = []
+x_beg = int(root_portee.find('x_beg').text)
+x_end = int(root_portee.find('x_end').text)
 for staff in root_portee.iter('staff'):
     rank = int(staff.find('rank').text)
     gap = int(staff.find('gap').text)
@@ -125,19 +134,6 @@ for staff in root_portee.iter('staff'):
 #-------------------------------------------------
 #----------------- mesures -----------------------
 #-------------------------------------------------
-
-#img_rgb = cv2.imread('saintsaens.jpg')
-#img_gray = cv2.cvtColor(img_rgb, cv2.COLOR_BGR2GRAY)
-threshold = 0.60
-input_array = []
-for i_temp in range(8):
-    template = cv2.imread('./motifs/0_barre' + str(i_temp + 1) + '.png',0)
-    res = cv2.matchTemplate(gray, template, cv2.TM_CCOEFF_NORMED)
-    loc = np.where(res > threshold)
-    input_array.append(loc)
-width_template, height_template = template.shape[::-1]
-width_partition, height_partition = gray.shape[::-1]
-resMesures = pdf2score_mesures(nom_image, input_array, width_partition, width_template, height_template)
 
 xml_mesure = ElementTree.parse(nom_image + "_mesures.xml")
 root_mesure = xml_mesure.getroot()
@@ -166,25 +162,6 @@ for i in range(len(tab_system)):
 #------------------ notes ------------------------
 #-------------------------------------------------
 
-threshold = 0.60
-tabRes = []
-template1 = cv2.imread('./motifs/elm_lily_note23_1.png',0)
-res1 = cv2.matchTemplate(gray, template1, cv2.TM_CCOEFF_NORMED)
-loc1 = np.where(res1 > threshold)
-
-template2 = cv2.imread('./motifs/elm_lily_note23_2.png',0)
-res2 = cv2.matchTemplate(gray, template2, cv2.TM_CCOEFF_NORMED)
-loc2 = np.where(res2 > threshold)
-
-width_template1, height_template1 = template1.shape[::-1]
-width_template2, height_template2 = template2.shape[::-1]
-size_template= []
-size_template.append(width_template1)
-size_template.append(height_template1)
-size_template.append(width_template2)
-size_template.append(height_template2)
-result = pdf2score_notes(nom_image, loc1, loc2, size_template)
-
 xml_note = ElementTree.parse(nom_image + "_notes.xml")
 root_note = xml_note.getroot()
 for note in root_note.iter('point'):
@@ -194,7 +171,7 @@ for note in root_note.iter('point'):
     #each note is attributed to the nearest staff
     distance = 1000
     for i in range(len(tab_portee)):
-        temp = tab_portee[i].distance(y_mean)
+        temp = tab_portee[i].distance(y)
         if temp < distance:
             distance = temp
             nearest_staff = i
@@ -203,10 +180,12 @@ for note in root_note.iter('point'):
 print("-------------------------")
 for i in range(len(tab_portee)):
     tab_portee[i].findNoteName()
+    tab_portee[i].ordonneNotes()
 
 for i in range(len(tab_portee)):
     y_portee=tab_portee[i].position
     for j in range(tab_portee[i].nb_notes):
+        #print i, len(tab_portee), j, tab_portee[i].nb_notes, len(tab_portee[i].notes)
         print tab_portee[i].notes[j].x, tab_portee[i].notes[j].y, tab_portee[i].notes[j].name
-        print("    y_portee= " + str(y_portee) + "- y=" +str(tab_portee[i].notes[j].y))
+#        print("    y_portee= " + str(y_portee) + "- y=" +str(tab_portee[i].notes[j].y))
 
