@@ -236,7 +236,7 @@ def pdf2score_portees(nom_image, lines, height, width):
     return resultats[res_best]
 
 if __name__ == "__main__":
-    nom_image='mendelssohn'
+    nom_image='bach2'
     img = cv2.imread(nom_image + ".jpg")
     height, width = img.shape[:2]
     gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
@@ -254,8 +254,8 @@ if __name__ == "__main__":
         dev_ctre = porteesDetectees.deviation_centre[i_portee]
         for i_ligne in range(5):
             y_deb = position - ecart*(i_ligne-2) + dev_gche
-            y_mil = position - ecart*(i_ligne-2) + dev_drte
-            y_fin = position - ecart*(i_ligne-2) + dev_ctre
+            y_mil = position - ecart*(i_ligne-2) + dev_ctre
+            y_fin = position - ecart*(i_ligne-2) + dev_drte
             cv2.line(img,(1,y_deb),(int(width/2),y_mil),(255,0,0),1)
             cv2.line(img,(int(width/2),y_mil),(width,y_fin),(255,0,0),1)
     cv2.imwrite(nom_image + "_lignev5.jpg",img)

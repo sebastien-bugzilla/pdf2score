@@ -59,10 +59,21 @@ class Portee:
     def findNoteName(self):
         dictionnaire = ['si', 'do', 'ré', 'mi', 'fa', 'sol', 'la']
         y_staff = self.position
+        dev_left = self.deviation_gauche
+        dev_right = self.deviation_droite
+        dev_center = self.deviation_centre
+        x_beg = self.x_beg
+        x_end = self.x_end
+        x_mil = (x_beg + x_end) / 2
         gap = self.gap
         for i in range(self.nb_notes):
             y_note = self.notes[i].y
-            offset = int(round((y_staff - y_note)/(gap / 2.)))
+            x_note = self.notes[i].x
+            if x_note < x_mil:
+                y_dev = float(dev_left + (dev_center - dev_left) * (x_note - x_beg) / (x_mil - x_beg))
+            else:
+                y_dev = float(dev_center + (dev_right - dev_center) * (x_note - x_mil) / (x_end - x_mil))
+            offset = int(round((y_staff + y_dev - y_note)/(gap / 2.)))
             octave = 0
             if offset > 0:
                 correction = -7
@@ -109,7 +120,7 @@ class Note:
 #-------------------------------------------------
 #----------------- portees -----------------------
 #-------------------------------------------------
-nom_image='mendelssohn'
+nom_image='bach2'
 
 xml_portee = ElementTree.parse(nom_image + "_portees.xml")
 root_portee = xml_portee.getroot()
@@ -128,6 +139,8 @@ for staff in root_portee.iter('staff'):
     myStaff.setDeviationGauche(left_dev)
     myStaff.setDeviationDroite(right_dev)
     myStaff.setDeviationCentre(central_dev)
+    myStaff.setXbeg(x_beg)
+    myStaff.setXend(x_end)
     tab_portee.append(myStaff)
 
 
@@ -182,10 +195,14 @@ for i in range(len(tab_portee)):
     tab_portee[i].findNoteName()
     tab_portee[i].ordonneNotes()
 
+img = cv2.imread(nom_image + ".jpg")
 for i in range(len(tab_portee)):
     y_portee=tab_portee[i].position
     for j in range(tab_portee[i].nb_notes):
         #print i, len(tab_portee), j, tab_portee[i].nb_notes, len(tab_portee[i].notes)
         print tab_portee[i].notes[j].x, tab_portee[i].notes[j].y, tab_portee[i].notes[j].name
 #        print("    y_portee= " + str(y_portee) + "- y=" +str(tab_portee[i].notes[j].y))
-
+        x_note = tab_portee[i].notes[j].x
+        y_note = tab_portee[i].notes[j].y
+        cv2.line(img,(x_note+5,y_note+10),(x_note-5,y_note-10),(0,255,0),2)
+cv2.imwrite(nom_image + "_check_note.jpg",img)
