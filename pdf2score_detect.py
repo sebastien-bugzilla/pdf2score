@@ -16,7 +16,7 @@ from notes.pdf2score_notes import *
 #-------------------------------------------------
 #----------------- portees -----------------------
 #-------------------------------------------------
-nom_image='bach2'
+nom_image='mendelssohn'
 img = cv2.imread(nom_image + ".jpg")
 height, width = img.shape[:2]
 gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
