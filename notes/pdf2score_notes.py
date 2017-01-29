@@ -16,8 +16,8 @@ class Point:
         self.y_min = y
         self.y_max = y
         self.nb_detection = nb_detection
-        self.sum_x = x
-        self.sum_y = y
+        self.sum_x = float(x)
+        self.sum_y = float(y)
     
     def testPoint(self, x_new, y_new):
         if (self.x_min-2<=x_new and x_new <= self.x_max + 2):
@@ -32,10 +32,10 @@ class Point:
     
     def ajoutPoint(self, x_new, y_new):
         self.nb_detection = self.nb_detection + 1
-        self.sum_x = self.sum_x + x_new
-        self.sum_y = self.sum_y + y_new
-        self.x = self.sum_x / self.nb_detection
-        self.y = self.sum_y / self.nb_detection
+        self.sum_x = self.sum_x + float(x_new)
+        self.sum_y = self.sum_y + float(y_new)
+        self.x = round(self.sum_x / self.nb_detection,2)
+        self.y = round(self.sum_y / self.nb_detection,2)
         self.x_min = min(self.x_min, x_new)
         self.x_max = max(self.x_max, x_new)
         self.y_min = min(self.y_min, y_new)
