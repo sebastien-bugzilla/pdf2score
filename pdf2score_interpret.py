@@ -57,10 +57,7 @@ class Portee:
     def distance(self, y):
         return abs(self.position - y)
     
-    def getDevforX(self, x):
-        dev_left = float(self.deviation_gauche)
-        dev_right = float(self.deviation_droite)
-        dev_center = float(self.deviation_centre)
+    def getDevforX(self, x, dev_left, dev_center, dev_right):
         x_beg = self.x_beg
         x_end = self.x_end
         x_mil = (x_beg + x_end) / 2
@@ -70,82 +67,57 @@ class Portee:
             y = float(dev_center + (dev_right - dev_center) * (x - x_mil) / (x_end - x_mil))
         return y
     
-    def getBestGap(self):
-        score = 100.
-        if_deviation = 1
-        y_staff = self.position
-        for i in range(11):
-            # no deviation :
-            current = 0.
-            gap = float(self.gap)+(i-5)/10.
-            for j in range(self.nb_notes):
-                y_note = float(self.notes[j].y)
-                x_note = float(self.notes[j].x)
-                y_dev = 0
-                offset = float((y_staff + y_dev - y_note)/(gap/2.))
-                offset_int = int(round(offset))
-                if offset_int > 0:
-                    correction = -7
-                else:
-                    correction = 7
-                while abs(offset_int)>6:
-                    offset = offset + correction
-                    offset_int = offset_int + correction
-                increment = abs(offset-offset_int)
-                current = current + increment
-#                print x_note, y_note, gap, y_dev, offset, offset_int, increment, current
-#            print(current)
-            if score > current:
-                score = current
-                if_deviation = 0
-                best_gap = gap
-            # with deviation
-            current = 0.
-            for j in range(self.nb_notes):
-                y_note = float(self.notes[j].y)
-                x_note = float(self.notes[j].x)
-                y_dev = self.getDevforX(x_note)
-                offset = float((y_staff + y_dev - y_note)/(gap/2.))
-                offset_int = int(round(offset))
-                if offset_int > 0:
-                    correction = -7
-                else:
-                    correction = 7
-                while abs(offset_int)>6:
-                    offset = offset + correction
-                    offset_int = offset_int + correction
-                increment = abs(offset-offset_int)
-                current = current + increment
-#                print x_note, y_note, gap, y_dev, offset, offset_int, increment, current
-#            print(current)
-            if score > current:
-                score = current
-                if_deviation = 1
-                best_gap = gap
-        return best_gap, if_deviation
+    def getError(self, y_portee, gap, dev_l, dev_c, dev_r):
+        score = 0.
+        for j in range(self.nb_notes):
+            y_note = float(self.notes[j].y)
+            x_note = float(self.notes[j].x)
+            y_dev = self.getDevforX(x_note, dev_l, dev_c, dev_r)
+            offset = float((y_portee + y_dev - y_note)/(gap/2.))
+            offset_int = int(round(offset))
+            if offset_int > 0:
+                correction = -7
+            else:
+                correction = 7
+            while abs(offset_int)>6:
+                offset = offset + correction
+                offset_int = offset_int + correction
+            increment = abs(offset-offset_int)
+            score = score + increment
+        return score
     
-    def findNoteName(self, gap_decim, if_deviation):
+    def getBestScore(self):
+        score = 100.
+        for i_gap in range(5):
+            gap = float(self.gap)+(i_gap-2)/4.
+            for i_staff  in range(5):
+                y_staff = float(self.position) + (i_staff-2)/4.
+                for i_dev_l in range(9):
+                    dev_l = float(self.deviation_gauche) + (i_dev_l-4)/2.
+                    for i_dev_c in range(9):
+                        dev_c = float(self.deviation_centre) + (i_dev_c-4)/2.
+                        for i_dev_r in range(9):
+                            dev_r = float(self.deviation_droite) + (i_dev_r-4)/2.
+                            new_score = self.getError(y_staff, gap, dev_l, dev_c, dev_r)
+                            if new_score < score:
+                                res_gap = gap
+                                res_y_staff = y_staff
+                                res_dev_l = dev_l
+                                res_dev_c = dev_c
+                                res_dev_r = dev_r
+                                score = new_score
+        return score, res_gap, res_y_staff, res_dev_l, res_dev_c, res_dev_r
+    
+    def findNoteName(self, gap, y_staff, dev_l, dev_c, dev_r):
         dictionnaire = ['si', 'do', 'ré', 'mi', 'fa', 'sol', 'la']
-        y_staff = self.position
-        if if_deviation == 1:
-            dev_left = float(self.deviation_gauche)
-            dev_right = float(self.deviation_droite)
-            dev_center = float(self.deviation_centre)
-        else:
-            dev_left = 0.
-            dev_right = 0.
-            dev_center = 0.
         x_beg = self.x_beg
         x_end = self.x_end
         x_mil = (x_beg + x_end) / 2
         for i in range(self.nb_notes):
             y_note = float(self.notes[i].y)
             x_note = float(self.notes[i].x)
-            if x_note < x_mil:
-                y_dev = float(dev_left + (dev_center - dev_left) * (x_note - x_beg) / (x_mil - x_beg))
-            else:
-                y_dev = float(dev_center + (dev_right - dev_center) * (x_note - x_mil) / (x_end - x_mil))
-            offset = float((y_staff + y_dev - y_note)/(gap_decim / 2.))
+            y_dev = self.getDevforX(x_note, dev_l, dev_c, dev_r)
+            offset = float((y_staff + y_dev - y_note)/(gap / 2.))
             offset_int = int(round(offset))
             octave = 0
             if offset_int > 0:
@@ -194,7 +166,7 @@ class Note:
 #-------------------------------------------------
 #----------------- portees -----------------------
 #-------------------------------------------------
-nom_image='mendelssohn'
+nom_image='bach2'
 
 xml_portee = ElementTree.parse(nom_image + "_portees.xml")
 root_portee = xml_portee.getroot()
@@ -261,14 +233,19 @@ for note in root_note.iter('point'):
             nearest_staff = i
     tab_portee[nearest_staff].addNotes(Note(x, y, nb_det))
 
-print("-------------------------")
+#temp = tab_portee[0].getBestScore()
+#print(temp)
+# return score, res_gap, res_y_staff, res_dev_l, res_dev_c, res_dev_r
 for i in range(len(tab_portee)):
     tab_portee[i].ordonneNotes()
-    gap_optim = tab_portee[i].getBestGap()
-    gap_decim = gap_optim[0]
-    if_deviation = gap_optim[1]
-    print(gap_optim)
-    tab_portee[i].findNoteName(gap_decim, if_deviation)
+    optim = tab_portee[i].getBestScore()
+    gap = optim[1]
+    y_staff = optim[2]
+    dev_l = optim[3]
+    dev_c = optim[4]
+    dev_r = optim[5]
+    print(optim)
+    tab_portee[i].findNoteName(gap, y_staff, dev_l, dev_c, dev_r)
 
 img = cv2.imread(nom_image + ".jpg")
 for i in range(len(tab_portee)):
