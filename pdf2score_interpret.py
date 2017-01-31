@@ -108,6 +108,27 @@ class Portee:
                                 score = new_score
         return score, res_gap, res_y_staff, res_dev_l, res_dev_c, res_dev_r
     
+    def getBestScore2(self):
+        score = 100.
+        for i_gap in range(5):
+            gap = float(self.gap)+(i_gap-2)/4.
+            for i_staff  in range(5):
+                y_staff = float(self.position) + (i_staff-2)/4.
+                dev_l = float(self.deviation_gauche)
+                dev_c = float(self.deviation_centre)
+                dev_r = float(self.deviation_droite)
+                new_score = self.getError(y_staff, gap, dev_l, dev_c, dev_r)
+                if new_score < score:
+                    res_gap = gap
+                    res_y_staff = y_staff
+                    res_dev_l = dev_l
+                    res_dev_c = dev_c
+                    res_dev_r = dev_r
+                    score = new_score
+        return score, res_gap, res_y_staff, res_dev_l, res_dev_c, res_dev_r
+
+    
+    
     def findNoteName(self, gap, y_staff, dev_l, dev_c, dev_r):
         dictionnaire = ['si', 'do', 'ré', 'mi', 'fa', 'sol', 'la']
         x_beg = self.x_beg
@@ -166,7 +187,7 @@ class Note:
 #-------------------------------------------------
 #----------------- portees -----------------------
 #-------------------------------------------------
-nom_image='bach2'
+nom_image='mendelssohn'
 
 xml_portee = ElementTree.parse(nom_image + "_portees.xml")
 root_portee = xml_portee.getroot()
@@ -238,7 +259,7 @@ for note in root_note.iter('point'):
 # return score, res_gap, res_y_staff, res_dev_l, res_dev_c, res_dev_r
 for i in range(len(tab_portee)):
     tab_portee[i].ordonneNotes()
-    optim = tab_portee[i].getBestScore()
+    optim = tab_portee[i].getBestScore2()
     gap = optim[1]
     y_staff = optim[2]
     dev_l = optim[3]
