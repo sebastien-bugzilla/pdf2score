@@ -41,6 +41,9 @@ class Portee:
     def setXend(self, x_end):
         self.x_end = x_end
     
+    def setKey(self, key):
+        self.key = key
+    
     def addMesure(self, mesure):
         self.mesures.append(mesure)
     
@@ -126,11 +129,9 @@ class Portee:
                     res_dev_r = dev_r
                     score = new_score
         return score, res_gap, res_y_staff, res_dev_l, res_dev_c, res_dev_r
-
     
-    
-    def findNoteName(self, gap, y_staff, dev_l, dev_c, dev_r):
-        dictionnaire = ['si', 'do', 'ré', 'mi', 'fa', 'sol', 'la']
+    def findNoteName(self, gap, y_staff, dev_l, dev_c, dev_r, key):
+        dictionnaire = keyToDictionnary(key)
         x_beg = self.x_beg
         x_end = self.x_end
         x_mil = (x_beg + x_end) / 2
@@ -184,10 +185,30 @@ class Note:
     
     def setOctave(self, octave):
         self.octave = octave
+
+def keyToDictionnary(key):
+    if key == 'c3':
+        dictionnary = ['do','ré','mi','fa','sol','la','si']
+    elif key == 'f4':
+        dictionnary = ['ré','mi','fa','sol','la','si','do']
+    elif key == 'c2':
+        dictionnary = ['mi','fa','sol','la','si','do','ré']
+    elif key == 'f3':
+        dictionnary = ['fa','sol','la','si','do','ré','mi']
+    elif key == 'c1':
+        dictionnary = ['sol','la','si','do','ré','mi','fa']
+    elif key == 'c4':
+        dictionnary = ['la','si','do','ré','mi','fa','sol']
+    elif key == 'g1':
+        dictionnary = ['si','do','ré','mi','fa','sol','la']
+    else:
+        dictionnary = ['si','do','ré','mi','fa','sol','la']
+    return dictionnary
+
 #-------------------------------------------------
 #----------------- portees -----------------------
 #-------------------------------------------------
-nom_image='mendelssohn'
+nom_image='bach2'
 
 xml_portee = ElementTree.parse(nom_image + "_portees.xml")
 root_portee = xml_portee.getroot()
@@ -203,12 +224,14 @@ for staff in root_portee.iter('staff'):
     left_dev = int(staff.find('left_deviation').text)
     right_dev = int(staff.find('right_deviation').text)
     central_dev = int(staff.find('centre_deviation').text)
+    key = str(staff.find('key').text)
     myStaff = Portee(rank, position, gap, gap_decim)
     myStaff.setDeviationGauche(left_dev)
     myStaff.setDeviationDroite(right_dev)
     myStaff.setDeviationCentre(central_dev)
     myStaff.setXbeg(x_beg)
     myStaff.setXend(x_end)
+    myStaff.setKey(key)
     tab_portee.append(myStaff)
 
 
@@ -266,7 +289,8 @@ for i in range(len(tab_portee)):
     dev_c = optim[4]
     dev_r = optim[5]
     print(optim)
-    tab_portee[i].findNoteName(gap, y_staff, dev_l, dev_c, dev_r)
+    key = tab_portee[i].key
+    tab_portee[i].findNoteName(gap, y_staff, dev_l, dev_c, dev_r, key)
 
 img = cv2.imread(nom_image + ".jpg")
 for i in range(len(tab_portee)):

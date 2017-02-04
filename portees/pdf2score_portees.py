@@ -2,8 +2,9 @@
 #!/usr/bin/env python
 import cv2
 import numpy as np
+import os.path
 from operator import itemgetter, attrgetter, methodcaller
-from xml.etree.ElementTree import Element, SubElement, Comment
+from xml.etree.ElementTree import Element, ElementTree, SubElement, Comment
 from xml.dom import minidom
 from xml.etree import ElementTree
 from scipy.interpolate import interp1d
@@ -77,6 +78,22 @@ class Portees_OCV:
             centre_deviation = SubElement(staff, 'centre_deviation')
             centre_deviation.text = str(self.deviation_centre[staves])
         self.xml = all_staves
+    
+    def addXmlFileInfo(self, xml_file):
+        key_file = []
+        voice_file = []
+        for key in xml_file.iter('key'):
+            key_file.append(key.text)
+        for voice in xml_file.iter('voice'):
+            voice_file.append(voice.text)
+        i = 0
+        for key in self.xml.iter('key'):
+            key.text = str(key_file[i])
+            i = i + 1
+        i = 0
+        for voice in self.xml.iter('voice'):
+            voice.text = str(voice_file[i])
+            i = i + 1
 
 def prettify(elem):
     """Return a pretty-printed XML string for the Element.
@@ -255,6 +272,10 @@ def pdf2score_portees(nom_image, lines, height, width):
     resultats[res_best].setDeviationDroite(deviation[2])
     
     resultats[res_best].imprimeXml()
+    if os.path.exists(nom_image + "_portees.xml"):
+        xml_file = ElementTree.parse(nom_image + "_portees.xml")
+        root_file = xml_file.getroot()
+        resultats[res_best].addXmlFileInfo(root_file)
     fichier_xml = open(nom_image + "_portees.xml", "w")
     fichier_xml.write(prettify(resultats[res_best].xml))
     return resultats[res_best]
