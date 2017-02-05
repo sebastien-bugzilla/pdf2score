@@ -43,11 +43,6 @@ class Portees_OCV:
     def setDeviationCentre(self, dev_centre):
         self.deviation_centre = dev_centre
     
-    def setEcartDecim(self, ecart):
-        self.ecart_decim = []
-        for i in range(self.nbre_portee):
-            self.ecart_decim.append(ecart)
-    
     def imprimeXml(self):
         # creation d'une structure xml
         all_staves = Element('all_staves')
@@ -69,8 +64,6 @@ class Portees_OCV:
             position.text = str(self.positions[staves])
             gap = SubElement(staff, 'gap')
             gap.text = str(self.ecart[staves])
-            gap_decim = SubElement(staff,'gap_decim')
-            gap_decim.text = str(self.ecart_decim[staves])
             left_deviation = SubElement(staff, 'left_deviation')
             left_deviation.text = str(self.deviation_gauche[staves])
             right_deviation = SubElement(staff, 'right_deviation')
@@ -202,17 +195,6 @@ def attributMaxLocaux(V1, ecartLigne, nbColonne):
                     valeurPrecedente = V1[i_lig][i_dim]
     return maxPosition, maxValeur, maxLargeur
 
-def calculEcart(maxValeur, res_best):
-    x = [0.,1.,2.,3.,4.,5.,6.,7.,8.,9.,10.,11.]
-    f = interp1d(x, maxValeur, kind='cubic')
-    val_max = 0.
-    x_max=0.
-    for i in range(200):
-        t = float(i/100.)
-        if f(res_best -1 + t)>val_max:
-            x_max = t
-            val_max = f(t)
-    return res_best - 1 + x_max
 
 def pdf2score_portees(nom_image, lines, height, width):
     tableauLigne = lectureTableauLigne(lines, 1, height, width)
@@ -243,8 +225,6 @@ def pdf2score_portees(nom_image, lines, height, width):
             res_max = resultats[i_res].score_moy
             res_best = i_res
     ecart = 4 + res_best
-    ecart_decim = 4. + float(calculEcart(tab_score_moy, res_best))
-    resultats[res_best].setEcartDecim(ecart_decim)
     
     tableauLigne2 = lectureTableauLigne(lines, 3, height, width)
     prodConv2 = produitConvolution(tableauLigne2[0], ecart,3, height)
