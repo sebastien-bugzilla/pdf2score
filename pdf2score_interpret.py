@@ -240,13 +240,13 @@ for system in root_mesure.iter('system'):
 #------------------ notes ------------------------
 #-------------------------------------------------
 
+# each note is attributed to the nearest staff
 xml_note = ElementTree.parse(nom_image + "_notes.xml")
 root_note = xml_note.getroot()
 for note in root_note.iter('point'):
     x = float(note.find('x').text)
     y = float(note.find('y').text)
     nb_det = int(note.find('nb_detection').text)
-    #each note is attributed to the nearest staff
     distance = 1000
     for i in range(len(tab_portee)):
         temp = tab_portee[i].distance(y)
@@ -255,9 +255,9 @@ for note in root_note.iter('point'):
             nearest_staff = i
     tab_portee[nearest_staff].addNotes(Note(x, y, nb_det))
 
-#temp = tab_portee[0].getBestScore()
-#print(temp)
-# return score, res_gap, res_y_staff, res_dev_l, res_dev_c, res_dev_r
+#
+
+# détermination des nom de notes
 for i in range(len(tab_portee)):
     tab_portee[i].ordonneNotes()
     optim = tab_portee[i].getBestScore()
@@ -285,6 +285,10 @@ for i in range(len(tab_portee)):
         temp = int(gap *(j-2))
         cv2.line(img, (x_beg, y_portee + dev_g + temp),(x_mil, y_portee + dev_c + temp),(0,0,255),1)
         cv2.line(img, (x_mil, y_portee + dev_c + temp),(x_end, y_portee + dev_d + temp),(0,0,255),1)
+    if i > 0:
+        y_inter = int((y_portee + y_portee_old)/2)
+        cv2.line(img, (x_beg, y_inter),(x_end, y_inter),(0,0,255),1)
+    y_portee_old = y_portee
     # dessin des notes
     for j in range(tab_portee[i].nb_notes):
         #print i, len(tab_portee), j, tab_portee[i].nb_notes, len(tab_portee[i].notes)

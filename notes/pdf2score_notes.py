@@ -6,6 +6,8 @@ from operator import itemgetter, attrgetter, methodcaller
 from xml.etree.ElementTree import Element, SubElement, Comment
 from xml.dom import minidom
 from xml.etree import ElementTree
+from math import sqrt
+
 
 class Point:
     def __init__(self, x, y, nb_detection):
@@ -18,6 +20,7 @@ class Point:
         self.nb_detection = nb_detection
         self.sum_x = float(x)
         self.sum_y = float(y)
+        self.status = ""
     
     def testPoint(self, x_new, y_new):
         if (self.x_min-2<=x_new and x_new <= self.x_max + 2):
@@ -52,7 +55,31 @@ class Point:
     
     def setStatus(self, status):
         self.status = status
-
+    
+    def ifOverlap(self, point):
+        overlap = 0
+        if (self.x_min <= point.x_max and self.x_min >= point.x_min):
+            if (self.y_min <= point.y_max and self.y_min >= point.y_min):
+                overlap = 1
+            if (self.y_max <= point.y_max and self.y_max >= point.y_min):
+                overlap = 1
+        if (self.x_max <= point.x_max and self.x_max >= point.x_min):
+            if (self.y_min <= point.y_max and self.y_min >= point.y_min):
+                overlap = 1
+            if (self.y_max <= point.y_max and self.y_max >= point.y_min):
+                overlap = 1
+        return overlap
+    
+    def fusion(self, point):
+        self.x_min = min(self.x_min, point.x_min)
+        self.x_max = max(self.x_max, point.x_max)
+        self.y_min = min(self.y_min, point.y_min)
+        self.y_max = max(self.y_max, point.y_max)
+        self.sum_x = self.sum_x + point.sum_x
+        self.sum_y = self.sum_y + point.sum_y
+        self.nb_detection = self.nb_detection + point.nb_detection
+        self.x = round(self.sum_x / self.nb_detection,2)
+        self.y = round(self.sum_y / self.nb_detection,2)
 
 class Cloud:
     def __init__(self):
@@ -63,14 +90,28 @@ class Cloud:
         self.point_array.append(Point)
         self.point_number = self.point_number + 1
     
+    def checkPointOverlap(self):
+        for i in range(self.point_number):
+            for j in range(self.point_number):
+                if i <> j:
+                    temp = self.point_array[i].ifOverlap(self.point_array[j])
+                    if temp == 1:
+                        if self.point_array[i].nb_detection > self.point_array[j].nb_detection:
+                            self.point_array[i].fusion(self.point_array[j])
+                            self.point_array[j].setStatus("NOK")
+                        else:
+                            self.point_array[j].fusion(self.point_array[i])
+                            self.point_array[i].setStatus("NOK")
+    
     def classifyPoint(self):
         nb_pt_ok = 0
         for i_pt in range(self.point_number):
-            if self.point_array[i_pt].nb_detection >= 5:
-                self.point_array[i_pt].setStatus("OK")
-                nb_pt_ok = nb_pt_ok + 1
-            else:
-                self.point_array[i_pt].setStatus("NOK")
+            if self.point_array[i_pt].status <> "NOK":
+                if self.point_array[i_pt].nb_detection >= 5:
+                    self.point_array[i_pt].setStatus("OK")
+                    nb_pt_ok = nb_pt_ok + 1
+                else:
+                    self.point_array[i_pt].setStatus("NOK")
         self.valid_point = nb_pt_ok
     
     def imprimeXml(self):
@@ -144,6 +185,7 @@ def pdf2score_notes(nom_fichier, loc1, loc2, size_template):
             nb_point = nb_point + 1
         x_old = x_new
         y_old = y_new
+    cloud_result.checkPointOverlap()
     cloud_result.classifyPoint()
     cloud_result.imprimeXml()
     fichier_xml = open(nom_fichier + '_notes.xml', 'w')
@@ -153,7 +195,7 @@ def pdf2score_notes(nom_fichier, loc1, loc2, size_template):
 
 
 if __name__ == "__main__":
-    nom_image = 'bach1'
+    nom_image = 'mendelssohn'
     img_rgb = cv2.imread(nom_image + '.jpg')
     img_gray = cv2.cvtColor(img_rgb, cv2.COLOR_BGR2GRAY)
     threshold = 0.60
@@ -181,4 +223,4 @@ if __name__ == "__main__":
             y_min = result.point_array[i].y_min
             y_max = result.point_array[i].y_max
             cv2.rectangle(img_rgb, (x_min, y_min), (x_max, y_max), (0,0,255), 1)
-    cv2.imwrite('res_bach1_nuage2.png',img_rgb)
+    cv2.imwrite('res_mendelssohn_nuage2.png',img_rgb)
