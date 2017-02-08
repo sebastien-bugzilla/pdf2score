@@ -6,7 +6,6 @@ from operator import itemgetter, attrgetter, methodcaller
 from xml.etree.ElementTree import Element, SubElement, Comment
 from xml.dom import minidom
 from xml.etree import ElementTree
-from math import sqrt
 
 
 class Point:
@@ -153,13 +152,16 @@ def prettify(elem):
     return reparsed.toprettyxml(indent="  ")
 
 
-def pdf2score_notes(nom_fichier, loc1, loc2, size_template):
+def pdf2score_notes(nom_fichier, loc1, loc2, loc3, size_template):
     tabRes = []
     for i_pt in range(len(loc1[0])):
         detection=[loc1[1][i_pt] + size_template[1]/2, loc1[0][i_pt] + size_template[0]/2-2]
         tabRes.append(detection)
     for i_pt in range(len(loc2[0])):
         detection=[loc2[1][i_pt] + size_template[3]/2, loc2[0][i_pt] + size_template[2]/2-2]
+        tabRes.append(detection)
+    for i_pt in range(len(loc3[0])):
+        detection=[loc3[1][i_pt] + size_template[5]/2, loc3[0][i_pt] + size_template[4]/2-2]
         tabRes.append(detection)
     tabResOrdre = sorted(tabRes, key=itemgetter(1,0))
     nb_res = len(tabResOrdre)
@@ -208,14 +210,21 @@ if __name__ == "__main__":
     res2 = cv2.matchTemplate(img_gray, template2, cv2.TM_CCOEFF_NORMED)
     loc2 = np.where(res2 > threshold)
     
+    template3 = cv2.imread('elm_lily_note23_3.png',0)
+    res3 = cv2.matchTemplate(img_gray, template3, cv2.TM_CCOEFF_NORMED)
+    loc3 = np.where(res3 > threshold)
+    
     width_template1, height_template1 = template1.shape[::-1]
     width_template2, height_template2 = template2.shape[::-1]
+    width_template3, height_template3 = template3.shape[::-1]
     size_template= []
     size_template.append(width_template1)
     size_template.append(height_template1)
     size_template.append(width_template2)
     size_template.append(height_template2)
-    result = pdf2score_notes(nom_image, loc1, loc2, size_template)
+    size_template.append(width_template3)
+    size_template.append(height_template3)
+    result = pdf2score_notes(nom_image, loc1, loc2, loc3, size_template)
     for i in range(result.point_number):
         if result.point_array[i].status == "OK":
             x_min = result.point_array[i].x_min
@@ -223,4 +232,4 @@ if __name__ == "__main__":
             y_min = result.point_array[i].y_min
             y_max = result.point_array[i].y_max
             cv2.rectangle(img_rgb, (x_min, y_min), (x_max, y_max), (0,0,255), 1)
-    cv2.imwrite('res_mendelssohn_nuage2.png',img_rgb)
+    cv2.imwrite('res_mendelssohn_nuage3.png',img_rgb)
