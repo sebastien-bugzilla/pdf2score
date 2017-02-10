@@ -16,7 +16,7 @@ from notes.pdf2score_notes import *
 #-------------------------------------------------
 #----------------- portees -----------------------
 #-------------------------------------------------
-nom_image='bach2'
+nom_image='bach1'
 img = cv2.imread(nom_image + ".jpg")
 height, width = img.shape[:2]
 gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
@@ -59,13 +59,21 @@ template2 = cv2.imread('./motifs/elm_lily_note23_2.png',0)
 res2 = cv2.matchTemplate(gray, template2, cv2.TM_CCOEFF_NORMED)
 loc2 = np.where(res2 > threshold)
 
+template3 = cv2.imread('./motifs/elm_lily_note23_3.png',0)
+res3 = cv2.matchTemplate(gray, template3, cv2.TM_CCOEFF_NORMED)
+loc3 = np.where(res3 > threshold)
+
+
 width_template1, height_template1 = template1.shape[::-1]
 width_template2, height_template2 = template2.shape[::-1]
+width_template3, height_template3 = template3.shape[::-1]
 size_template= []
 size_template.append(width_template1)
 size_template.append(height_template1)
 size_template.append(width_template2)
 size_template.append(height_template2)
-result = pdf2score_notes(nom_image, loc1, loc2, size_template)
+size_template.append(width_template3)
+size_template.append(height_template3)
+result = pdf2score_notes(nom_image, loc1, loc2, loc3, size_template)
 
 

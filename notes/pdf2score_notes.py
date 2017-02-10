@@ -197,7 +197,7 @@ def pdf2score_notes(nom_fichier, loc1, loc2, loc3, size_template):
 
 
 if __name__ == "__main__":
-    nom_image = 'mendelssohn'
+    nom_image = 'beethoven'
     img_rgb = cv2.imread(nom_image + '.jpg')
     img_gray = cv2.cvtColor(img_rgb, cv2.COLOR_BGR2GRAY)
     threshold = 0.60
@@ -232,4 +232,4 @@ if __name__ == "__main__":
             y_min = result.point_array[i].y_min
             y_max = result.point_array[i].y_max
             cv2.rectangle(img_rgb, (x_min, y_min), (x_max, y_max), (0,0,255), 1)
-    cv2.imwrite('res_mendelssohn_nuage3.png',img_rgb)
+    cv2.imwrite('res_' + str(nom_image) + '_nuage3.png',img_rgb)
