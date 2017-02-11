@@ -139,6 +139,41 @@ class Portee:
         for i in range(len(note_array_sorted)):
             self.notes.append(note_array_sorted[i][1])
     
+    def detectChord(self):
+        x_old = 1
+        y_old = self.position
+        gap = self.gap
+        for i in range(self.nb_notes):
+            dx = float(self.notes[i].x - x_old)
+            if dx < 1.:
+                self.notes[i].setChord()
+                self.notes[i-1].setChord()
+    
+    def detectFalseNotes(self):
+        i = 1
+        while i < self.nb_notes-1:
+            dx = self.notes[i].x - self.notes[i-1].x
+            if (dx < 9 and dx > 1):
+                y1 = self.notes[i-1].y
+                y2 = self.notes[i].y
+                y3 = self.notes[i+1].y
+                n1 = self.notes[i-1].nbre_detection
+                n2 = self.notes[i].nbre_detection
+                n3 = self.notes[i+1].nbre_detection
+                y_moy = (y1*n1+y2*n2+y3*n3)/(n1+n2+n3)
+                d1 = abs(y1 - y_moy)
+                d2 = abs(y2 - y_moy)
+                d3 = abs(y3 - y_moy)
+                if d1 = max(d1,d2,d3):
+                    self.notes[i-1].setStatusFalse()
+                if d2 = max(d1,d2,d3):
+                    self.notes[i].setStatusFalse()
+                if d3 = max(d1,d2,d3):
+                    self.notes[i+1].setStatusFalse()
+                i = i + 2
+            else:
+                i = i + 1
+
 class Systeme:
     
     def __init__(self, portee, nbre_portee):
@@ -156,12 +191,20 @@ class Note:
         self.x = x
         self.y = y
         self.nbre_detection = nbre_detection
+        self.chord = "no"
+        self.status = "true"
     
     def setName(self, name):
         self.name = name
     
     def setOctave(self, octave):
         self.octave = octave
+    
+    def setStatusFalse(self):
+        self.status = "false"
+    
+    def setChord(self):
+        self.chord="yes"
 
 def keyToDictionnary(key):
     if key == 'c3':
@@ -185,7 +228,7 @@ def keyToDictionnary(key):
 #-------------------------------------------------
 #----------------- portees -----------------------
 #-------------------------------------------------
-nom_image='bach1'
+nom_image='mendelssohn'
 
 xml_portee = ElementTree.parse(nom_image + "_portees.xml")
 root_portee = xml_portee.getroot()
@@ -253,8 +296,6 @@ for note in root_note.iter('point'):
             nearest_staff = i
     tab_portee[nearest_staff].addNotes(Note(x, y, nb_det))
 
-#
-
 # détermination des nom de notes
 for i in range(len(tab_portee)):
     tab_portee[i].ordonneNotes()
@@ -289,12 +330,10 @@ for i in range(len(tab_portee)):
     y_portee_old = y_portee
     # dessin des notes
     for j in range(tab_portee[i].nb_notes):
-        #print i, len(tab_portee), j, tab_portee[i].nb_notes, len(tab_portee[i].notes)
-        print tab_portee[i].notes[j].x, tab_portee[i].notes[j].y, tab_portee[i].notes[j].name
-#        print("    y_portee= " + str(y_portee) + "- y=" +str(tab_portee[i].notes[j].y))
+        print tab_portee[i].notes[j].x, tab_portee[i].notes[j].y, tab_portee[i].notes[j].nbre_detection, tab_portee[i].notes[j].name
         x_note = int(tab_portee[i].notes[j].x)
         y_note = int(tab_portee[i].notes[j].y)
-        cv2.line(img,(x_note+4,y_note+4),(x_note-4,y_note-4),(0,255,0),1)
-        cv2.line(img,(x_note-4,y_note+4),(x_note+4,y_note-4),(0,255,0),1)
+        cv2.line(img,(x_note+4,y_note+4),(x_note-4,y_note-4),(0,255,0),2)
+        cv2.line(img,(x_note-4,y_note+4),(x_note+4,y_note-4),(0,255,0),2)
     print('')
 cv2.imwrite(nom_image + "_check_note.jpg",img)
