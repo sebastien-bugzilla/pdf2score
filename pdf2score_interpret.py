@@ -164,11 +164,11 @@ class Portee:
                 d1 = abs(y1 - y_moy)
                 d2 = abs(y2 - y_moy)
                 d3 = abs(y3 - y_moy)
-                if d1 = max(d1,d2,d3):
+                if d1 == max(d1,d2,d3):
                     self.notes[i-1].setStatusFalse()
-                if d2 = max(d1,d2,d3):
+                if d2 == max(d1,d2,d3):
                     self.notes[i].setStatusFalse()
-                if d3 = max(d1,d2,d3):
+                if d3 == max(d1,d2,d3):
                     self.notes[i+1].setStatusFalse()
                 i = i + 2
             else:
@@ -228,7 +228,7 @@ def keyToDictionnary(key):
 #-------------------------------------------------
 #----------------- portees -----------------------
 #-------------------------------------------------
-nom_image='mendelssohn'
+nom_image='bach1'
 
 xml_portee = ElementTree.parse(nom_image + "_portees.xml")
 root_portee = xml_portee.getroot()
@@ -299,6 +299,8 @@ for note in root_note.iter('point'):
 # détermination des nom de notes
 for i in range(len(tab_portee)):
     tab_portee[i].ordonneNotes()
+    tab_portee[i].detectChord()
+    tab_portee[i].detectFalseNotes()
     optim = tab_portee[i].getBestScore()
     gap = optim[1]
     y_staff = optim[2]
@@ -330,10 +332,16 @@ for i in range(len(tab_portee)):
     y_portee_old = y_portee
     # dessin des notes
     for j in range(tab_portee[i].nb_notes):
-        print tab_portee[i].notes[j].x, tab_portee[i].notes[j].y, tab_portee[i].notes[j].nbre_detection, tab_portee[i].notes[j].name
-        x_note = int(tab_portee[i].notes[j].x)
-        y_note = int(tab_portee[i].notes[j].y)
-        cv2.line(img,(x_note+4,y_note+4),(x_note-4,y_note-4),(0,255,0),2)
-        cv2.line(img,(x_note-4,y_note+4),(x_note+4,y_note-4),(0,255,0),2)
+        if tab_portee[i].notes[j].status == "true":
+            print tab_portee[i].notes[j].x, tab_portee[i].notes[j].y, tab_portee[i].notes[j].nbre_detection, tab_portee[i].notes[j].name
+            x_note = int(tab_portee[i].notes[j].x)
+            y_note = int(tab_portee[i].notes[j].y)
+            cv2.line(img,(x_note+4,y_note+4),(x_note-4,y_note-4),(0,255,0),2)
+            cv2.line(img,(x_note-4,y_note+4),(x_note+4,y_note-4),(0,255,0),2)
+        else:
+            x_note = int(tab_portee[i].notes[j].x)
+            y_note = int(tab_portee[i].notes[j].y)
+            cv2.line(img,(x_note+4,y_note+4),(x_note-4,y_note-4),(255,0,0),2)
+            cv2.line(img,(x_note-4,y_note+4),(x_note+4,y_note-4),(255,0,0),2)
     print('')
 cv2.imwrite(nom_image + "_check_note.jpg",img)
