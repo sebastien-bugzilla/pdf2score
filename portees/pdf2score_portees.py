@@ -56,10 +56,12 @@ class Portees_OCV:
             staff = SubElement(all_staves, 'staff')
             rank = SubElement(staff, 'rank')
             rank.text = str(staves + 1)
-            key = SubElement(staff, 'key')
-            key.text = ' '
+            clef = SubElement(staff, 'clef')
+            clef.text = '-'
             voice = SubElement(staff, 'voice')
-            voice.text = ' '
+            voice.text = '-'
+            key = SubElement(staff, 'key')
+            key.text = '-'
             position = SubElement(staff, 'position')
             position.text = str(self.positions[staves])
             gap = SubElement(staff, 'gap')
@@ -73,15 +75,15 @@ class Portees_OCV:
         self.xml = all_staves
     
     def addXmlFileInfo(self, xml_file):
-        key_file = []
+        clef_file = []
         voice_file = []
-        for key in xml_file.iter('key'):
-            key_file.append(key.text)
+        for clef in xml_file.iter('clef'):
+            clef_file.append(clef.text)
         for voice in xml_file.iter('voice'):
             voice_file.append(voice.text)
         i = 0
-        for key in self.xml.iter('key'):
-            key.text = str(key_file[i])
+        for clef in self.xml.iter('clef'):
+            clef.text = str(clef_file[i])
             i = i + 1
         i = 0
         for voice in self.xml.iter('voice'):

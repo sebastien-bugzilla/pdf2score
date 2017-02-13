@@ -40,7 +40,10 @@ class Portee:
     def setXend(self, x_end):
         self.x_end = x_end
     
-    def setKey(self, key):
+    def setClef(self, clef):
+        self.clef = clef
+    
+    def setKey(self, clef):
         self.key = key
     
     def addMesure(self, mesure):
@@ -107,8 +110,8 @@ class Portee:
                     score = new_score
         return score, res_gap, res_y_staff, res_dev_l, res_dev_c, res_dev_r
     
-    def findNoteName(self, gap, y_staff, dev_l, dev_c, dev_r, key):
-        dictionnaire = keyToDictionnary(key)
+    def findNoteName(self, gap, y_staff, dev_l, dev_c, dev_r, clef, key):
+        scale = getScale(clef, key)
         x_beg = self.x_beg
         x_end = self.x_end
         x_mil = (x_beg + x_end) / 2
@@ -127,7 +130,7 @@ class Portee:
                 offset_int = offset_int + correction
                 offset = offset + correction
                 octave = octave + 1
-            self.notes[i].setName(dictionnaire[offset_int])
+            self.notes[i].setName(scale[offset_int])
             self.notes[i].setOctave(octave)
     
     def ordonneNotes(self):
@@ -210,29 +213,49 @@ class Note:
     def setMesure(self, mesure):
         self.mesure = mesure
 
-def keyToDictionnary(key):
-    if key == 'c3':
-        dictionnary = ['do','ré','mi','fa','sol','la','si']
-    elif key == 'f4':
-        dictionnary = ['ré','mi','fa','sol','la','si','do']
-    elif key == 'c2':
-        dictionnary = ['mi','fa','sol','la','si','do','ré']
-    elif key == 'f3':
-        dictionnary = ['fa','sol','la','si','do','ré','mi']
-    elif key == 'c1':
-        dictionnary = ['sol','la','si','do','ré','mi','fa']
-    elif key == 'c4':
-        dictionnary = ['la','si','do','ré','mi','fa','sol']
-    elif key == 'g1':
-        dictionnary = ['si','do','ré','mi','fa','sol','la']
+def getScale(clef, key):
+    n = ['c','d','e','f','g','a','b','c','d','e','f','g','a','b','c']
+    sharp = ['f','c','g','d','a','e','b']
+    flat = ['b','e','a','d','g','c','f']
+    if clef == 'c3':
+        offset = 0
+    elif clef == 'f4':
+        offset = 1
+    elif clef == 'c2':
+        offset = 2
+    elif clef == 'f3':
+        offset = 3
+    elif clef == 'c1':
+        offset = 4
+    elif clef == 'c4':
+        offset = 5
+    elif clef == 'g2':
+        offset = 6
     else:
-        dictionnary = ['si','do','ré','mi','fa','sol','la']
-    return dictionnary
-
+        offset = 6
+    if len(key) > 0:
+        nb_accidentals = int(key[0])
+        suffix = key[1:3]
+        if suffix == 'es':
+            note_modified = flat[0:nb_accidentals]
+        elif suffix == 'is':
+            note_modified = sharp[0:nb_accidentals]
+        else:
+            note_modified = []
+        scale = []
+        for i in range(7):
+            if n[offset + i] in note_modified:
+                scale.append(n[offset + i] + suffix)
+            else:
+                scale.append(n[offset + i])
+    else:
+        for i in range(7):
+            scale.append(n[offset + i])
+    return scale
 #-------------------------------------------------
 #----------------- portees -----------------------
 #-------------------------------------------------
-nom_image='bach1'
+nom_image='mendelssohn'
 
 xml_portee = ElementTree.parse(nom_image + "_portees.xml")
 root_portee = xml_portee.getroot()
@@ -248,12 +271,14 @@ for staff in root_portee.iter('staff'):
     right_dev = int(staff.find('right_deviation').text)
     central_dev = int(staff.find('centre_deviation').text)
     key = str(staff.find('key').text)
+    clef = str(staff.find('clef').text)
     myStaff = Portee(rank, position, gap)
     myStaff.setDeviationGauche(left_dev)
     myStaff.setDeviationDroite(right_dev)
     myStaff.setDeviationCentre(central_dev)
     myStaff.setXbeg(x_beg)
     myStaff.setXend(x_end)
+    myStaff.setClef(clef)
     myStaff.setKey(key)
     tab_portee.append(myStaff)
 
@@ -319,7 +344,8 @@ for i in range(len(tab_portee)):
     dev_r = optim[5]
     print(optim)
     key = tab_portee[i].key
-    tab_portee[i].findNoteName(gap, y_staff, dev_l, dev_c, dev_r, key)
+    clef = tab_portee[i].clef
+    tab_portee[i].findNoteName(gap, y_staff, dev_l, dev_c, dev_r, clef, key)
 
 img = cv2.imread(nom_image + ".jpg")
 for i in range(len(tab_portee)):
