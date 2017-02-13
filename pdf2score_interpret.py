@@ -187,12 +187,13 @@ class Systeme:
 
 class Note:
     
-    def __init__(self, x, y, nbre_detection):
+    def __init__(self, x, y, nbre_detection, mesure):
         self.x = x
         self.y = y
         self.nbre_detection = nbre_detection
         self.chord = "no"
         self.status = "true"
+        self.mesure = mesure
     
     def setName(self, name):
         self.name = name
@@ -205,6 +206,9 @@ class Note:
     
     def setChord(self):
         self.chord="yes"
+    
+    def setMesure(self, mesure):
+        self.mesure = mesure
 
 def keyToDictionnary(key):
     if key == 'c3':
@@ -281,20 +285,26 @@ for system in root_mesure.iter('system'):
 #------------------ notes ------------------------
 #-------------------------------------------------
 
-# each note is attributed to the nearest staff
 xml_note = ElementTree.parse(nom_image + "_notes.xml")
 root_note = xml_note.getroot()
 for note in root_note.iter('point'):
     x = float(note.find('x').text)
     y = float(note.find('y').text)
     nb_det = int(note.find('nb_detection').text)
+    # each note is attributed to the nearest staff
     distance = 1000
     for i in range(len(tab_portee)):
         temp = tab_portee[i].distance(y)
         if temp < distance:
             distance = temp
             nearest_staff = i
-    tab_portee[nearest_staff].addNotes(Note(x, y, nb_det))
+    # find the right bar :
+    mesure = 0
+    for bar in range(len(tab_portee[nearest_staff].mesures)-1):
+        if (x < tab_portee[nearest_staff].mesures[bar+1] and
+            x > tab_portee[nearest_staff].mesures[bar]):
+            mesure = bar
+    tab_portee[nearest_staff].addNotes(Note(x, y, nb_det, mesure))
 
 # détermination des nom de notes
 for i in range(len(tab_portee)):
@@ -333,7 +343,7 @@ for i in range(len(tab_portee)):
     # dessin des notes
     for j in range(tab_portee[i].nb_notes):
         if tab_portee[i].notes[j].status == "true":
-            print tab_portee[i].notes[j].x, tab_portee[i].notes[j].y, tab_portee[i].notes[j].nbre_detection, tab_portee[i].notes[j].name
+            print tab_portee[i].notes[j].x, tab_portee[i].notes[j].y, tab_portee[i].notes[j].nbre_detection, tab_portee[i].notes[j].mesure, tab_portee[i].notes[j].name
             x_note = int(tab_portee[i].notes[j].x)
             y_note = int(tab_portee[i].notes[j].y)
             cv2.line(img,(x_note+4,y_note+4),(x_note-4,y_note-4),(0,255,0),2)
