@@ -14,7 +14,7 @@ from notes.pdf2score_notes import *
 
 class Portee:
     
-    def __init__(self, rank, position, gap):
+    def __init__(self, rank, position, gap, voice):
         self.rank = rank
         self.position = position
         self.gap = gap
@@ -24,6 +24,7 @@ class Portee:
         self.mesures = []
         self.notes = []
         self.nb_notes = 0
+        self.voice = voice
     
     def setDeviationGauche(self, dev_gauche):
         self.deviation_gauche = dev_gauche
@@ -51,6 +52,7 @@ class Portee:
     
     def defMesure(self, mesure):
         self.mesures = mesure
+        self.nb_mesures = len(mesure)
     
     def defNotes(self, note):
         self.notes = note
@@ -187,6 +189,27 @@ class Systeme:
         self.tabPortees.append(portee)
         self.nbre_portee = self.nbre_portee + 1
     
+    def imprimeXml(self):
+        system_xml = Element('system')
+        nb_staff = SubElement(system_xml, 'nb_staff')
+        nb_staff.text = str(self.nbre_portee)
+        for i_staff in range(self.nbre_portee):
+            staff = SubElement(system_xml, 'staff')
+            position = SubElement(staff, 'position')
+            position.text = str(self.tabPortees[i_staff].position)
+            voice = SubElement(staff, 'voice')
+            voice.text = str(self.tabPortees[i_staff].voice)
+            key = SubElement(staff, 'key')
+            key.text = str(self.tabPortees[i_staff].key)
+            clef = SubElement(staff, 'clef')
+            clef.text = str(self.tabPortees[i_staff].clef)
+            nb_bar = SubElement(staff, 'nb_bar')
+            nb_bar.text = str(self.tabPortees[i_staff].nb_mesures)
+            for i_bar in range(self.tabPortees[i_staff].nb_mesures):
+                bar = SubElement(staff, 'bar')
+                bar_position = SubElement(bar, "position")
+                bar_position.text = str(self.tabPortees[i_staff].mesure[i_bar])
+                
 
 class Note:
     
@@ -272,7 +295,8 @@ for staff in root_portee.iter('staff'):
     central_dev = int(staff.find('centre_deviation').text)
     key = str(staff.find('key').text)
     clef = str(staff.find('clef').text)
-    myStaff = Portee(rank, position, gap)
+    voice = str(staff.find('voice').text)
+    myStaff = Portee(rank, position, gap, voice)
     myStaff.setDeviationGauche(left_dev)
     myStaff.setDeviationDroite(right_dev)
     myStaff.setDeviationCentre(central_dev)
