@@ -206,6 +206,7 @@ def pdf2score_mesures(nom_fichier, tabRes, width, width_template, height_templat
         system.extend(tab_systeme[i_syst].xml)
     fichier_xml = open(nom_fichier + "_mesures.xml", "w")
     fichier_xml.write(prettify(all_system))
+    fichier_xml.close()
     return tab_systeme
 
 if __name__ == "__main__":

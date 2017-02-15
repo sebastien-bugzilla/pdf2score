@@ -4,7 +4,7 @@
 import cv2
 import numpy as np
 from operator import itemgetter, attrgetter, methodcaller
-import xml.etree.ElementTree as ElementTree
+from xml.etree.ElementTree import Element, SubElement, Comment
 from xml.dom import minidom
 from xml.etree import ElementTree
 
@@ -208,8 +208,22 @@ class Systeme:
             for i_bar in range(self.tabPortees[i_staff].nb_mesures):
                 bar = SubElement(staff, 'bar')
                 bar_position = SubElement(bar, "position")
-                bar_position.text = str(self.tabPortees[i_staff].mesure[i_bar])
-                
+                bar_position.text = str(self.tabPortees[i_staff].mesures[i_bar])
+                for i_note in range(self.tabPortees[i_staff].nb_notes):
+                    if self.tabPortees[i_staff].notes[i_note].status == "true":
+                        if self.tabPortees[i_staff].notes[i_note].mesure == i_bar:
+                            note = SubElement(bar,'note')
+                            x_note = SubElement(note, 'x')
+                            x_note.text = str(self.tabPortees[i_staff].notes[i_note].x)
+                            y_note = SubElement(note, 'y')
+                            y_note.text = str(self.tabPortees[i_staff].notes[i_note].y)
+                            chord = SubElement(note, 'chord')
+                            chord.text = str(self.tabPortees[i_staff].notes[i_note].chord)
+                            name = SubElement(note, 'name')
+                            name.text = str(self.tabPortees[i_staff].notes[i_note].name)
+                            octave = SubElement(note, 'octave')
+                            octave.text = str(self.tabPortees[i_staff].notes[i_note].octave)
+        self.xml = system_xml
 
 class Note:
     
@@ -278,7 +292,7 @@ def getScale(clef, key):
 #-------------------------------------------------
 #----------------- portees -----------------------
 #-------------------------------------------------
-nom_image='mendelssohn'
+nom_image='bach1'
 
 xml_portee = ElementTree.parse(nom_image + "_portees.xml")
 root_portee = xml_portee.getroot()
@@ -371,6 +385,17 @@ for i in range(len(tab_portee)):
     clef = tab_portee[i].clef
     tab_portee[i].findNoteName(gap, y_staff, dev_l, dev_c, dev_r, clef, key)
 
+# save the results in xml file.
+xml_page = Element('page')
+for i_sys in range(len(tab_system)):
+    tab_system[i_sys].imprimeXml()
+    system = SubElement(xml_page, 'system')
+    system.extend(tab_system[i_sys].xml)
+output_interpret=open(nom_image + "_input_lily.xml", 'w')
+output_interpret.write(prettify(xml_page))
+output_interpret.close()
+
+
 img = cv2.imread(nom_image + ".jpg")
 for i in range(len(tab_portee)):
     y_portee=tab_portee[i].position
@@ -384,8 +409,8 @@ for i in range(len(tab_portee)):
     # dessin des portées
     for j in range(5):
         temp = int(gap *(j-2))
-        cv2.line(img, (x_beg, y_portee + dev_g + temp),(x_mil, y_portee + dev_c + temp),(0,0,255),1)
-        cv2.line(img, (x_mil, y_portee + dev_c + temp),(x_end, y_portee + dev_d + temp),(0,0,255),1)
+        cv2.line(img, (x_beg, y_portee + dev_g + temp),(x_mil, y_portee + dev_c + temp),(255,0,0),1)
+        cv2.line(img, (x_mil, y_portee + dev_c + temp),(x_end, y_portee + dev_d + temp),(255,0,0),1)
     if i > 0:
         y_inter = int((y_portee + y_portee_old)/2)
         cv2.line(img, (x_beg, y_inter),(x_end, y_inter),(0,0,255),1)
@@ -401,7 +426,7 @@ for i in range(len(tab_portee)):
         else:
             x_note = int(tab_portee[i].notes[j].x)
             y_note = int(tab_portee[i].notes[j].y)
-            cv2.line(img,(x_note+4,y_note+4),(x_note-4,y_note-4),(255,0,0),2)
-            cv2.line(img,(x_note-4,y_note+4),(x_note+4,y_note-4),(255,0,0),2)
+            cv2.line(img,(x_note+4,y_note+4),(x_note-4,y_note-4),(0,0,255),2)
+            cv2.line(img,(x_note-4,y_note+4),(x_note+4,y_note-4),(0,0,255),2)
     print('')
 cv2.imwrite(nom_image + "_check_note.jpg",img)
