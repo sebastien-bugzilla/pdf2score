@@ -12,6 +12,8 @@ from portees.pdf2score_portees import *
 from mesures.pdf2score_mesures import *
 from notes.pdf2score_notes import *
 
+from collections import OrderedDict
+
 class Portee:
     
     def __init__(self, rank, position, gap, voice):
@@ -53,9 +55,6 @@ class Portee:
     def defMesure(self, mesure):
         self.mesures = mesure
         self.nb_mesures = len(mesure)
-    
-    def defNotes(self, note):
-        self.notes = note
     
     def addNotes(self, note):
         self.notes.append(note)
@@ -178,6 +177,38 @@ class Portee:
                 i = i + 2
             else:
                 i = i + 1
+    
+    def imprimeXml(self, offset_mesure):
+        staff_xml = Element('staff')
+        nb_bar = SubElement(staff_xml, 'nb_bar')
+        nb_bar.text = str(self.nb_mesures)
+        position = SubElement(staff_xml, 'position')
+        position.text = str(self.position)
+        key = SubElement(staff_xml, 'key')
+        key.text = str(self.key)
+        clef = SubElement(staff_xml, 'clef')
+        clef.text = str(self.clef)
+        for i_bar in range(self.nb_mesures):
+            bar = SubElement(staff_xml, 'bar')
+            bar_id = SubElement(bar, 'bar_id')
+            bar_id.text = str(offset_mesure + i_bar)
+            bar_position = SubElement(bar, "position")
+            bar_position.text = str(self.mesures[i_bar])
+            for i_note in range(self.nb_notes):
+                if self.notes[i_note].status == "true":
+                    if self.notes[i_note].mesure == i_bar:
+                        note = SubElement(bar,'note')
+                        x_note = SubElement(note, 'x')
+                        x_note.text = str(self.notes[i_note].x)
+                        y_note = SubElement(note, 'y')
+                        y_note.text = str(self.notes[i_note].y)
+                        chord = SubElement(note, 'chord')
+                        chord.text = str(self.notes[i_note].chord)
+                        name = SubElement(note, 'name')
+                        name.text = str(self.notes[i_note].name)
+                        octave = SubElement(note, 'octave')
+                        octave.text = str(self.notes[i_note].octave)
+        self.xml = staff_xml
 
 class Systeme:
     
@@ -189,41 +220,6 @@ class Systeme:
         self.tabPortees.append(portee)
         self.nbre_portee = self.nbre_portee + 1
     
-    def imprimeXml(self):
-        system_xml = Element('system')
-        nb_staff = SubElement(system_xml, 'nb_staff')
-        nb_staff.text = str(self.nbre_portee)
-        for i_staff in range(self.nbre_portee):
-            staff = SubElement(system_xml, 'staff')
-            position = SubElement(staff, 'position')
-            position.text = str(self.tabPortees[i_staff].position)
-            voice = SubElement(staff, 'voice')
-            voice.text = str(self.tabPortees[i_staff].voice)
-            key = SubElement(staff, 'key')
-            key.text = str(self.tabPortees[i_staff].key)
-            clef = SubElement(staff, 'clef')
-            clef.text = str(self.tabPortees[i_staff].clef)
-            nb_bar = SubElement(staff, 'nb_bar')
-            nb_bar.text = str(self.tabPortees[i_staff].nb_mesures)
-            for i_bar in range(self.tabPortees[i_staff].nb_mesures):
-                bar = SubElement(staff, 'bar')
-                bar_position = SubElement(bar, "position")
-                bar_position.text = str(self.tabPortees[i_staff].mesures[i_bar])
-                for i_note in range(self.tabPortees[i_staff].nb_notes):
-                    if self.tabPortees[i_staff].notes[i_note].status == "true":
-                        if self.tabPortees[i_staff].notes[i_note].mesure == i_bar:
-                            note = SubElement(bar,'note')
-                            x_note = SubElement(note, 'x')
-                            x_note.text = str(self.tabPortees[i_staff].notes[i_note].x)
-                            y_note = SubElement(note, 'y')
-                            y_note.text = str(self.tabPortees[i_staff].notes[i_note].y)
-                            chord = SubElement(note, 'chord')
-                            chord.text = str(self.tabPortees[i_staff].notes[i_note].chord)
-                            name = SubElement(note, 'name')
-                            name.text = str(self.tabPortees[i_staff].notes[i_note].name)
-                            octave = SubElement(note, 'octave')
-                            octave.text = str(self.tabPortees[i_staff].notes[i_note].octave)
-        self.xml = system_xml
 
 class Note:
     
@@ -254,6 +250,7 @@ def getScale(clef, key):
     n = ['c','d','e','f','g','a','b','c','d','e','f','g','a','b','c']
     sharp = ['f','c','g','d','a','e','b']
     flat = ['b','e','a','d','g','c','f']
+    scale = []
     if clef == 'c3':
         offset = 0
     elif clef == 'f4':
@@ -270,7 +267,7 @@ def getScale(clef, key):
         offset = 6
     else:
         offset = 6
-    if len(key) > 0:
+    if key <> "0":
         nb_accidentals = int(key[0])
         suffix = key[1:3]
         if suffix == 'es':
@@ -279,7 +276,6 @@ def getScale(clef, key):
             note_modified = sharp[0:nb_accidentals]
         else:
             note_modified = []
-        scale = []
         for i in range(7):
             if n[offset + i] in note_modified:
                 scale.append(n[offset + i] + suffix)
@@ -292,7 +288,7 @@ def getScale(clef, key):
 #-------------------------------------------------
 #----------------- portees -----------------------
 #-------------------------------------------------
-nom_image='bach1'
+nom_image='mendelssohn'
 
 xml_portee = ElementTree.parse(nom_image + "_portees.xml")
 root_portee = xml_portee.getroot()
@@ -383,14 +379,28 @@ for i in range(len(tab_portee)):
     print(optim)
     key = tab_portee[i].key
     clef = tab_portee[i].clef
-    tab_portee[i].findNoteName(gap, y_staff, dev_l, dev_c, dev_r, clef, key)
+    if tab_portee[i].nb_notes <> 0:
+        tab_portee[i].findNoteName(gap, y_staff, dev_l, dev_c, dev_r, clef, key)
 
 # save the results in xml file.
 xml_page = Element('page')
+voice = []
 for i_sys in range(len(tab_system)):
-    tab_system[i_sys].imprimeXml()
-    system = SubElement(xml_page, 'system')
-    system.extend(tab_system[i_sys].xml)
+    for i_staff in range(tab_system[i_sys].nbre_portee):
+        voice.append(tab_system[i_sys].tabPortees[i_staff].voice)
+voice = list(OrderedDict.fromkeys(voice))
+for i in range(len(voice)):
+    voice_xml = SubElement(xml_page, 'voice')
+    name = SubElement(voice_xml, 'name')
+    name.text = str(voice[i])
+    bar_offset = 0
+    for i_sys in range(len(tab_system)):
+        for i_staff in range(tab_system[i_sys].nbre_portee):
+            if tab_system[i_sys].tabPortees[i_staff].voice == voice[i]:
+                tab_system[i_sys].tabPortees[i_staff].imprimeXml(bar_offset)
+                bar_offset = bar_offset + tab_system[i_sys].tabPortees[i_staff].nb_mesures
+                staff = SubElement(voice_xml, 'staff')
+                staff.extend(tab_system[i_sys].tabPortees[i_staff].xml)
 output_interpret=open(nom_image + "_input_lily.xml", 'w')
 output_interpret.write(prettify(xml_page))
 output_interpret.close()

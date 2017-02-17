@@ -6,7 +6,7 @@
   <staff>
     <rank>1</rank>
     <clef>g2</clef>
-    <voice>-</voice>
+    <voice>V1</voice>
     <key>3es</key>
     <position>178</position>
     <gap>7</gap>
@@ -17,7 +17,7 @@
   <staff>
     <rank>2</rank>
     <clef>g2</clef>
-    <voice>-</voice>
+    <voice>V2</voice>
     <key>3es</key>
     <position>245</position>
     <gap>7</gap>
@@ -28,7 +28,7 @@
   <staff>
     <rank>3</rank>
     <clef>c3</clef>
-    <voice>-</voice>
+    <voice>A</voice>
     <key>3es</key>
     <position>304</position>
     <gap>7</gap>
@@ -39,7 +39,7 @@
   <staff>
     <rank>4</rank>
     <clef>f4</clef>
-    <voice>-</voice>
+    <voice>C</voice>
     <key>3es</key>
     <position>369</position>
     <gap>7</gap>
@@ -50,7 +50,7 @@
   <staff>
     <rank>5</rank>
     <clef>g2</clef>
-    <voice>-</voice>
+    <voice>V1</voice>
     <key>3es</key>
     <position>466</position>
     <gap>7</gap>
@@ -61,7 +61,7 @@
   <staff>
     <rank>6</rank>
     <clef>g2</clef>
-    <voice>-</voice>
+    <voice>V2</voice>
     <key>3es</key>
     <position>526</position>
     <gap>7</gap>
@@ -72,7 +72,7 @@
   <staff>
     <rank>7</rank>
     <clef>c3</clef>
-    <voice>-</voice>
+    <voice>A</voice>
     <key>3es</key>
     <position>587</position>
     <gap>7</gap>
@@ -83,7 +83,7 @@
   <staff>
     <rank>8</rank>
     <clef>f4</clef>
-    <voice>-</voice>
+    <voice>C</voice>
     <key>3es</key>
     <position>647</position>
     <gap>7</gap>
@@ -94,7 +94,7 @@
   <staff>
     <rank>9</rank>
     <clef>g2</clef>
-    <voice>-</voice>
+    <voice>V1</voice>
     <key>3es</key>
     <position>744</position>
     <gap>7</gap>
@@ -105,7 +105,7 @@
   <staff>
     <rank>10</rank>
     <clef>g2</clef>
-    <voice>-</voice>
+    <voice>V2</voice>
     <key>3es</key>
     <position>803</position>
     <gap>7</gap>
@@ -116,7 +116,7 @@
   <staff>
     <rank>11</rank>
     <clef>c3</clef>
-    <voice>-</voice>
+    <voice>A</voice>
     <key>3es</key>
     <position>872</position>
     <gap>7</gap>
@@ -127,7 +127,7 @@
   <staff>
     <rank>12</rank>
     <clef>f4</clef>
-    <voice>-</voice>
+    <voice>C</voice>
     <key>3es</key>
     <position>932</position>
     <gap>7</gap>
@@ -138,7 +138,7 @@
   <staff>
     <rank>13</rank>
     <clef>g2</clef>
-    <voice>-</voice>
+    <voice>V1</voice>
     <key>3es</key>
     <position>1028</position>
     <gap>7</gap>
@@ -149,7 +149,7 @@
   <staff>
     <rank>14</rank>
     <clef>g2</clef>
-    <voice>-</voice>
+    <voice>V2</voice>
     <key>3es</key>
     <position>1087</position>
     <gap>7</gap>
@@ -160,7 +160,7 @@
   <staff>
     <rank>15</rank>
     <clef>c3</clef>
-    <voice>-</voice>
+    <voice>A</voice>
     <key>3es</key>
     <position>1153</position>
     <gap>7</gap>
@@ -171,7 +171,7 @@
   <staff>
     <rank>16</rank>
     <clef>f4</clef>
-    <voice>-</voice>
+    <voice>C</voice>
     <key>3es</key>
     <position>1217</position>
     <gap>7</gap>
@@ -182,7 +182,7 @@
   <staff>
     <rank>17</rank>
     <clef>g2</clef>
-    <voice>-</voice>
+    <voice>V1</voice>
     <key>3es</key>
     <position>1311</position>
     <gap>7</gap>
@@ -193,7 +193,7 @@
   <staff>
     <rank>18</rank>
     <clef>g2</clef>
-    <voice>-</voice>
+    <voice>V2</voice>
     <key>3es</key>
     <position>1369</position>
     <gap>7</gap>
@@ -204,7 +204,7 @@
   <staff>
     <rank>19</rank>
     <clef>c3</clef>
-    <voice>-</voice>
+    <voice>A</voice>
     <key>3es</key>
     <position>1430</position>
     <gap>7</gap>
@@ -215,7 +215,7 @@
   <staff>
     <rank>20</rank>
     <clef>f4</clef>
-    <voice>-</voice>
+    <voice>C</voice>
     <key>3es</key>
     <position>1489</position>
     <gap>7</gap>
