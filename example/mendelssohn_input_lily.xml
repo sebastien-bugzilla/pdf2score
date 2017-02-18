@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
 <page>
   <voice>
-    <name>V1</name>
+    <name>violon1</name>
     <staff>
       <nb_bar>9</nb_bar>
       <position>178</position>
@@ -1867,7 +1867,7 @@
     </staff>
   </voice>
   <voice>
-    <name>V2</name>
+    <name>violon2</name>
     <staff>
       <nb_bar>9</nb_bar>
       <position>245</position>
@@ -3390,7 +3390,7 @@
     </staff>
   </voice>
   <voice>
-    <name>A</name>
+    <name>alto</name>
     <staff>
       <nb_bar>9</nb_bar>
       <position>304</position>
@@ -4962,7 +4962,7 @@
     </staff>
   </voice>
   <voice>
-    <name>C</name>
+    <name>violoncelle</name>
     <staff>
       <nb_bar>9</nb_bar>
       <position>369</position>
