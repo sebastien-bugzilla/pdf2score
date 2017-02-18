@@ -288,7 +288,7 @@ def getScale(clef, key):
 #-------------------------------------------------
 #----------------- portees -----------------------
 #-------------------------------------------------
-nom_image='mendelssohn'
+nom_image='bach1'
 
 xml_portee = ElementTree.parse(nom_image + "_portees.xml")
 root_portee = xml_portee.getroot()
@@ -296,6 +296,16 @@ root_portee = xml_portee.getroot()
 tab_portee = []
 x_beg = int(root_portee.find('x_beg').text)
 x_end = int(root_portee.find('x_end').text)
+list_voice = []
+list_key = []
+list_clef = []
+compteur = 0
+for i in root_portee.findall('./user/voice/value'):
+    list_voice.append(i.text)
+for i in root_portee.findall('./user/clef/value'):
+    list_clef.append(i.text)
+for i in root_portee.findall('./user/key/value'):
+    list_key.append(i.text)
 for staff in root_portee.iter('staff'):
     rank = int(staff.find('rank').text)
     gap = int(staff.find('gap').text)
@@ -303,9 +313,9 @@ for staff in root_portee.iter('staff'):
     left_dev = int(staff.find('left_deviation').text)
     right_dev = int(staff.find('right_deviation').text)
     central_dev = int(staff.find('centre_deviation').text)
-    key = str(staff.find('key').text)
-    clef = str(staff.find('clef').text)
-    voice = str(staff.find('voice').text)
+    key = list_key[compteur]
+    clef = list_clef[compteur]
+    voice = list_voice[compteur]
     myStaff = Portee(rank, position, gap, voice)
     myStaff.setDeviationGauche(left_dev)
     myStaff.setDeviationDroite(right_dev)
@@ -315,6 +325,7 @@ for staff in root_portee.iter('staff'):
     myStaff.setClef(clef)
     myStaff.setKey(key)
     tab_portee.append(myStaff)
+    compteur = compteur + 1
 
 
 #-------------------------------------------------

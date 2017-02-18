@@ -52,43 +52,40 @@ class Portees_OCV:
         x_beg.text = str(self.x_beg)
         x_end = SubElement(all_staves, 'x_end')
         x_end.text = str(self.x_end)
+        user = SubElement(all_staves, 'user')
+        voice = SubElement(user, 'voice')
+        for staves in range(self.nbre_portee):
+            value = SubElement(voice, 'value')
+            value.text = '-'
+        clef = SubElement(user, 'clef')
+        for staves in range(self.nbre_portee):
+            value = SubElement(clef, 'value')
+            value.text = '-'
+        key = SubElement(user, 'key')
+        for staves in range(self.nbre_portee):
+            value = SubElement(key, 'value')
+            value.text = '-'
         for staves in range(self.nbre_portee):
             staff = SubElement(all_staves, 'staff')
             rank = SubElement(staff, 'rank')
             rank.text = str(staves + 1)
-            clef = SubElement(staff, 'clef')
-            clef.text = '-'
-            voice = SubElement(staff, 'voice')
-            voice.text = '-'
-            key = SubElement(staff, 'key')
-            key.text = '-'
             position = SubElement(staff, 'position')
             position.text = str(self.positions[staves])
             gap = SubElement(staff, 'gap')
             gap.text = str(self.ecart[staves])
             left_deviation = SubElement(staff, 'left_deviation')
             left_deviation.text = str(self.deviation_gauche[staves])
-            right_deviation = SubElement(staff, 'right_deviation')
-            right_deviation.text = str(self.deviation_droite[staves])
             centre_deviation = SubElement(staff, 'centre_deviation')
             centre_deviation.text = str(self.deviation_centre[staves])
+            right_deviation = SubElement(staff, 'right_deviation')
+            right_deviation.text = str(self.deviation_droite[staves])
         self.xml = all_staves
     
-    def addXmlFileInfo(self, xml_file):
-        clef_file = []
-        voice_file = []
-        for clef in xml_file.iter('clef'):
-            clef_file.append(clef.text)
-        for voice in xml_file.iter('voice'):
-            voice_file.append(voice.text)
-        i = 0
-        for clef in self.xml.iter('clef'):
-            clef.text = str(clef_file[i])
-            i = i + 1
-        i = 0
-        for voice in self.xml.iter('voice'):
-            voice.text = str(voice_file[i])
-            i = i + 1
+    def keepUserInfo(self, xml_file):
+        for i in range(self.nbre_portee):
+            self.xml[3][0][i].text = str(xml_file[3][0][i].text)
+            self.xml[3][1][i].text = str(xml_file[3][1][i].text)
+            self.xml[3][2][i].text = str(xml_file[3][2][i].text)
 
 def prettify(elem):
     """Return a pretty-printed XML string for the Element.
@@ -257,7 +254,8 @@ def pdf2score_portees(nom_image, lines, height, width):
     if os.path.exists(nom_image + "_portees.xml"):
         xml_file = ElementTree.parse(nom_image + "_portees.xml")
         root_file = xml_file.getroot()
-        resultats[res_best].addXmlFileInfo(root_file)
+        #ElementTree.dump(root_file)
+        resultats[res_best].keepUserInfo(root_file)
     fichier_xml = open(nom_image + "_portees.xml", "w")
     fichier_xml.write(prettify(resultats[res_best].xml))
     return resultats[res_best]
