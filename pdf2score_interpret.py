@@ -189,7 +189,7 @@ class Portee:
         key.text = str(self.key)
         clef = SubElement(staff_xml, 'clef')
         clef.text = str(self.clef)
-        for i_bar in range(self.nb_mesures):
+        for i_bar in range(self.nb_mesures-1):
             bar = SubElement(staff_xml, 'bar')
             bar_id = SubElement(bar, 'bar_id')
             bar_id.text = str(offset_mesure + i_bar)
@@ -410,7 +410,7 @@ for i in range(len(voice)):
         for i_staff in range(tab_system[i_sys].nbre_portee):
             if tab_system[i_sys].tabPortees[i_staff].voice == voice[i]:
                 tab_system[i_sys].tabPortees[i_staff].imprimeXml(bar_offset)
-                bar_offset = bar_offset + tab_system[i_sys].tabPortees[i_staff].nb_mesures
+                bar_offset = bar_offset + tab_system[i_sys].tabPortees[i_staff].nb_mesures - 1
                 staff = SubElement(voice_xml, 'staff')
                 staff.extend(tab_system[i_sys].tabPortees[i_staff].xml)
 output_interpret=open(nom_image + "_input_lily.xml", 'w')
@@ -450,5 +450,7 @@ for i in range(len(tab_portee)):
             y_note = int(tab_portee[i].notes[j].y)
             cv2.line(img,(x_note+4,y_note+4),(x_note-4,y_note-4),(0,0,255),2)
             cv2.line(img,(x_note-4,y_note+4),(x_note+4,y_note-4),(0,0,255),2)
-    print('')
+    # drawing of bar :
+    #for x_bar in range(len(tab_portee[i].mesures)):
+        
 cv2.imwrite(nom_image + "_check_note.jpg",img)

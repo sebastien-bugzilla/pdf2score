@@ -445,10 +445,6 @@
           <octave>1</octave>
         </note>
       </bar>
-      <bar>
-        <bar_id>8</bar_id>
-        <position>1153</position>
-      </bar>
     </staff>
     <staff>
       <nb_bar>6</nb_bar>
@@ -456,7 +452,7 @@
       <key>3es</key>
       <clef>g2</clef>
       <bar>
-        <bar_id>9</bar_id>
+        <bar_id>8</bar_id>
         <position>126</position>
         <note>
           <x>137.88</x>
@@ -558,7 +554,7 @@
         </note>
       </bar>
       <bar>
-        <bar_id>10</bar_id>
+        <bar_id>9</bar_id>
         <position>371</position>
         <note>
           <x>389.28</x>
@@ -674,7 +670,7 @@
         </note>
       </bar>
       <bar>
-        <bar_id>11</bar_id>
+        <bar_id>10</bar_id>
         <position>592</position>
         <note>
           <x>711.89</x>
@@ -706,7 +702,7 @@
         </note>
       </bar>
       <bar>
-        <bar_id>12</bar_id>
+        <bar_id>11</bar_id>
         <position>789</position>
         <note>
           <x>798.53</x>
@@ -766,7 +762,7 @@
         </note>
       </bar>
       <bar>
-        <bar_id>13</bar_id>
+        <bar_id>12</bar_id>
         <position>948</position>
         <note>
           <x>959.86</x>
@@ -853,10 +849,6 @@
           <octave>0</octave>
         </note>
       </bar>
-      <bar>
-        <bar_id>14</bar_id>
-        <position>1151</position>
-      </bar>
     </staff>
     <staff>
       <nb_bar>8</nb_bar>
@@ -864,7 +856,7 @@
       <key>3es</key>
       <clef>g2</clef>
       <bar>
-        <bar_id>15</bar_id>
+        <bar_id>13</bar_id>
         <position>125</position>
         <note>
           <x>137.2</x>
@@ -987,7 +979,7 @@
         </note>
       </bar>
       <bar>
-        <bar_id>16</bar_id>
+        <bar_id>14</bar_id>
         <position>377</position>
         <note>
           <x>397.22</x>
@@ -1026,7 +1018,7 @@
         </note>
       </bar>
       <bar>
-        <bar_id>17</bar_id>
+        <bar_id>15</bar_id>
         <position>553</position>
         <note>
           <x>563.13</x>
@@ -1093,7 +1085,7 @@
         </note>
       </bar>
       <bar>
-        <bar_id>18</bar_id>
+        <bar_id>16</bar_id>
         <position>698</position>
         <note>
           <x>705.79</x>
@@ -1146,7 +1138,7 @@
         </note>
       </bar>
       <bar>
-        <bar_id>19</bar_id>
+        <bar_id>17</bar_id>
         <position>833</position>
         <note>
           <x>841.79</x>
@@ -1206,7 +1198,7 @@
         </note>
       </bar>
       <bar>
-        <bar_id>20</bar_id>
+        <bar_id>18</bar_id>
         <position>967</position>
         <note>
           <x>987.0</x>
@@ -1238,7 +1230,7 @@
         </note>
       </bar>
       <bar>
-        <bar_id>21</bar_id>
+        <bar_id>19</bar_id>
         <position>1052</position>
         <note>
           <x>1069.33</x>
@@ -1269,10 +1261,6 @@
           <octave>0</octave>
         </note>
       </bar>
-      <bar>
-        <bar_id>22</bar_id>
-        <position>1148</position>
-      </bar>
     </staff>
     <staff>
       <nb_bar>8</nb_bar>
@@ -1280,7 +1268,7 @@
       <key>3es</key>
       <clef>g2</clef>
       <bar>
-        <bar_id>23</bar_id>
+        <bar_id>20</bar_id>
         <position>123</position>
         <note>
           <x>134.56</x>
@@ -1298,7 +1286,7 @@
         </note>
       </bar>
       <bar>
-        <bar_id>24</bar_id>
+        <bar_id>21</bar_id>
         <position>261</position>
         <note>
           <x>273.36</x>
@@ -1316,7 +1304,7 @@
         </note>
       </bar>
       <bar>
-        <bar_id>25</bar_id>
+        <bar_id>22</bar_id>
         <position>374</position>
         <note>
           <x>390.89</x>
@@ -1348,7 +1336,7 @@
         </note>
       </bar>
       <bar>
-        <bar_id>26</bar_id>
+        <bar_id>23</bar_id>
         <position>455</position>
         <note>
           <x>472.69</x>
@@ -1380,7 +1368,7 @@
         </note>
       </bar>
       <bar>
-        <bar_id>27</bar_id>
+        <bar_id>24</bar_id>
         <position>549</position>
         <note>
           <x>565.29</x>
@@ -1454,7 +1442,7 @@
         </note>
       </bar>
       <bar>
-        <bar_id>28</bar_id>
+        <bar_id>25</bar_id>
         <position>737</position>
         <note>
           <x>749.25</x>
@@ -1486,7 +1474,7 @@
         </note>
       </bar>
       <bar>
-        <bar_id>29</bar_id>
+        <bar_id>26</bar_id>
         <position>933</position>
         <note>
           <x>951.36</x>
@@ -1538,10 +1526,6 @@
           <octave>0</octave>
         </note>
       </bar>
-      <bar>
-        <bar_id>30</bar_id>
-        <position>1146</position>
-      </bar>
     </staff>
     <staff>
       <nb_bar>9</nb_bar>
@@ -1549,7 +1533,7 @@
       <key>3es</key>
       <clef>g2</clef>
       <bar>
-        <bar_id>31</bar_id>
+        <bar_id>27</bar_id>
         <position>120</position>
         <note>
           <x>131.43</x>
@@ -1595,7 +1579,7 @@
         </note>
       </bar>
       <bar>
-        <bar_id>32</bar_id>
+        <bar_id>28</bar_id>
         <position>377</position>
         <note>
           <x>393.44</x>
@@ -1690,7 +1674,7 @@
         </note>
       </bar>
       <bar>
-        <bar_id>33</bar_id>
+        <bar_id>29</bar_id>
         <position>557</position>
         <note>
           <x>568.32</x>
@@ -1750,7 +1734,7 @@
         </note>
       </bar>
       <bar>
-        <bar_id>34</bar_id>
+        <bar_id>30</bar_id>
         <position>688</position>
         <note>
           <x>703.9</x>
@@ -1803,7 +1787,7 @@
         </note>
       </bar>
       <bar>
-        <bar_id>35</bar_id>
+        <bar_id>31</bar_id>
         <position>821</position>
         <note>
           <x>834.94</x>
@@ -1814,7 +1798,7 @@
         </note>
       </bar>
       <bar>
-        <bar_id>36</bar_id>
+        <bar_id>32</bar_id>
         <position>917</position>
         <note>
           <x>956.5</x>
@@ -1832,7 +1816,7 @@
         </note>
       </bar>
       <bar>
-        <bar_id>37</bar_id>
+        <bar_id>33</bar_id>
         <position>992</position>
         <note>
           <x>1050.8</x>
@@ -1843,7 +1827,7 @@
         </note>
       </bar>
       <bar>
-        <bar_id>38</bar_id>
+        <bar_id>34</bar_id>
         <position>1067</position>
         <note>
           <x>1105.06</x>
@@ -1859,10 +1843,6 @@
           <name>aes</name>
           <octave>0</octave>
         </note>
-      </bar>
-      <bar>
-        <bar_id>39</bar_id>
-        <position>1142</position>
       </bar>
     </staff>
   </voice>
@@ -2185,10 +2165,6 @@
           <octave>1</octave>
         </note>
       </bar>
-      <bar>
-        <bar_id>8</bar_id>
-        <position>1153</position>
-      </bar>
     </staff>
     <staff>
       <nb_bar>6</nb_bar>
@@ -2196,7 +2172,7 @@
       <key>3es</key>
       <clef>g2</clef>
       <bar>
-        <bar_id>9</bar_id>
+        <bar_id>8</bar_id>
         <position>126</position>
         <note>
           <x>137.89</x>
@@ -2263,7 +2239,7 @@
         </note>
       </bar>
       <bar>
-        <bar_id>10</bar_id>
+        <bar_id>9</bar_id>
         <position>371</position>
         <note>
           <x>389.7</x>
@@ -2337,7 +2313,7 @@
         </note>
       </bar>
       <bar>
-        <bar_id>11</bar_id>
+        <bar_id>10</bar_id>
         <position>592</position>
         <note>
           <x>711.44</x>
@@ -2376,7 +2352,7 @@
         </note>
       </bar>
       <bar>
-        <bar_id>12</bar_id>
+        <bar_id>11</bar_id>
         <position>789</position>
         <note>
           <x>799.71</x>
@@ -2436,7 +2412,7 @@
         </note>
       </bar>
       <bar>
-        <bar_id>13</bar_id>
+        <bar_id>12</bar_id>
         <position>948</position>
         <note>
           <x>959.85</x>
@@ -2530,10 +2506,6 @@
           <octave>1</octave>
         </note>
       </bar>
-      <bar>
-        <bar_id>14</bar_id>
-        <position>1151</position>
-      </bar>
     </staff>
     <staff>
       <nb_bar>8</nb_bar>
@@ -2541,7 +2513,7 @@
       <key>3es</key>
       <clef>g2</clef>
       <bar>
-        <bar_id>15</bar_id>
+        <bar_id>13</bar_id>
         <position>125</position>
         <note>
           <x>136.18</x>
@@ -2671,7 +2643,7 @@
         </note>
       </bar>
       <bar>
-        <bar_id>16</bar_id>
+        <bar_id>14</bar_id>
         <position>377</position>
         <note>
           <x>487.64</x>
@@ -2703,7 +2675,7 @@
         </note>
       </bar>
       <bar>
-        <bar_id>17</bar_id>
+        <bar_id>15</bar_id>
         <position>553</position>
         <note>
           <x>562.35</x>
@@ -2763,7 +2735,7 @@
         </note>
       </bar>
       <bar>
-        <bar_id>18</bar_id>
+        <bar_id>16</bar_id>
         <position>698</position>
         <note>
           <x>707.85</x>
@@ -2823,7 +2795,7 @@
         </note>
       </bar>
       <bar>
-        <bar_id>19</bar_id>
+        <bar_id>17</bar_id>
         <position>833</position>
         <note>
           <x>842.35</x>
@@ -2883,7 +2855,7 @@
         </note>
       </bar>
       <bar>
-        <bar_id>20</bar_id>
+        <bar_id>18</bar_id>
         <position>967</position>
         <note>
           <x>986.11</x>
@@ -2915,7 +2887,7 @@
         </note>
       </bar>
       <bar>
-        <bar_id>21</bar_id>
+        <bar_id>19</bar_id>
         <position>1052</position>
         <note>
           <x>1069.7</x>
@@ -2946,10 +2918,6 @@
           <octave>0</octave>
         </note>
       </bar>
-      <bar>
-        <bar_id>22</bar_id>
-        <position>1148</position>
-      </bar>
     </staff>
     <staff>
       <nb_bar>8</nb_bar>
@@ -2957,7 +2925,7 @@
       <key>3es</key>
       <clef>g2</clef>
       <bar>
-        <bar_id>23</bar_id>
+        <bar_id>20</bar_id>
         <position>123</position>
         <note>
           <x>134.11</x>
@@ -2975,7 +2943,7 @@
         </note>
       </bar>
       <bar>
-        <bar_id>24</bar_id>
+        <bar_id>21</bar_id>
         <position>261</position>
         <note>
           <x>272.95</x>
@@ -2993,7 +2961,7 @@
         </note>
       </bar>
       <bar>
-        <bar_id>25</bar_id>
+        <bar_id>22</bar_id>
         <position>374</position>
         <note>
           <x>391.36</x>
@@ -3025,7 +2993,7 @@
         </note>
       </bar>
       <bar>
-        <bar_id>26</bar_id>
+        <bar_id>23</bar_id>
         <position>455</position>
         <note>
           <x>473.73</x>
@@ -3057,7 +3025,7 @@
         </note>
       </bar>
       <bar>
-        <bar_id>27</bar_id>
+        <bar_id>24</bar_id>
         <position>549</position>
         <note>
           <x>565.47</x>
@@ -3103,7 +3071,7 @@
         </note>
       </bar>
       <bar>
-        <bar_id>28</bar_id>
+        <bar_id>25</bar_id>
         <position>737</position>
         <note>
           <x>746.86</x>
@@ -3149,7 +3117,7 @@
         </note>
       </bar>
       <bar>
-        <bar_id>29</bar_id>
+        <bar_id>26</bar_id>
         <position>933</position>
         <note>
           <x>950.71</x>
@@ -3180,10 +3148,6 @@
           <octave>0</octave>
         </note>
       </bar>
-      <bar>
-        <bar_id>30</bar_id>
-        <position>1146</position>
-      </bar>
     </staff>
     <staff>
       <nb_bar>9</nb_bar>
@@ -3191,7 +3155,7 @@
       <key>3es</key>
       <clef>g2</clef>
       <bar>
-        <bar_id>31</bar_id>
+        <bar_id>27</bar_id>
         <position>120</position>
         <note>
           <x>131.18</x>
@@ -3244,7 +3208,7 @@
         </note>
       </bar>
       <bar>
-        <bar_id>32</bar_id>
+        <bar_id>28</bar_id>
         <position>377</position>
         <note>
           <x>392.17</x>
@@ -3297,7 +3261,7 @@
         </note>
       </bar>
       <bar>
-        <bar_id>33</bar_id>
+        <bar_id>29</bar_id>
         <position>557</position>
         <note>
           <x>568.04</x>
@@ -3322,7 +3286,7 @@
         </note>
       </bar>
       <bar>
-        <bar_id>34</bar_id>
+        <bar_id>30</bar_id>
         <position>688</position>
         <note>
           <x>704.71</x>
@@ -3340,7 +3304,7 @@
         </note>
       </bar>
       <bar>
-        <bar_id>35</bar_id>
+        <bar_id>31</bar_id>
         <position>821</position>
         <note>
           <x>834.52</x>
@@ -3372,20 +3336,16 @@
         </note>
       </bar>
       <bar>
-        <bar_id>36</bar_id>
+        <bar_id>32</bar_id>
         <position>917</position>
       </bar>
       <bar>
-        <bar_id>37</bar_id>
+        <bar_id>33</bar_id>
         <position>992</position>
       </bar>
       <bar>
-        <bar_id>38</bar_id>
+        <bar_id>34</bar_id>
         <position>1067</position>
-      </bar>
-      <bar>
-        <bar_id>39</bar_id>
-        <position>1142</position>
       </bar>
     </staff>
   </voice>
@@ -3743,10 +3703,6 @@
           <octave>0</octave>
         </note>
       </bar>
-      <bar>
-        <bar_id>8</bar_id>
-        <position>1153</position>
-      </bar>
     </staff>
     <staff>
       <nb_bar>6</nb_bar>
@@ -3754,7 +3710,7 @@
       <key>3es</key>
       <clef>c3</clef>
       <bar>
-        <bar_id>9</bar_id>
+        <bar_id>8</bar_id>
         <position>126</position>
         <note>
           <x>194.0</x>
@@ -3793,7 +3749,7 @@
         </note>
       </bar>
       <bar>
-        <bar_id>10</bar_id>
+        <bar_id>9</bar_id>
         <position>371</position>
         <note>
           <x>389.13</x>
@@ -3839,7 +3795,7 @@
         </note>
       </bar>
       <bar>
-        <bar_id>11</bar_id>
+        <bar_id>10</bar_id>
         <position>592</position>
         <note>
           <x>608.95</x>
@@ -3934,7 +3890,7 @@
         </note>
       </bar>
       <bar>
-        <bar_id>12</bar_id>
+        <bar_id>11</bar_id>
         <position>789</position>
         <note>
           <x>799.71</x>
@@ -4029,7 +3985,7 @@
         </note>
       </bar>
       <bar>
-        <bar_id>13</bar_id>
+        <bar_id>12</bar_id>
         <position>948</position>
         <note>
           <x>959.0</x>
@@ -4081,10 +4037,6 @@
           <octave>0</octave>
         </note>
       </bar>
-      <bar>
-        <bar_id>14</bar_id>
-        <position>1151</position>
-      </bar>
     </staff>
     <staff>
       <nb_bar>8</nb_bar>
@@ -4092,7 +4044,7 @@
       <key>3es</key>
       <clef>c3</clef>
       <bar>
-        <bar_id>15</bar_id>
+        <bar_id>13</bar_id>
         <position>125</position>
         <note>
           <x>170.75</x>
@@ -4159,7 +4111,7 @@
         </note>
       </bar>
       <bar>
-        <bar_id>16</bar_id>
+        <bar_id>14</bar_id>
         <position>377</position>
         <note>
           <x>394.47</x>
@@ -4254,7 +4206,7 @@
         </note>
       </bar>
       <bar>
-        <bar_id>17</bar_id>
+        <bar_id>15</bar_id>
         <position>553</position>
         <note>
           <x>561.89</x>
@@ -4314,7 +4266,7 @@
         </note>
       </bar>
       <bar>
-        <bar_id>18</bar_id>
+        <bar_id>16</bar_id>
         <position>698</position>
         <note>
           <x>707.3</x>
@@ -4367,7 +4319,7 @@
         </note>
       </bar>
       <bar>
-        <bar_id>19</bar_id>
+        <bar_id>17</bar_id>
         <position>833</position>
         <note>
           <x>844.69</x>
@@ -4434,7 +4386,7 @@
         </note>
       </bar>
       <bar>
-        <bar_id>20</bar_id>
+        <bar_id>18</bar_id>
         <position>967</position>
         <note>
           <x>985.89</x>
@@ -4459,7 +4411,7 @@
         </note>
       </bar>
       <bar>
-        <bar_id>21</bar_id>
+        <bar_id>19</bar_id>
         <position>1052</position>
         <note>
           <x>1068.55</x>
@@ -4490,10 +4442,6 @@
           <octave>1</octave>
         </note>
       </bar>
-      <bar>
-        <bar_id>22</bar_id>
-        <position>1148</position>
-      </bar>
     </staff>
     <staff>
       <nb_bar>8</nb_bar>
@@ -4501,7 +4449,7 @@
       <key>3es</key>
       <clef>c3</clef>
       <bar>
-        <bar_id>23</bar_id>
+        <bar_id>20</bar_id>
         <position>123</position>
         <note>
           <x>212.15</x>
@@ -4533,7 +4481,7 @@
         </note>
       </bar>
       <bar>
-        <bar_id>24</bar_id>
+        <bar_id>21</bar_id>
         <position>261</position>
         <note>
           <x>271.65</x>
@@ -4593,7 +4541,7 @@
         </note>
       </bar>
       <bar>
-        <bar_id>25</bar_id>
+        <bar_id>22</bar_id>
         <position>374</position>
         <note>
           <x>389.75</x>
@@ -4625,7 +4573,7 @@
         </note>
       </bar>
       <bar>
-        <bar_id>26</bar_id>
+        <bar_id>23</bar_id>
         <position>455</position>
         <note>
           <x>472.87</x>
@@ -4657,11 +4605,11 @@
         </note>
       </bar>
       <bar>
-        <bar_id>27</bar_id>
+        <bar_id>24</bar_id>
         <position>549</position>
       </bar>
       <bar>
-        <bar_id>28</bar_id>
+        <bar_id>25</bar_id>
         <position>737</position>
         <note>
           <x>748.38</x>
@@ -4707,12 +4655,8 @@
         </note>
       </bar>
       <bar>
-        <bar_id>29</bar_id>
+        <bar_id>26</bar_id>
         <position>933</position>
-      </bar>
-      <bar>
-        <bar_id>30</bar_id>
-        <position>1146</position>
       </bar>
     </staff>
     <staff>
@@ -4721,7 +4665,7 @@
       <key>3es</key>
       <clef>c3</clef>
       <bar>
-        <bar_id>31</bar_id>
+        <bar_id>27</bar_id>
         <position>120</position>
         <note>
           <x>190.19</x>
@@ -4767,7 +4711,7 @@
         </note>
       </bar>
       <bar>
-        <bar_id>32</bar_id>
+        <bar_id>28</bar_id>
         <position>377</position>
         <note>
           <x>392.09</x>
@@ -4827,7 +4771,7 @@
         </note>
       </bar>
       <bar>
-        <bar_id>33</bar_id>
+        <bar_id>29</bar_id>
         <position>557</position>
         <note>
           <x>566.6</x>
@@ -4852,7 +4796,7 @@
         </note>
       </bar>
       <bar>
-        <bar_id>34</bar_id>
+        <bar_id>30</bar_id>
         <position>688</position>
         <note>
           <x>703.62</x>
@@ -4870,7 +4814,7 @@
         </note>
       </bar>
       <bar>
-        <bar_id>35</bar_id>
+        <bar_id>31</bar_id>
         <position>821</position>
         <note>
           <x>833.27</x>
@@ -4909,7 +4853,7 @@
         </note>
       </bar>
       <bar>
-        <bar_id>36</bar_id>
+        <bar_id>32</bar_id>
         <position>917</position>
         <note>
           <x>937.38</x>
@@ -4927,7 +4871,7 @@
         </note>
       </bar>
       <bar>
-        <bar_id>37</bar_id>
+        <bar_id>33</bar_id>
         <position>992</position>
         <note>
           <x>999.56</x>
@@ -4938,7 +4882,7 @@
         </note>
       </bar>
       <bar>
-        <bar_id>38</bar_id>
+        <bar_id>34</bar_id>
         <position>1067</position>
         <note>
           <x>1078.33</x>
@@ -4954,10 +4898,6 @@
           <name>ees</name>
           <octave>0</octave>
         </note>
-      </bar>
-      <bar>
-        <bar_id>39</bar_id>
-        <position>1142</position>
       </bar>
     </staff>
   </voice>
@@ -5217,10 +5157,6 @@
           <octave>0</octave>
         </note>
       </bar>
-      <bar>
-        <bar_id>8</bar_id>
-        <position>1153</position>
-      </bar>
     </staff>
     <staff>
       <nb_bar>6</nb_bar>
@@ -5228,7 +5164,7 @@
       <key>3es</key>
       <clef>f4</clef>
       <bar>
-        <bar_id>9</bar_id>
+        <bar_id>8</bar_id>
         <position>126</position>
         <note>
           <x>137.67</x>
@@ -5267,7 +5203,7 @@
         </note>
       </bar>
       <bar>
-        <bar_id>10</bar_id>
+        <bar_id>9</bar_id>
         <position>371</position>
         <note>
           <x>389.67</x>
@@ -5299,7 +5235,7 @@
         </note>
       </bar>
       <bar>
-        <bar_id>11</bar_id>
+        <bar_id>10</bar_id>
         <position>592</position>
         <note>
           <x>610.83</x>
@@ -5338,7 +5274,7 @@
         </note>
       </bar>
       <bar>
-        <bar_id>12</bar_id>
+        <bar_id>11</bar_id>
         <position>789</position>
         <note>
           <x>799.2</x>
@@ -5405,7 +5341,7 @@
         </note>
       </bar>
       <bar>
-        <bar_id>13</bar_id>
+        <bar_id>12</bar_id>
         <position>948</position>
         <note>
           <x>957.47</x>
@@ -5436,10 +5372,6 @@
           <octave>0</octave>
         </note>
       </bar>
-      <bar>
-        <bar_id>14</bar_id>
-        <position>1151</position>
-      </bar>
     </staff>
     <staff>
       <nb_bar>8</nb_bar>
@@ -5447,7 +5379,7 @@
       <key>3es</key>
       <clef>f4</clef>
       <bar>
-        <bar_id>15</bar_id>
+        <bar_id>13</bar_id>
         <position>125</position>
         <note>
           <x>135.8</x>
@@ -5486,7 +5418,7 @@
         </note>
       </bar>
       <bar>
-        <bar_id>16</bar_id>
+        <bar_id>14</bar_id>
         <position>377</position>
         <note>
           <x>488.78</x>
@@ -5525,7 +5457,7 @@
         </note>
       </bar>
       <bar>
-        <bar_id>17</bar_id>
+        <bar_id>15</bar_id>
         <position>553</position>
         <note>
           <x>561.29</x>
@@ -5592,7 +5524,7 @@
         </note>
       </bar>
       <bar>
-        <bar_id>18</bar_id>
+        <bar_id>16</bar_id>
         <position>698</position>
         <note>
           <x>707.67</x>
@@ -5652,7 +5584,7 @@
         </note>
       </bar>
       <bar>
-        <bar_id>19</bar_id>
+        <bar_id>17</bar_id>
         <position>833</position>
         <note>
           <x>842.38</x>
@@ -5712,7 +5644,7 @@
         </note>
       </bar>
       <bar>
-        <bar_id>20</bar_id>
+        <bar_id>18</bar_id>
         <position>967</position>
         <note>
           <x>986.6</x>
@@ -5744,7 +5676,7 @@
         </note>
       </bar>
       <bar>
-        <bar_id>21</bar_id>
+        <bar_id>19</bar_id>
         <position>1052</position>
         <note>
           <x>1068.89</x>
@@ -5775,10 +5707,6 @@
           <octave>0</octave>
         </note>
       </bar>
-      <bar>
-        <bar_id>22</bar_id>
-        <position>1148</position>
-      </bar>
     </staff>
     <staff>
       <nb_bar>8</nb_bar>
@@ -5786,7 +5714,7 @@
       <key>3es</key>
       <clef>f4</clef>
       <bar>
-        <bar_id>23</bar_id>
+        <bar_id>20</bar_id>
         <position>123</position>
         <note>
           <x>132.57</x>
@@ -5804,7 +5732,7 @@
         </note>
       </bar>
       <bar>
-        <bar_id>24</bar_id>
+        <bar_id>21</bar_id>
         <position>261</position>
         <note>
           <x>271.56</x>
@@ -5822,7 +5750,7 @@
         </note>
       </bar>
       <bar>
-        <bar_id>25</bar_id>
+        <bar_id>22</bar_id>
         <position>374</position>
         <note>
           <x>389.83</x>
@@ -5854,7 +5782,7 @@
         </note>
       </bar>
       <bar>
-        <bar_id>26</bar_id>
+        <bar_id>23</bar_id>
         <position>455</position>
         <note>
           <x>473.25</x>
@@ -5886,11 +5814,11 @@
         </note>
       </bar>
       <bar>
-        <bar_id>27</bar_id>
+        <bar_id>24</bar_id>
         <position>549</position>
       </bar>
       <bar>
-        <bar_id>28</bar_id>
+        <bar_id>25</bar_id>
         <position>737</position>
         <note>
           <x>748.5</x>
@@ -5943,12 +5871,8 @@
         </note>
       </bar>
       <bar>
-        <bar_id>29</bar_id>
+        <bar_id>26</bar_id>
         <position>933</position>
-      </bar>
-      <bar>
-        <bar_id>30</bar_id>
-        <position>1146</position>
       </bar>
     </staff>
     <staff>
@@ -5957,7 +5881,7 @@
       <key>3es</key>
       <clef>f4</clef>
       <bar>
-        <bar_id>31</bar_id>
+        <bar_id>27</bar_id>
         <position>120</position>
         <note>
           <x>130.89</x>
@@ -6010,7 +5934,7 @@
         </note>
       </bar>
       <bar>
-        <bar_id>32</bar_id>
+        <bar_id>28</bar_id>
         <position>377</position>
         <note>
           <x>392.0</x>
@@ -6042,7 +5966,7 @@
         </note>
       </bar>
       <bar>
-        <bar_id>33</bar_id>
+        <bar_id>29</bar_id>
         <position>557</position>
         <note>
           <x>566.62</x>
@@ -6060,7 +5984,7 @@
         </note>
       </bar>
       <bar>
-        <bar_id>34</bar_id>
+        <bar_id>30</bar_id>
         <position>688</position>
         <note>
           <x>703.0</x>
@@ -6078,7 +6002,7 @@
         </note>
       </bar>
       <bar>
-        <bar_id>35</bar_id>
+        <bar_id>31</bar_id>
         <position>821</position>
         <note>
           <x>832.48</x>
@@ -6110,11 +6034,11 @@
         </note>
       </bar>
       <bar>
-        <bar_id>36</bar_id>
+        <bar_id>32</bar_id>
         <position>917</position>
       </bar>
       <bar>
-        <bar_id>37</bar_id>
+        <bar_id>33</bar_id>
         <position>992</position>
         <note>
           <x>1002.13</x>
@@ -6146,12 +6070,8 @@
         </note>
       </bar>
       <bar>
-        <bar_id>38</bar_id>
+        <bar_id>34</bar_id>
         <position>1067</position>
-      </bar>
-      <bar>
-        <bar_id>39</bar_id>
-        <position>1142</position>
       </bar>
     </staff>
   </voice>
