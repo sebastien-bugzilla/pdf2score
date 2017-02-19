@@ -152,6 +152,7 @@ class Portee:
             if dx < 1.:
                 self.notes[i].setChord()
                 self.notes[i-1].setChord()
+            x_old = self.notes[i].x
     
     def detectFalseNotes(self):
         i = 1

@@ -1059,14 +1059,14 @@
         <note>
           <x>633.17</x>
           <y>767.83</y>
-          <chord>no</chord>
+          <chord>yes</chord>
           <name>bes</name>
           <octave>1</octave>
         </note>
         <note>
           <x>633.29</x>
           <y>753.57</y>
-          <chord>no</chord>
+          <chord>yes</chord>
           <name>f</name>
           <octave>0</octave>
         </note>
@@ -1907,14 +1907,14 @@
         <note>
           <x>230.78</x>
           <y>244.06</y>
-          <chord>no</chord>
+          <chord>yes</chord>
           <name>bes</name>
           <octave>0</octave>
         </note>
         <note>
           <x>230.89</x>
           <y>223.56</y>
-          <chord>no</chord>
+          <chord>yes</chord>
           <name>aes</name>
           <octave>0</octave>
         </note>
@@ -2124,14 +2124,14 @@
         <note>
           <x>1037.9</x>
           <y>252.5</y>
-          <chord>no</chord>
+          <chord>yes</chord>
           <name>g</name>
           <octave>0</octave>
         </note>
         <note>
           <x>1038.17</x>
           <y>231.17</y>
-          <chord>no</chord>
+          <chord>yes</chord>
           <name>f</name>
           <octave>0</octave>
         </note>
@@ -2215,49 +2215,49 @@
         <note>
           <x>224.4</x>
           <y>548.4</y>
-          <chord>no</chord>
+          <chord>yes</chord>
           <name>bes</name>
           <octave>1</octave>
         </note>
         <note>
           <x>225.0</x>
           <y>524.5</y>
-          <chord>no</chord>
+          <chord>yes</chord>
           <name>bes</name>
           <octave>0</octave>
         </note>
         <note>
           <x>271.1</x>
           <y>550.2</y>
-          <chord>no</chord>
+          <chord>yes</chord>
           <name>aes</name>
           <octave>1</octave>
         </note>
         <note>
           <x>271.33</x>
           <y>524.53</y>
-          <chord>no</chord>
+          <chord>yes</chord>
           <name>bes</name>
           <octave>0</octave>
         </note>
         <note>
           <x>271.6</x>
           <y>540.4</y>
-          <chord>no</chord>
+          <chord>yes</chord>
           <name>d</name>
           <octave>0</octave>
         </note>
         <note>
           <x>320.57</x>
           <y>550.57</y>
-          <chord>no</chord>
+          <chord>yes</chord>
           <name>aes</name>
           <octave>1</octave>
         </note>
         <note>
           <x>321.0</x>
           <y>524.5</y>
-          <chord>no</chord>
+          <chord>yes</chord>
           <name>bes</name>
           <octave>0</octave>
         </note>
@@ -2268,70 +2268,70 @@
         <note>
           <x>389.7</x>
           <y>550.6</y>
-          <chord>no</chord>
+          <chord>yes</chord>
           <name>aes</name>
           <octave>1</octave>
         </note>
         <note>
           <x>390.27</x>
           <y>524.0</y>
-          <chord>no</chord>
+          <chord>yes</chord>
           <name>bes</name>
           <octave>0</octave>
         </note>
         <note>
           <x>439.33</x>
           <y>550.56</y>
-          <chord>no</chord>
+          <chord>yes</chord>
           <name>aes</name>
           <octave>1</octave>
         </note>
         <note>
           <x>440.08</x>
           <y>524.42</y>
-          <chord>no</chord>
+          <chord>yes</chord>
           <name>bes</name>
           <octave>0</octave>
         </note>
         <note>
           <x>488.33</x>
           <y>551.17</y>
-          <chord>no</chord>
+          <chord>yes</chord>
           <name>aes</name>
           <octave>1</octave>
         </note>
         <note>
           <x>489.15</x>
           <y>524.46</y>
-          <chord>no</chord>
+          <chord>yes</chord>
           <name>bes</name>
           <octave>0</octave>
         </note>
         <note>
           <x>489.43</x>
           <y>540.43</y>
-          <chord>no</chord>
+          <chord>yes</chord>
           <name>d</name>
           <octave>0</octave>
         </note>
         <note>
           <x>539.25</x>
           <y>551.5</y>
-          <chord>no</chord>
+          <chord>yes</chord>
           <name>aes</name>
           <octave>1</octave>
         </note>
         <note>
           <x>539.75</x>
           <y>524.5</y>
-          <chord>no</chord>
+          <chord>yes</chord>
           <name>bes</name>
           <octave>0</octave>
         </note>
         <note>
           <x>540.17</x>
           <y>540.67</y>
-          <chord>no</chord>
+          <chord>yes</chord>
           <name>d</name>
           <octave>0</octave>
         </note>
@@ -2342,14 +2342,14 @@
         <note>
           <x>711.44</x>
           <y>545.22</y>
-          <chord>no</chord>
+          <chord>yes</chord>
           <name>c</name>
           <octave>0</octave>
         </note>
         <note>
           <x>711.5</x>
           <y>525.5</y>
-          <chord>no</chord>
+          <chord>yes</chord>
           <name>bes</name>
           <octave>0</octave>
         </note>
@@ -3249,42 +3249,42 @@
         <note>
           <x>392.17</x>
           <y>1387.21</y>
-          <chord>no</chord>
+          <chord>yes</chord>
           <name>d</name>
           <octave>0</octave>
         </note>
         <note>
           <x>392.8</x>
           <y>1377.0</y>
-          <chord>no</chord>
+          <chord>yes</chord>
           <name>g</name>
           <octave>0</octave>
         </note>
         <note>
           <x>411.87</x>
           <y>1387.47</y>
-          <chord>no</chord>
+          <chord>yes</chord>
           <name>d</name>
           <octave>0</octave>
         </note>
         <note>
           <x>412.17</x>
           <y>1377.17</y>
-          <chord>no</chord>
+          <chord>yes</chord>
           <name>g</name>
           <octave>0</octave>
         </note>
         <note>
           <x>457.95</x>
           <y>1388.09</y>
-          <chord>no</chord>
+          <chord>yes</chord>
           <name>d</name>
           <octave>0</octave>
         </note>
         <note>
           <x>458.29</x>
           <y>1377.71</y>
-          <chord>no</chord>
+          <chord>yes</chord>
           <name>g</name>
           <octave>0</octave>
         </note>
@@ -3302,14 +3302,14 @@
         <note>
           <x>568.04</x>
           <y>1392.17</y>
-          <chord>no</chord>
+          <chord>yes</chord>
           <name>c</name>
           <octave>0</octave>
         </note>
         <note>
           <x>568.29</x>
           <y>1378.71</y>
-          <chord>no</chord>
+          <chord>yes</chord>
           <name>g</name>
           <octave>0</octave>
         </note>
@@ -3469,14 +3469,14 @@
         <note>
           <x>340.22</x>
           <y>296.94</y>
-          <chord>no</chord>
+          <chord>yes</chord>
           <name>ees</name>
           <octave>0</octave>
         </note>
         <note>
           <x>340.71</x>
           <y>281.94</y>
-          <chord>no</chord>
+          <chord>yes</chord>
           <name>bes</name>
           <octave>0</octave>
         </note>
@@ -3580,28 +3580,28 @@
         <note>
           <x>922.8</x>
           <y>285.6</y>
-          <chord>no</chord>
+          <chord>yes</chord>
           <name>aes</name>
           <octave>0</octave>
         </note>
         <note>
           <x>922.8</x>
           <y>293.6</y>
-          <chord>no</chord>
+          <chord>yes</chord>
           <name>f</name>
           <octave>0</octave>
         </note>
         <note>
           <x>933.38</x>
           <y>294.13</y>
-          <chord>no</chord>
+          <chord>yes</chord>
           <name>f</name>
           <octave>0</octave>
         </note>
         <note>
           <x>933.57</x>
           <y>285.57</y>
-          <chord>no</chord>
+          <chord>yes</chord>
           <name>aes</name>
           <octave>0</octave>
         </note>
@@ -3615,70 +3615,70 @@
         <note>
           <x>956.25</x>
           <y>293.75</y>
-          <chord>no</chord>
+          <chord>yes</chord>
           <name>f</name>
           <octave>0</octave>
         </note>
         <note>
           <x>957.0</x>
           <y>284.89</y>
-          <chord>no</chord>
+          <chord>yes</chord>
           <name>bes</name>
           <octave>0</octave>
         </note>
         <note>
           <x>969.0</x>
           <y>294.11</y>
-          <chord>no</chord>
+          <chord>yes</chord>
           <name>f</name>
           <octave>0</octave>
         </note>
         <note>
           <x>969.82</x>
           <y>285.82</y>
-          <chord>no</chord>
+          <chord>yes</chord>
           <name>aes</name>
           <octave>0</octave>
         </note>
         <note>
           <x>983.75</x>
           <y>294.06</y>
-          <chord>no</chord>
+          <chord>yes</chord>
           <name>f</name>
           <octave>0</octave>
         </note>
         <note>
           <x>984.62</x>
           <y>284.54</y>
-          <chord>no</chord>
+          <chord>yes</chord>
           <name>bes</name>
           <octave>0</octave>
         </note>
         <note>
           <x>997.18</x>
           <y>294.18</y>
-          <chord>no</chord>
+          <chord>yes</chord>
           <name>f</name>
           <octave>0</octave>
         </note>
         <note>
           <x>998.0</x>
           <y>284.86</y>
-          <chord>no</chord>
+          <chord>yes</chord>
           <name>bes</name>
           <octave>0</octave>
         </note>
         <note>
           <x>1008.86</x>
           <y>294.43</y>
-          <chord>no</chord>
+          <chord>yes</chord>
           <name>f</name>
           <octave>0</octave>
         </note>
         <note>
           <x>1009.62</x>
           <y>284.92</y>
-          <chord>no</chord>
+          <chord>yes</chord>
           <name>bes</name>
           <octave>0</octave>
         </note>
@@ -3766,14 +3766,14 @@
         <note>
           <x>224.0</x>
           <y>590.0</y>
-          <chord>no</chord>
+          <chord>yes</chord>
           <name>bes</name>
           <octave>0</octave>
         </note>
         <note>
           <x>224.38</x>
           <y>582.13</y>
-          <chord>no</chord>
+          <chord>yes</chord>
           <name>ees</name>
           <octave>0</octave>
         </note>
@@ -3798,14 +3798,14 @@
         <note>
           <x>389.13</x>
           <y>591.13</y>
-          <chord>no</chord>
+          <chord>yes</chord>
           <name>bes</name>
           <octave>0</octave>
         </note>
         <note>
           <x>389.71</x>
           <y>583.0</y>
-          <chord>no</chord>
+          <chord>yes</chord>
           <name>ees</name>
           <octave>0</octave>
         </note>
@@ -3819,14 +3819,14 @@
         <note>
           <x>488.18</x>
           <y>592.18</y>
-          <chord>no</chord>
+          <chord>yes</chord>
           <name>bes</name>
           <octave>0</octave>
         </note>
         <note>
           <x>489.0</x>
           <y>584.67</y>
-          <chord>no</chord>
+          <chord>yes</chord>
           <name>d</name>
           <octave>0</octave>
         </note>
@@ -3921,14 +3921,14 @@
         <note>
           <x>773.53</x>
           <y>587.2</y>
-          <chord>no</chord>
+          <chord>yes</chord>
           <name>d</name>
           <octave>0</octave>
         </note>
         <note>
           <x>773.67</x>
           <y>568.33</y>
-          <chord>no</chord>
+          <chord>yes</chord>
           <name>bes</name>
           <octave>0</octave>
         </note>
@@ -3967,63 +3967,63 @@
         <note>
           <x>877.82</x>
           <y>592.36</y>
-          <chord>no</chord>
+          <chord>yes</chord>
           <name>c</name>
           <octave>0</octave>
         </note>
         <note>
           <x>878.17</x>
           <y>584.75</y>
-          <chord>no</chord>
+          <chord>yes</chord>
           <name>ees</name>
           <octave>0</octave>
         </note>
         <note>
           <x>878.2</x>
           <y>612.0</y>
-          <chord>no</chord>
+          <chord>yes</chord>
           <name>d</name>
           <octave>0</octave>
         </note>
         <note>
           <x>894.25</x>
           <y>592.25</y>
-          <chord>no</chord>
+          <chord>yes</chord>
           <name>c</name>
           <octave>0</octave>
         </note>
         <note>
           <x>895.08</x>
           <y>584.77</y>
-          <chord>no</chord>
+          <chord>yes</chord>
           <name>ees</name>
           <octave>0</octave>
         </note>
         <note>
           <x>911.0</x>
           <y>592.5</y>
-          <chord>no</chord>
+          <chord>yes</chord>
           <name>c</name>
           <octave>0</octave>
         </note>
         <note>
           <x>911.33</x>
           <y>584.92</y>
-          <chord>no</chord>
+          <chord>yes</chord>
           <name>ees</name>
           <octave>0</octave>
         </note>
         <note>
           <x>928.33</x>
           <y>592.56</y>
-          <chord>no</chord>
+          <chord>yes</chord>
           <name>c</name>
           <octave>0</octave>
         </note>
         <note>
           <x>928.83</x>
           <y>584.92</y>
-          <chord>no</chord>
+          <chord>yes</chord>
           <name>ees</name>
           <octave>0</octave>
         </note>
@@ -4041,42 +4041,42 @@
         <note>
           <x>995.71</x>
           <y>607.12</y>
-          <chord>no</chord>
+          <chord>yes</chord>
           <name>f</name>
           <octave>0</octave>
         </note>
         <note>
           <x>996.36</x>
           <y>596.45</y>
-          <chord>no</chord>
+          <chord>yes</chord>
           <name>bes</name>
           <octave>0</octave>
         </note>
         <note>
           <x>1045.67</x>
           <y>608.29</y>
-          <chord>no</chord>
+          <chord>yes</chord>
           <name>f</name>
           <octave>0</octave>
         </note>
         <note>
           <x>1046.44</x>
           <y>597.69</y>
-          <chord>no</chord>
+          <chord>yes</chord>
           <name>bes</name>
           <octave>0</octave>
         </note>
         <note>
           <x>1097.38</x>
           <y>608.94</y>
-          <chord>no</chord>
+          <chord>yes</chord>
           <name>f</name>
           <octave>0</octave>
         </note>
         <note>
           <x>1098.0</x>
           <y>598.11</y>
-          <chord>no</chord>
+          <chord>yes</chord>
           <name>bes</name>
           <octave>0</octave>
         </note>
@@ -4104,56 +4104,56 @@
         <note>
           <x>193.63</x>
           <y>873.38</y>
-          <chord>no</chord>
+          <chord>yes</chord>
           <name>bes</name>
           <octave>0</octave>
         </note>
         <note>
           <x>193.8</x>
           <y>883.5</y>
-          <chord>no</chord>
+          <chord>yes</chord>
           <name>f</name>
           <octave>0</octave>
         </note>
         <note>
           <x>239.0</x>
           <y>883.5</y>
-          <chord>no</chord>
+          <chord>yes</chord>
           <name>f</name>
           <octave>0</octave>
         </note>
         <note>
           <x>239.59</x>
           <y>873.53</y>
-          <chord>no</chord>
+          <chord>yes</chord>
           <name>bes</name>
           <octave>0</octave>
         </note>
         <note>
           <x>283.43</x>
           <y>883.43</y>
-          <chord>no</chord>
+          <chord>yes</chord>
           <name>f</name>
           <octave>0</octave>
         </note>
         <note>
           <x>284.22</x>
           <y>873.33</y>
-          <chord>no</chord>
+          <chord>yes</chord>
           <name>bes</name>
           <octave>0</octave>
         </note>
         <note>
           <x>329.15</x>
           <y>883.46</y>
-          <chord>no</chord>
+          <chord>yes</chord>
           <name>f</name>
           <octave>0</octave>
         </note>
         <note>
           <x>329.36</x>
           <y>873.36</y>
-          <chord>no</chord>
+          <chord>yes</chord>
           <name>bes</name>
           <octave>0</octave>
         </note>
@@ -4241,14 +4241,14 @@
         <note>
           <x>537.75</x>
           <y>846.75</y>
-          <chord>no</chord>
+          <chord>yes</chord>
           <name>d</name>
           <octave>1</octave>
         </note>
         <note>
           <x>537.8</x>
           <y>867.0</y>
-          <chord>no</chord>
+          <chord>yes</chord>
           <name>d</name>
           <octave>0</octave>
         </note>
@@ -4772,56 +4772,56 @@
         <note>
           <x>392.09</x>
           <y>1441.0</y>
-          <chord>no</chord>
+          <chord>yes</chord>
           <name>f</name>
           <octave>0</octave>
         </note>
         <note>
           <x>392.82</x>
           <y>1433.64</y>
-          <chord>no</chord>
+          <chord>yes</chord>
           <name>bes</name>
           <octave>0</octave>
         </note>
         <note>
           <x>411.2</x>
           <y>1441.5</y>
-          <chord>no</chord>
+          <chord>yes</chord>
           <name>f</name>
           <octave>0</octave>
         </note>
         <note>
           <x>411.83</x>
           <y>1433.92</y>
-          <chord>no</chord>
+          <chord>yes</chord>
           <name>bes</name>
           <octave>0</octave>
         </note>
         <note>
           <x>457.36</x>
           <y>1442.45</y>
-          <chord>no</chord>
+          <chord>yes</chord>
           <name>f</name>
           <octave>0</octave>
         </note>
         <note>
           <x>457.8</x>
           <y>1434.5</y>
-          <chord>no</chord>
+          <chord>yes</chord>
           <name>aes</name>
           <octave>0</octave>
         </note>
         <note>
           <x>508.67</x>
           <y>1442.08</y>
-          <chord>no</chord>
+          <chord>yes</chord>
           <name>f</name>
           <octave>0</octave>
         </note>
         <note>
           <x>509.5</x>
           <y>1434.75</y>
-          <chord>no</chord>
+          <chord>yes</chord>
           <name>aes</name>
           <octave>0</octave>
         </note>
@@ -4832,14 +4832,14 @@
         <note>
           <x>566.6</x>
           <y>1442.53</y>
-          <chord>no</chord>
+          <chord>yes</chord>
           <name>f</name>
           <octave>0</octave>
         </note>
         <note>
           <x>567.25</x>
           <y>1432.38</y>
-          <chord>no</chord>
+          <chord>yes</chord>
           <name>bes</name>
           <octave>0</octave>
         </note>
@@ -5343,14 +5343,14 @@
         <note>
           <x>799.2</x>
           <y>671.2</y>
-          <chord>no</chord>
+          <chord>yes</chord>
           <name>d</name>
           <octave>1</octave>
         </note>
         <note>
           <x>799.67</x>
           <y>651.33</y>
-          <chord>no</chord>
+          <chord>yes</chord>
           <name>c</name>
           <octave>0</octave>
         </note>
@@ -5512,14 +5512,14 @@
         <note>
           <x>540.67</x>
           <y>916.33</y>
-          <chord>no</chord>
+          <chord>yes</chord>
           <name>aes</name>
           <octave>0</octave>
         </note>
         <note>
           <x>540.77</x>
           <y>937.0</y>
-          <chord>no</chord>
+          <chord>yes</chord>
           <name>bes</name>
           <octave>0</octave>
         </note>
@@ -5530,14 +5530,14 @@
         <note>
           <x>561.29</x>
           <y>953.71</y>
-          <chord>no</chord>
+          <chord>yes</chord>
           <name>d</name>
           <octave>1</octave>
         </note>
         <note>
           <x>561.45</x>
           <y>934.18</y>
-          <chord>no</chord>
+          <chord>yes</chord>
           <name>c</name>
           <octave>0</octave>
         </note>
