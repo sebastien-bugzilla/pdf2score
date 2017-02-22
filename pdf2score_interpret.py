@@ -122,6 +122,7 @@ class Portee:
             y_dev = self.getDevforX(x_note, dev_l, dev_c, dev_r)
             offset = float((y_staff + y_dev - y_note)/(gap / 2.))
             offset_int = int(round(offset))
+            offset_initial = offset_int
             octave = 0
             if offset_int > 0:
                 correction = -7
@@ -132,7 +133,7 @@ class Portee:
                 offset = offset + correction
                 octave = octave + 1
             self.notes[i].setName(scale[offset_int])
-            self.notes[i].setOctave(octave)
+            self.notes[i].setOffset(offset_initial)
     
     def ordonneNotes(self):
         note_array = []
@@ -207,8 +208,8 @@ class Portee:
                         chord.text = str(self.notes[i_note].chord)
                         name = SubElement(note, 'name')
                         name.text = str(self.notes[i_note].name)
-                        octave = SubElement(note, 'octave')
-                        octave.text = str(self.notes[i_note].octave)
+                        offset = SubElement(note, 'offset')
+                        offset.text = str(self.notes[i_note].offset)
         self.xml = staff_xml
 
 class Systeme:
@@ -235,8 +236,8 @@ class Note:
     def setName(self, name):
         self.name = name
     
-    def setOctave(self, octave):
-        self.octave = octave
+    def setOffset(self, offset):
+        self.offset = offset
     
     def setStatusFalse(self):
         self.status = "false"
