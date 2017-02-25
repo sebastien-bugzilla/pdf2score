@@ -65,21 +65,22 @@ class Voice:
         self.translation = self.translation + temp
     
     def clefTranslation(self):
+        voice_name = self.name
         temp = ""
         if self.clef == "g2":
-            temp = "\\relative c'' {\n\t\\clef treble\n\t"
+            temp = voice_name + " = \\relative c'' {\n\t\\clef treble\n\t"
         elif self.clef == "c3":
-            temp = "\\relative c' {\n\t\\clef alto\n\t"
+            temp = voice_name + " = \\relative c' {\n\t\\clef alto\n\t"
         elif self.clef == "f4":
-            temp = "\\relative c {\n\t\\clef bass\n\t"
+            temp = voice_name + " = \\relative c {\n\t\\clef bass\n\t"
         elif self.clef == "c2":
-            temp = "\\relative c' {\n\t\\clef mezzosoprano\n\t"
+            temp = voice_name + " = \\relative c' {\n\t\\clef mezzosoprano\n\t"
         elif self.clef == "f3":
-            temp = "\\relative c {\n\t\\clef varbaritone\n\t"
+            temp = voice_name + " = \\relative c {\n\t\\clef varbaritone\n\t"
         elif self.clef == "c1":
-            temp = "\\relative c'' {\n\t\\clef soprano\n\t"
+            temp = voice_name + " = \\relative c'' {\n\t\\clef soprano\n\t"
         elif self.clef == "c4":
-            temp = "\\relative c' {\n\t\\clef tenor\n\t"
+            temp = voice_name + " = \\relative c' {\n\t\\clef tenor\n\t"
         self.translation = temp
     
     def voiceTranslation(self):
@@ -257,12 +258,3 @@ for i in range(thisScore.nb_voice):
     thisScore.voices[i].voiceTranslation()
     ly_file.write(thisScore.voices[i].translation)
 
-#for i in range(thisScore.nb_voice):
-#    print("-------------------------------\n")
-#    for j in range(thisScore.voices[i].nb_chords):
-#        temp = ""
-#        for k in range(thisScore.voices[i].chords[j].nb_notes):
-#            note_name = thisScore.voices[i].chords[j].notes[k].name
-#            note_height = thisScore.voices[i].chords[j].notes[k].suffixe
-#            temp = temp + str(" ") + str(note_name) + str(note_height)
-#        print(temp)

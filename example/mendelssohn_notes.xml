@@ -1,4 +1,3 @@
-<?xml version="1.0" ?>
 <cloud>
   <nb_point_found>801</nb_point_found>
   <point>
@@ -636,7 +635,7 @@
     <y_max>185</y_max>
     <x>633.0</x>
     <y>185.0</y>
-    <status>OK</status>
+    <status>NOK</status>
     <nb_detection>6</nb_detection>
   </point>
   <point>
@@ -801,7 +800,7 @@
     <y_max>237</y_max>
     <x>201.75</x>
     <y>236.38</y>
-    <status>OK</status>
+    <status>NOK</status>
     <nb_detection>8</nb_detection>
   </point>
   <point>
@@ -966,7 +965,7 @@
     <y_max>246</y_max>
     <x>1074.25</x>
     <y>245.13</y>
-    <status>OK</status>
+    <status>NOK</status>
     <nb_detection>8</nb_detection>
   </point>
   <point>
@@ -1208,7 +1207,7 @@
     <y_max>283</y_max>
     <x>1106.6</x>
     <y>282.4</y>
-    <status>OK</status>
+    <status>NOK</status>
     <nb_detection>5</nb_detection>
   </point>
   <point>
@@ -1219,7 +1218,7 @@
     <y_max>285</y_max>
     <x>212.18</x>
     <y>283.82</y>
-    <status>OK</status>
+    <status>NOK</status>
     <nb_detection>11</nb_detection>
   </point>
   <point>
@@ -1241,7 +1240,7 @@
     <y_max>286</y_max>
     <x>946.5</x>
     <y>285.0</y>
-    <status>OK</status>
+    <status>NOK</status>
     <nb_detection>10</nb_detection>
   </point>
   <point>
@@ -1318,7 +1317,7 @@
     <y_max>289</y_max>
     <x>203.67</x>
     <y>288.0</y>
-    <status>OK</status>
+    <status>NOK</status>
     <nb_detection>12</nb_detection>
   </point>
   <point>
@@ -1516,7 +1515,7 @@
     <y_max>301</y_max>
     <x>218.67</x>
     <y>300.44</y>
-    <status>OK</status>
+    <status>NOK</status>
     <nb_detection>9</nb_detection>
   </point>
   <point>
@@ -1670,7 +1669,7 @@
     <y_max>319</y_max>
     <x>1074.71</x>
     <y>318.29</y>
-    <status>OK</status>
+    <status>NOK</status>
     <nb_detection>7</nb_detection>
   </point>
   <point>
@@ -2022,7 +2021,7 @@
     <y_max>384</y_max>
     <x>1097.6</x>
     <y>383.4</y>
-    <status>OK</status>
+    <status>NOK</status>
     <nb_detection>5</nb_detection>
   </point>
   <point>
@@ -2660,7 +2659,7 @@
     <y_max>510</y_max>
     <x>887.29</x>
     <y>509.71</y>
-    <status>OK</status>
+    <status>NOK</status>
     <nb_detection>7</nb_detection>
   </point>
   <point>
@@ -2869,7 +2868,7 @@
     <y_max>539</y_max>
     <x>766.43</x>
     <y>538.14</y>
-    <status>OK</status>
+    <status>NOK</status>
     <nb_detection>7</nb_detection>
   </point>
   <point>
@@ -2990,7 +2989,7 @@
     <y_max>542</y_max>
     <x>729.4</x>
     <y>542.0</y>
-    <status>OK</status>
+    <status>NOK</status>
     <nb_detection>10</nb_detection>
   </point>
   <point>
@@ -3155,7 +3154,7 @@
     <y_max>559</y_max>
     <x>610.89</x>
     <y>556.57</y>
-    <status>OK</status>
+    <status>NOK</status>
     <nb_detection>28</nb_detection>
   </point>
   <point>
@@ -3166,7 +3165,7 @@
     <y_max>561</y_max>
     <x>991.8</x>
     <y>560.2</y>
-    <status>OK</status>
+    <status>NOK</status>
     <nb_detection>5</nb_detection>
   </point>
   <point>
@@ -3188,7 +3187,7 @@
     <y_max>574</y_max>
     <x>721.21</x>
     <y>573.57</y>
-    <status>OK</status>
+    <status>NOK</status>
     <nb_detection>14</nb_detection>
   </point>
   <point>
@@ -3694,7 +3693,7 @@
     <y_max>634</y_max>
     <x>719.75</x>
     <y>633.75</y>
-    <status>OK</status>
+    <status>NOK</status>
     <nb_detection>8</nb_detection>
   </point>
   <point>
@@ -4530,7 +4529,7 @@
     <y_max>756</y_max>
     <x>882.42</x>
     <y>755.74</y>
-    <status>OK</status>
+    <status>NOK</status>
     <nb_detection>19</nb_detection>
   </point>
   <point>
@@ -4574,7 +4573,7 @@
     <y_max>765</y_max>
     <x>676.22</x>
     <y>764.56</y>
-    <status>OK</status>
+    <status>NOK</status>
     <nb_detection>9</nb_detection>
   </point>
   <point>
@@ -4596,7 +4595,7 @@
     <y_max>776</y_max>
     <x>850.0</x>
     <y>775.33</y>
-    <status>OK</status>
+    <status>NOK</status>
     <nb_detection>6</nb_detection>
   </point>
   <point>
@@ -4728,7 +4727,7 @@
     <y_max>803</y_max>
     <x>779.6</x>
     <y>802.6</y>
-    <status>OK</status>
+    <status>NOK</status>
     <nb_detection>5</nb_detection>
   </point>
   <point>
@@ -4948,7 +4947,7 @@
     <y_max>818</y_max>
     <x>943.7</x>
     <y>817.2</y>
-    <status>OK</status>
+    <status>NOK</status>
     <nb_detection>10</nb_detection>
   </point>
   <point>
@@ -5245,7 +5244,7 @@
     <y_max>851</y_max>
     <x>857.48</x>
     <y>850.29</y>
-    <status>OK</status>
+    <status>NOK</status>
     <nb_detection>21</nb_detection>
   </point>
   <point>
@@ -5256,7 +5255,7 @@
     <y_max>852</y_max>
     <x>871.55</x>
     <y>850.5</y>
-    <status>OK</status>
+    <status>NOK</status>
     <nb_detection>22</nb_detection>
   </point>
   <point>
@@ -5278,7 +5277,7 @@
     <y_max>853</y_max>
     <x>510.2</x>
     <y>853.0</y>
-    <status>OK</status>
+    <status>NOK</status>
     <nb_detection>5</nb_detection>
   </point>
   <point>
@@ -5322,7 +5321,7 @@
     <y_max>856</y_max>
     <x>496.0</x>
     <y>855.55</y>
-    <status>OK</status>
+    <status>NOK</status>
     <nb_detection>11</nb_detection>
   </point>
   <point>
@@ -5641,7 +5640,7 @@
     <y_max>876</y_max>
     <x>843.0</x>
     <y>875.09</y>
-    <status>OK</status>
+    <status>NOK</status>
     <nb_detection>11</nb_detection>
   </point>
   <point>
@@ -5861,7 +5860,7 @@
     <y_max>894</y_max>
     <x>811.0</x>
     <y>893.63</y>
-    <status>OK</status>
+    <status>NOK</status>
     <nb_detection>8</nb_detection>
   </point>
   <point>
@@ -5883,7 +5882,7 @@
     <y_max>918</y_max>
     <x>496.2</x>
     <y>918.0</y>
-    <status>OK</status>
+    <status>NOK</status>
     <nb_detection>5</nb_detection>
   </point>
   <point>
@@ -7225,7 +7224,7 @@
     <y_max>1157</y_max>
     <x>299.8</x>
     <y>1157.0</y>
-    <status>OK</status>
+    <status>NOK</status>
     <nb_detection>5</nb_detection>
   </point>
   <point>
@@ -7973,7 +7972,7 @@
     <y_max>1365</y_max>
     <x>840.4</x>
     <y>1364.8</y>
-    <status>OK</status>
+    <status>NOK</status>
     <nb_detection>5</nb_detection>
   </point>
   <point>
@@ -8556,7 +8555,7 @@
     <y_max>1457</y_max>
     <x>846.6</x>
     <y>1455.4</y>
-    <status>OK</status>
+    <status>NOK</status>
     <nb_detection>5</nb_detection>
   </point>
   <point>

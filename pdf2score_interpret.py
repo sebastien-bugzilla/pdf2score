@@ -287,6 +287,15 @@ def getScale(clef, key):
         for i in range(7):
             scale.append(n[offset + i])
     return scale
+
+def prettify(elem):
+    """Return a pretty-printed XML string for the Element.
+    """
+    rough_string = ElementTree.tostring(elem, 'utf-8')
+    reparsed = minidom.parseString(rough_string)
+    return reparsed.toprettyxml(indent="  ")
+
+
 #-------------------------------------------------
 #----------------- portees -----------------------
 #-------------------------------------------------
@@ -395,6 +404,24 @@ for i in range(len(tab_portee)):
     if tab_portee[i].nb_notes <> 0:
         tab_portee[i].findNoteName(gap, y_staff, dev_l, dev_c, dev_r, clef, key)
 
+# update du status des notes dans le fichier "*_notes.xml"
+for i in range(len(tab_portee)):
+    for j in range(tab_portee[i].nb_notes):
+        if tab_portee[i].notes[j].status == "false":
+            ecart = 1000.
+            x_ref = float(tab_portee[i].notes[j].x)
+            y_ref = float(tab_portee[i].notes[j].y)
+            for note in root_note.iter('point'):
+                x = float(note.find('x').text)
+                y = float(note.find('y').text)
+                crit = abs(x_ref - x) + abs(y_ref - y)
+                if crit < ecart:
+                    note_to_modify = note
+                    ecart = crit
+            for status in note_to_modify.iter('status'):
+                status.text = str("NOK")
+xml_note.write(nom_image + '_notes.xml')
+
 # save the results in xml file.
 xml_page = Element('page')
 voice = []
@@ -418,40 +445,3 @@ output_interpret=open(nom_image + "_input_lily.xml", 'w')
 output_interpret.write(prettify(xml_page))
 output_interpret.close()
 
-
-img = cv2.imread(nom_image + ".jpg")
-for i in range(len(tab_portee)):
-    y_portee=tab_portee[i].position
-    dev_g = tab_portee[i].deviation_gauche
-    dev_c = tab_portee[i].deviation_centre
-    dev_d = tab_portee[i].deviation_droite
-    gap = tab_portee[i].gap
-    x_beg = tab_portee[i].x_beg
-    x_end = tab_portee[i].x_end
-    x_mil = (x_beg + x_end)/2
-    # dessin des portées
-    for j in range(5):
-        temp = int(gap *(j-2))
-        cv2.line(img, (x_beg, y_portee + dev_g + temp),(x_mil, y_portee + dev_c + temp),(255,0,0),1)
-        cv2.line(img, (x_mil, y_portee + dev_c + temp),(x_end, y_portee + dev_d + temp),(255,0,0),1)
-    if i > 0:
-        y_inter = int((y_portee + y_portee_old)/2)
-        cv2.line(img, (x_beg, y_inter),(x_end, y_inter),(0,0,255),1)
-    y_portee_old = y_portee
-    # dessin des notes
-    for j in range(tab_portee[i].nb_notes):
-        if tab_portee[i].notes[j].status == "true":
-            print tab_portee[i].notes[j].x, tab_portee[i].notes[j].y, tab_portee[i].notes[j].nbre_detection, tab_portee[i].notes[j].mesure, tab_portee[i].notes[j].name
-            x_note = int(tab_portee[i].notes[j].x)
-            y_note = int(tab_portee[i].notes[j].y)
-            cv2.line(img,(x_note+4,y_note+4),(x_note-4,y_note-4),(0,255,0),2)
-            cv2.line(img,(x_note-4,y_note+4),(x_note+4,y_note-4),(0,255,0),2)
-        else:
-            x_note = int(tab_portee[i].notes[j].x)
-            y_note = int(tab_portee[i].notes[j].y)
-            cv2.line(img,(x_note+4,y_note+4),(x_note-4,y_note-4),(0,0,255),2)
-            cv2.line(img,(x_note-4,y_note+4),(x_note+4,y_note-4),(0,0,255),2)
-    # drawing of bar :
-    #for x_bar in range(len(tab_portee[i].mesures)):
-        
-cv2.imwrite(nom_image + "_check_note.jpg",img)
