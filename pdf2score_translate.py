@@ -50,9 +50,22 @@ class Voice:
             self.chords[i].chordPosition(previous_offset)
             previous_offset = int(self.chords[i].notes[0].offset)
     
-    def voiceTranslation(self):
+    def keyTranslation(self):
+        key_es = ['c','f','bes','ees','aes','des','ges','ces']
+        key_is = ['c','g','d','a','e','b','fis','cis']
+        if len(self.key) == 1:
+            index_key = 0
+        else:
+            index_key = int(self.key[0])
+            key_type = self.key[1:3]
+        if key_type == "es":
+            temp = "\\key " + str(key_es[index_key]) + " \\major\n"
+        else:
+            temp = "\\key " + str(key_is[index_key]) + " \\major\n"
+        self.translation = self.translation + temp
+    
+    def clefTranslation(self):
         temp = ""
-        bar_id_old = 0
         if self.clef == "g2":
             temp = "\\relative c'' {\n\t\\clef treble\n\t"
         elif self.clef == "c3":
@@ -67,18 +80,29 @@ class Voice:
             temp = "\\relative c'' {\n\t\\clef soprano\n\t"
         elif self.clef == "c4":
             temp = "\\relative c' {\n\t\\clef tenor\n\t"
+        self.translation = temp
+    
+    def voiceTranslation(self):
+        temp = self.translation
+        numBar = 0
+        temp = temp + str("\n% mesures ") + str(numBar + 1) + \
+            str(" à ") + str(numBar + 5) + str("\n\t")
         for i in range(self.nb_chords):
             bar_id = int(self.chords[i].notes[0].bar_id)
-            if bar_id <> bar_id_old:
-                temp = temp + "\n\t"
-                if bar_id - bar_id_old > 1:
-                    while bar_id - bar_id_old > 1:
+            if numBar <> bar_id:
+                while numBar <> bar_id:
+                    numBar = numBar + 1
+                    if numBar%5 ==0 :
+                        temp = temp + "\n"
+                    else:
                         temp = temp + "\n\t"
-                        bar_id_old = bar_id_old + 1
-            bar_id_old = bar_id
+                    if numBar%5 == 0:
+                        temp = temp + str("% mesures ") + str(numBar + 1) + \
+                            str(" à ") + str(numBar + 5) + str("\n\t")
             self.chords[i].translate()
             temp = temp + str(self.chords[i].translation) + " "
-        temp = temp + "\n}"
+            
+        temp = temp + "\n}\n"
         self.translation = temp
 
 class Note:
@@ -225,11 +249,13 @@ for voice in input_lily_root.findall('./voice'):
                 currentVoice.addVoidBar(bar_id)
     thisScore.addVoice(currentVoice)
 
+ly_file = open(nom_fichier + "_lily.ly", "w")
 for i in range(thisScore.nb_voice):
     thisScore.voices[i].defineOctave()
+    thisScore.voices[i].clefTranslation()
+    thisScore.voices[i].keyTranslation()
     thisScore.voices[i].voiceTranslation()
-    print("----------------------------------\n")
-    print(thisScore.voices[i].translation)
+    ly_file.write(thisScore.voices[i].translation)
 
 #for i in range(thisScore.nb_voice):
 #    print("-------------------------------\n")
