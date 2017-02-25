@@ -3,6 +3,7 @@
 from xml.etree.ElementTree import Element, SubElement, Comment
 from xml.dom import minidom
 from xml.etree import ElementTree
+from operator import itemgetter, attrgetter, methodcaller
 
 class Score:
     def __init__(self, file_input, voices, nb_voice):
@@ -15,20 +16,26 @@ class Score:
         self.nb_voice = self.nb_voice + 1
 
 class Voice:
-    def __init__(self, name, notes, nb_notes):
+    def __init__(self, name, chords, nb_chords):
         self.name = name
-        self.nb_notes = nb_notes
-        self.notes = notes
+        self.nb_chords = nb_chords
+        self.chords = chords
         self.voidBar = []
+        self.key = ""
+        self.clef = ""
     
-    def addNote(self, note):
-        self.notes.append(note)
-        self.nb_notes = self.nb_notes + 1
+    def addChord(self, chord):
+        self.chords.append(chord)
+        self.nb_chords = self.nb_chords + 1
+        if self.key == "":
+            self.key = self.chords[0].notes[0].key
+        if self.clef == "":
+            self.clef = self.chords[0].notes[0].clef
     
     def countBar(self):
         nb_bar = 1
-        for i in range(len(self.notes)):
-            nb_bar = max(int(self.notes[i].bar_id), nb_bar)
+        for i in range(len(self.chords)):
+            nb_bar = max(int(self.chords[i].notes[0].bar_id), nb_bar)
         for i in range(len(self.voidBar)):
             nb_bar = max(int(self.voidBar[i]), nb_bar)
         self.nb_bar = nb_bar + 1
@@ -36,21 +43,51 @@ class Voice:
     def addVoidBar(self, bar_id):
         self.voidBar.append(bar_id)
     
-    def getHeight(self):
+    def defineOctave(self):
         previous_offset = 0
-        for i in range(self.nb_notes):
-            self.notes[i].getRelativeHeight(previous_offset)
-            previous_offset = int(self.notes[i].offset)
-            
+        for i in range(self.nb_chords):
+            self.chords[i].rankNote()
+            self.chords[i].chordPosition(previous_offset)
+            previous_offset = int(self.chords[i].notes[0].offset)
+    
+    def voiceTranslation(self):
+        temp = ""
+        bar_id_old = 0
+        if self.clef == "g2":
+            temp = "\\relative c'' {\n\t\\clef treble\n\t"
+        elif self.clef == "c3":
+            temp = "\\relative c' {\n\t\\clef alto\n\t"
+        elif self.clef == "f4":
+            temp = "\\relative c {\n\t\\clef bass\n\t"
+        elif self.clef == "c2":
+            temp = "\\relative c' {\n\t\\clef mezzosoprano\n\t"
+        elif self.clef == "f3":
+            temp = "\\relative c {\n\t\\clef varbaritone\n\t"
+        elif self.clef == "c1":
+            temp = "\\relative c'' {\n\t\\clef soprano\n\t"
+        elif self.clef == "c4":
+            temp = "\\relative c' {\n\t\\clef tenor\n\t"
+        for i in range(self.nb_chords):
+            bar_id = int(self.chords[i].notes[0].bar_id)
+            if bar_id <> bar_id_old:
+                temp = temp + "\n\t"
+                if bar_id - bar_id_old > 1:
+                    while bar_id - bar_id_old > 1:
+                        temp = temp + "\n\t"
+                        bar_id_old = bar_id_old + 1
+            bar_id_old = bar_id
+            self.chords[i].translate()
+            temp = temp + str(self.chords[i].translation) + " "
+        temp = temp + "\n}"
+        self.translation = temp
 
 class Note:
-    def __init__(self, x, y, staff_position, name, offset, chord, bar_id):
+    def __init__(self, x, y, staff_position, name, offset, bar_id):
         self.x = x
         self.y = y
         self.staff_position = staff_position
         self.name = name
         self.offset = offset
-        self.chord = chord
         self.bar_id = bar_id
     
     def setKey(self, key):
@@ -62,7 +99,7 @@ class Note:
     def setVoice(self, voice):
         self.voice = voice
     
-    def getRelativeHeight(self, previous_offset):
+    def notePosition(self, previous_offset):
         distance = int(self.offset) - previous_offset
         if distance > 0:
             if distance < 4:
@@ -82,7 +119,60 @@ class Note:
                 self.suffixe = ",,"
             elif (distance > -25 and distance <= -18):
                 self.suffixe = ",,,"
+    
 
+class Chord:
+    def __init__(self):
+        self.notes = []
+        self.nb_notes = 0
+        self.key = ""
+        self.clef = ""
+    
+    def setKey(self, key):
+        self.key = key
+    
+    def setClef(self, clef):
+        self.clef = clef
+    
+    def setVoice(self, voice):
+        self.voice = voice
+    
+    def addNote(self, note):
+        self.notes.append(note)
+        self.nb_notes = self.nb_notes + 1
+    
+    def rankNote(self):
+        if self.nb_notes > 1:
+            array = []
+            for i in range(self.nb_notes):
+                array.append([float(self.notes[i].y), self.notes[i]])
+            array_sorted = sorted(array, key=itemgetter(0), reverse=True)
+            self.notes=[]
+            for i in range(self.nb_notes):
+                self.notes.append(array_sorted[i][1])
+    
+    def chordPosition(self, previous_offset):
+        if self.nb_notes == 1:
+            self.notes[0].notePosition(previous_offset)
+        else:
+            previous_offset_chord = previous_offset
+            for i in range(self.nb_notes):
+                self.notes[i].notePosition(previous_offset_chord)
+                previous_offset_chord = int(self.notes[i].offset)
+    
+    def translate(self):
+        if self.nb_notes == 1:
+            note_name = self.notes[0].name
+            note_height = self.notes[0].suffixe
+            self.translation = str(note_name) + str(note_height)
+        else:
+            temp = "<"
+            for i in range(self.nb_notes):
+                note_name = self.notes[i].name
+                note_height = self.notes[i].suffixe
+                temp = temp + str(note_name) + str(note_height) + " "
+            temp = temp + ">"
+            self.translation = temp
 
 nom_fichier = 'mendelssohn'
 input_lily = ElementTree.parse(nom_fichier + '_input_lily.xml')
@@ -90,7 +180,6 @@ input_lily_root = input_lily.getroot()
 
 # creation of the score
 thisScore = Score(nom_fichier + '_input_lily.xml', [], 0)
-
 for voice in input_lily_root.findall('./voice'):
     voice_name = voice.find('name').text
     currentVoice = Voice(voice_name, [], 0)
@@ -100,29 +189,54 @@ for voice in input_lily_root.findall('./voice'):
         clef = staff.find('clef').text
         for bar in staff.findall('./bar'):
             bar_id = bar.find('bar_id').text
-            num_note = 0
+            num_chord = 0
+            x_note_old = 0.
+            previous_note_is_chord = "no"
             for note in bar.findall('./note'):
                 x_note = note.find('x').text
                 y_note = note.find('y').text
                 note_name = note.find('name').text
                 offset = note.find('offset').text
                 chord = note.find('chord').text
-                thisNote = Note(x_note, y_note, staff_position, note_name, offset, chord, bar_id)
+                thisNote = Note(x_note, y_note, staff_position, note_name, offset, bar_id)
                 thisNote.setKey(key)
                 thisNote.setClef(clef)
                 thisNote.setVoice(voice_name)
-                currentVoice.addNote(thisNote)
-                num_note = num_note + 1
-            if num_note == 0:
+                if chord == "no":
+                    if previous_note_is_chord == "yes":
+                        currentVoice.addChord(thisChord)
+                    thisChord = Chord()
+                    thisChord.addNote(thisNote)
+                    currentVoice.addChord(thisChord)
+                    previous_note_is_chord = "no"
+                else:
+                    if abs(float(x_note) - x_note_old) < 1.:
+                        thisChord.addNote(thisNote)
+                        previous_note_is_chord = "yes"
+                    else:
+                        if previous_note_is_chord == "yes":
+                            currentVoice.addChord(thisChord)
+                        thisChord = Chord()
+                        thisChord.addNote(thisNote)
+                        previous_note_is_chord = "yes"
+                x_note_old = float(x_note)
+                num_chord = num_chord + 1
+            if num_chord == 0:
                 currentVoice.addVoidBar(bar_id)
     thisScore.addVoice(currentVoice)
 
 for i in range(thisScore.nb_voice):
-    thisScore.voices[i].getHeight()
-    
+    thisScore.voices[i].defineOctave()
+    thisScore.voices[i].voiceTranslation()
+    print("----------------------------------\n")
+    print(thisScore.voices[i].translation)
 
-for i in range(thisScore.nb_voice):
-    print("-------------------------------\n")
-    for j in range(thisScore.voices[i].nb_notes):
-        temp = str(thisScore.voices[i].notes[j].name) + str(thisScore.voices[i].notes[j].suffixe)
-        print(temp)
+#for i in range(thisScore.nb_voice):
+#    print("-------------------------------\n")
+#    for j in range(thisScore.voices[i].nb_chords):
+#        temp = ""
+#        for k in range(thisScore.voices[i].chords[j].nb_notes):
+#            note_name = thisScore.voices[i].chords[j].notes[k].name
+#            note_height = thisScore.voices[i].chords[j].notes[k].suffixe
+#            temp = temp + str(" ") + str(note_name) + str(note_height)
+#        print(temp)
