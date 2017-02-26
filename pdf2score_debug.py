@@ -7,10 +7,10 @@ from xml.dom import minidom
 from xml.etree import ElementTree
 from operator import itemgetter, attrgetter, methodcaller
 
-nom_fichier = 'mendelssohn'
+nom_fichier = 'beethoven'
 xml_mesures = ElementTree.parse(nom_fichier + '_mesures.xml')
 root_mesures = xml_mesures.getroot()
-xml_notes = ElementTree.parse(nom_fichier + '_notes2.xml')
+xml_notes = ElementTree.parse(nom_fichier + '_notes.xml')
 root_notes = xml_notes.getroot()
 xml_portees = ElementTree.parse(nom_fichier + '_portees.xml')
 root_portees = xml_portees.getroot()

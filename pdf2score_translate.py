@@ -58,10 +58,13 @@ class Voice:
         else:
             index_key = int(self.key[0])
             key_type = self.key[1:3]
-        if key_type == "es":
-            temp = "\\key " + str(key_es[index_key]) + " \\major\n"
+        if len(self.key) == 1:
+            temp = "\\key c \\major\n"
         else:
-            temp = "\\key " + str(key_is[index_key]) + " \\major\n"
+            if key_type == "es":
+                temp = "\\key " + str(key_es[index_key]) + " \\major\n"
+            else:
+                temp = "\\key " + str(key_is[index_key]) + " \\major\n"
         self.translation = self.translation + temp
     
     def clefTranslation(self):
@@ -135,6 +138,8 @@ class Note:
                 self.suffixe = "''"
             elif (distance >= 18 and distance < 25):
                 self.suffixe = "'''"
+            else:
+                self.suffixe = "''''"
         else:
             if distance > -4:
                 self.suffixe = ""
@@ -144,7 +149,8 @@ class Note:
                 self.suffixe = ",,"
             elif (distance > -25 and distance <= -18):
                 self.suffixe = ",,,"
-    
+            else:
+                self.suffixe = ",,,,"
 
 class Chord:
     def __init__(self):
@@ -199,7 +205,7 @@ class Chord:
             temp = temp + ">"
             self.translation = temp
 
-nom_fichier = 'mendelssohn'
+nom_fichier = 'beethoven'
 input_lily = ElementTree.parse(nom_fichier + '_input_lily.xml')
 input_lily_root = input_lily.getroot()
 

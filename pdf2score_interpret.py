@@ -299,7 +299,7 @@ def prettify(elem):
 #-------------------------------------------------
 #----------------- portees -----------------------
 #-------------------------------------------------
-nom_image='mendelssohn'
+nom_image='beethoven'
 
 xml_portee = ElementTree.parse(nom_image + "_portees.xml")
 root_portee = xml_portee.getroot()
