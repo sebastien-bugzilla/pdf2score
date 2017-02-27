@@ -7,7 +7,7 @@ from xml.dom import minidom
 from xml.etree import ElementTree
 from operator import itemgetter, attrgetter, methodcaller
 
-nom_fichier = 'beethoven'
+nom_fichier = 'faure1'
 xml_mesures = ElementTree.parse(nom_fichier + '_mesures.xml')
 root_mesures = xml_mesures.getroot()
 xml_notes = ElementTree.parse(nom_fichier + '_notes.xml')
@@ -15,6 +15,7 @@ root_notes = xml_notes.getroot()
 xml_portees = ElementTree.parse(nom_fichier + '_portees.xml')
 root_portees = xml_portees.getroot()
 
+# lecture des portées
 position = []
 gap = []
 dev_l = []
@@ -31,16 +32,20 @@ for staff in root_portees.findall('./staff'):
     dev_r.append(staff.find('right_deviation').text)
     nb_portee = nb_portee + 1
 
+# lecture des mesures
 bar_x = []
 bar_y_min = []
 bar_y_max = []
+bar_status = []
 nb_bar = 0
 for bar in root_mesures.findall('./system/bar'):
     bar_x.append(bar.find('x_moy').text)
     bar_y_min.append(bar.find('y_min').text)
     bar_y_max.append(bar.find('y_max').text)
+    bar_status.append(bar.find('status').text)
     nb_bar = nb_bar + 1
 
+# lecture des notes
 note_x = []
 note_y = []
 status = []
@@ -51,6 +56,7 @@ for note in root_notes.findall('./point'):
     status.append(note.find('status').text)
     nb_note = nb_note + 1
 
+# dessin des portees
 img = cv2.imread(nom_fichier + ".jpg")
 for i in range(nb_portee):
     y_portee = int(position[i])
@@ -80,11 +86,16 @@ for i in range(nb_note):
         cv2.line(img,(x_note+4,y_note+4),(x_note-4,y_note-4),(0,0,255),2)
         cv2.line(img,(x_note-4,y_note+4),(x_note+4,y_note-4),(0,0,255),2)
 
+# dessin des mesures
 for i in range(nb_bar):
     pos_x = int(bar_x[i])
     pos_y_min = int(bar_y_min[i])
     pos_y_max = int(bar_y_max[i])
-    cv2.line(img,(pos_x, pos_y_min),(pos_x, pos_y_max),(50,0,50),3)
+    is_ok = bar_status[i]
+    if is_ok == "NOK":
+        cv2.line(img,(pos_x, pos_y_min),(pos_x, pos_y_max),(0,0,255),3)
+    else:
+        cv2.line(img,(pos_x, pos_y_min),(pos_x, pos_y_max),(100,0,100),3)
 
 cv2.imwrite(nom_fichier + "_debug.jpg",img)
 

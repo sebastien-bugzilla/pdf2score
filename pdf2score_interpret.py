@@ -240,7 +240,7 @@ class Note:
         self.offset = offset
     
     def setStatusFalse(self):
-        self.status = "false"
+        self.status = "NOK"
     
     def setChord(self):
         self.chord="yes"
@@ -299,7 +299,7 @@ def prettify(elem):
 #-------------------------------------------------
 #----------------- portees -----------------------
 #-------------------------------------------------
-nom_image='beethoven'
+nom_image='faure1'
 
 xml_portee = ElementTree.parse(nom_image + "_portees.xml")
 root_portee = xml_portee.getroot()
@@ -353,14 +353,22 @@ for system in root_mesure.iter('system'):
     for bar in system.iter('bar'):
         tab_mesure.append(int(bar.find('x_moy').text))
     mySystem = Systeme([], 0)
+    if_sys_valid = 'no'
     for i_staff in range(len(tab_portee)):
         if (tab_portee[i_staff].position >= y_min and
             tab_portee[i_staff].position <= y_max):
             mySystem.ajoutePortee(tab_portee[i_staff])
+            if_sys_valid = 'yes'
+    # if the system is not crossed by a staff it is invalid.
+    if if_sys_valid == 'no':
+        for bar in system.iter('bar'):
+            for status in bar.iter('status'):
+                status.text = str("NOK")
     if mySystem.nbre_portee > 0:
         for i in range(mySystem.nbre_portee):
             mySystem.tabPortees[i].defMesure(tab_mesure)
         tab_system.append(mySystem)
+xml_mesure.write(nom_image + '_mesures.xml')
 
 #-------------------------------------------------
 #------------------ notes ------------------------
@@ -379,13 +387,20 @@ for note in root_note.iter('point'):
         if temp < distance:
             distance = temp
             nearest_staff = i
+            gap_staff = tab_portee[i].gap
     # find the right bar :
     mesure = 0
     for bar in range(len(tab_portee[nearest_staff].mesures)-1):
         if (x < tab_portee[nearest_staff].mesures[bar+1] and
             x > tab_portee[nearest_staff].mesures[bar]):
             mesure = bar
-    tab_portee[nearest_staff].addNotes(Note(x, y, nb_det, mesure))
+    # exclude the note that are very far from the center of the staff
+    oneNote = Note(x, y, nb_det, mesure)
+    if abs(distance) > 6 * gap_staff:
+        oneNote.setStatusFalse()
+        tab_portee[nearest_staff].addNotes(oneNote)
+    else:
+        tab_portee[nearest_staff].addNotes(oneNote)
 
 # détermination des nom de notes
 for i in range(len(tab_portee)):
@@ -407,7 +422,7 @@ for i in range(len(tab_portee)):
 # update du status des notes dans le fichier "*_notes.xml"
 for i in range(len(tab_portee)):
     for j in range(tab_portee[i].nb_notes):
-        if tab_portee[i].notes[j].status == "false":
+        if tab_portee[i].notes[j].status == "NOK":
             ecart = 1000.
             x_ref = float(tab_portee[i].notes[j].x)
             y_ref = float(tab_portee[i].notes[j].y)

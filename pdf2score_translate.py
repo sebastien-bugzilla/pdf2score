@@ -205,7 +205,7 @@ class Chord:
             temp = temp + ">"
             self.translation = temp
 
-nom_fichier = 'beethoven'
+nom_fichier = 'faure1'
 input_lily = ElementTree.parse(nom_fichier + '_input_lily.xml')
 input_lily_root = input_lily.getroot()
 
